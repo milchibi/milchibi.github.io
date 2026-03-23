@@ -1,3 +1,22 @@
+body {
+  font-family: 'HGS教科書体', 'Arial', sans-serif;
+}
+
+.title {
+  font-size: 32px;
+}
+
 .hidden {
   display: none;
 }
+
+table {
+  border: 1px solid black;   /* テーブル全体に1本の枠線 */
+  border-collapse: collapse; /* セルの枠線が重ならないように */
+}
+
+th, td {
+  padding: 8px;     /* セル内の余白 */
+  text-align: left; /* セル内のテキストを左揃え */
+}
+
