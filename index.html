@@ -11,74 +11,84 @@
     <table border="1">
       <tbody>
         <tr>
-          <td width="42"><button id="btn1q" type="button">例文</button></td>
-          <td id="txt1q"></td>
-          <td width="42"><button id="btn1" type="button">解答</button></td>
-          <td><div id="txt1" class="hidden"></div></td>
-          <td><div id="txt1i" class="hidden"></div></td>
+          <td width="44"><button id="btn1q" type="button">例文</button></td>
+          <td id="txt1q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans" width="44"><button id="btn1" type="button">解答</button></td>
+          <td class="ans"><div id="txt1" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn2q" type="button">例文</button></td>
-          <td id="txt2q"></td>
-          <td><button id="btn2" type="button">解答</button></td>
-          <td><div id="txt2" class="hidden"></div></td>
-          <td><div id="txt2i" class="hidden"></div></td>
+          <td id="txt2q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn2" type="button">解答</button></td>
+          <td class="ans"><div id="txt2" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn3q" type="button">例文</button></td>
-          <td id="txt3q"></td>
-          <td><button id="btn3" type="button">解答</button></td>
-          <td><div id="txt3" class="hidden"></div></td>
-          <td><div id="txt3i" class="hidden"></div></td>
+          <td id="txt3q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn3" type="button">解答</button></td>
+          <td class="ans"><div id="txt3" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn4q" type="button">例文</button></td>
-          <td id="txt4q"></td>
-          <td><button id="btn4" type="button">解答</button></td>
-          <td><div id="txt4" class="hidden"></div></td>
-          <td><div id="txt4i" class="hidden"></div></td>
+          <td id="txt4q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn4" type="button">解答</button></td>
+          <td class="ans"><div id="txt4" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn5q" type="button">例文</button></td>
-          <td id="txt5q"></td>
-          <td><button id="btn5" type="button">解答</button></td>
-          <td><div id="txt5" class="hidden"></div></td>
-          <td><div id="txt5i" class="hidden"></div></td>
+          <td id="txt5q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn5" type="button">解答</button></td>
+          <td class="ans"><div id="txt5" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn6q" type="button">例文</button></td>
-          <td id="txt6q"></td>
-          <td><button id="btn6" type="button">解答</button></td>
-          <td><div id="txt6" class="hidden"></div></td>
-          <td><div id="txt6i" class="hidden"></div></td>
+          <td id="txt6q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn6" type="button">解答</button></td>
+          <td class="ans"><div id="txt6" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn7q" type="button">例文</button></td>
-          <td id="txt7q"></td>
-          <td><button id="btn7" type="button">解答</button></td>
-          <td><div id="txt7" class="hidden"></div></td>
-          <td><div id="txt7i" class="hidden"></div></td>
+          <td id="txt7q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn7" type="button">解答</button></td>
+          <td class="ans"><div id="txt7" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn8q" type="button">例文</button></td>
-          <td id="txt8q"></td>
-          <td><button id="btn8" type="button">解答</button></td>
-          <td><div id="txt8" class="hidden"></div></td>
-          <td><div id="txt8i" class="hidden"></div></td>
+          <td id="txt8q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn8" type="button">解答</button></td>
+          <td class="ans"><div id="txt8" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn9q" type="button">例文</button></td>
-          <td id="txt9q"></td>
-          <td><button id="btn9" type="button">解答</button></td>
-          <td><div id="txt9" class="hidden"></div></td>
-          <td><div id="txt9i" class="hidden"></div></td>
+          <td id="txt9q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn9" type="button">解答</button></td>
+          <td class="ans"><div id="txt9" class="hidden"></div></td>
         </tr>
         <tr>
           <td><button id="btn10q" type="button">例文</button></td>
-          <td id="txt10q"></td>
-          <td><button id="btn10" type="button">解答</button></td>
-          <td><div id="txt10" class="hidden"></div></td>
-          <td><div id="txt10i" class="hidden"></div></td>
+          <td id="txt10q" class="ques"></td>
+        </tr>
+        <tr>
+          <td class="ans"><button id="btn10" type="button">解答</button></td>
+          <td class="ans"><div id="txt10" class="hidden"></div></td>
         </tr>
       </tbody>
     </table>
@@ -88,7 +98,6 @@
       const btnQ = {};
       const txt = {};
       const txtq = {};
-      const txti = {};
       let toggle1 = false;
       let toggle2 = false;
       let toggle3 = false;
@@ -101,16 +110,16 @@
       let toggle10 = false;
 
       const texts = [
-        { on: '刺すような<u><strong>疼痛</strong></u>を感じる。', off: '<strong>疼痛</strong>', ans: 'とうつう', info: 'うずくように痛むこと。また、その痛み。' },
-        { on: '彼奴の酔狂には<u><strong>之繞</strong></u>が掛かっている。', off: '<strong>之繞</strong>', ans: 'しんにょう', info: '之繞を掛ける＝程度をはなはだしくする。' },
-        { on: '<u><strong>穹窿</strong></u>に雲雀の囀りが響く。', off: '<strong>穹窿</strong>', ans: 'きゅうりゅう', info: '大空。天空。' },
-        { on: '<u><strong>焙烙</strong></u>で豆を炒る。', off: '<strong>焙烙</strong>', ans: 'ほうろく', info: '素焼きの平たい土鍋。' },
-        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび', info: 'ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
-        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび', info: 'ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
-        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび', info: 'ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
-        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび', info: 'ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
-        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび', info: 'ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
-        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび', info: 'ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' }
+        { on: '刺すような<u><strong>疼痛</strong></u>を感じる。', off: '<strong>疼痛</strong>', ans: 'とうつう<br>[意味]うずくように痛むこと。また、その痛み。' },
+        { on: '彼奴の酔狂には<u><strong>之繞</strong></u>が掛かっている。', off: '<strong>之繞</strong>', ans: 'しんにょう<br>[意味]之繞を掛ける＝程度をはなはだしくする。' },
+        { on: '<u><strong>穹窿</strong></u>に雲雀の囀りが響く。', off: '<strong>穹窿</strong>', ans: 'きゅうりゅう<br>[意味]大空。天空。' },
+        { on: '<u><strong>焙烙</strong></u>で豆を炒る。', off: '<strong>焙烙</strong>', ans: 'ほうろく<br>[意味]素焼きの平たい土鍋。' },
+        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび<br>[意味]ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
+        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび<br>[意味]ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
+        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび<br>[意味]ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
+        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび<br>[意味]ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
+        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび<br>[意味]ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' },
+        { on: '<u><strong>石決明</strong></u>', off: '<strong>石決明</strong>', ans: 'あわび<br>[意味]ミミガイ科の巻貝の総称。<ruby>鮑<rt>あわび</rt></ruby>' }
       ];
 
       for (let iLoop = 1; iLoop <= 10; iLoop++) {
@@ -118,7 +127,6 @@
         btnQ[`btn${iLoop}q`] = document.getElementById(`btn${iLoop}q`);
         txt[`txt${iLoop}`] = document.getElementById(`txt${iLoop}`);
         txt[`txt${iLoop}q`] = document.getElementById(`txt${iLoop}q`);
-        txt[`txt${iLoop}i`] = document.getElementById(`txt${iLoop}i`);
       }
 
       function toggleText(button, textElement, toggleState, textOn, textOff) {
@@ -128,11 +136,10 @@
         });
       }
 
-      function toggleDisplay(button, textElement, textElement2) {
+      function toggleDisplay(button, textElement) {
         button.addEventListener('click', () => {
           const isHidden = textElement.style.display === 'none' || textElement.style.display === '';
           textElement.style.display = isHidden ? 'block' : 'none';
-          textElement2.style.display = isHidden ? 'block' : 'none';
         });
       }
 
@@ -140,7 +147,6 @@
       texts.forEach((text, index) => {
         document.getElementById(`txt${index + 1}q`).innerHTML = text.off;
         document.getElementById(`txt${index + 1}`).innerHTML = text.ans;
-        document.getElementById(`txt${index + 1}i`).innerHTML = text.info;
       });
 
       toggleText(btn1q, txt1q, toggle1, texts[0].on, texts[0].off);
@@ -154,16 +160,16 @@
       toggleText(btn9q, txt9q, toggle9, texts[8].on, texts[8].off);
       toggleText(btn10q, txt10q, toggle10, texts[9].on, texts[9].off);
 
-      toggleDisplay(btn1, txt1, txt1i);
-      toggleDisplay(btn2, txt2, txt2i);
-      toggleDisplay(btn3, txt3, txt3i);
-      toggleDisplay(btn4, txt4, txt4i);
-      toggleDisplay(btn5, txt5, txt5i);
-      toggleDisplay(btn6, txt6, txt6i);
-      toggleDisplay(btn7, txt7, txt7i);
-      toggleDisplay(btn8, txt8, txt8i);
-      toggleDisplay(btn9, txt9, txt9i);
-      toggleDisplay(btn10, txt10, txt10i);
+      toggleDisplay(btn1, txt1);
+      toggleDisplay(btn2, txt2);
+      toggleDisplay(btn3, txt3);
+      toggleDisplay(btn4, txt4);
+      toggleDisplay(btn5, txt5);
+      toggleDisplay(btn6, txt6);
+      toggleDisplay(btn7, txt7);
+      toggleDisplay(btn8, txt8);
+      toggleDisplay(btn9, txt9);
+      toggleDisplay(btn10, txt10);
     </script>
   </body>
 </html>
