@@ -1,5 +1,4 @@
 body {
-  font-family: 'HGS教科書体', 'Arial', sans-serif;
   font-size: 24px;
 }
 
@@ -14,10 +13,23 @@ body {
 table {
   border: 1px solid black;   /* テーブル全体に1本の枠線 */
   border-collapse: collapse; /* セルの枠線が重ならないように */
+  width: 100%;
 }
 
 th, td {
   padding: 8px;     /* セル内の余白 */
   text-align: left; /* セル内のテキストを左揃え */
 }
+td.ques {
+  font-family: 'HGS教科書体', 'Arial', sans-serif;
+  font-size: 24px;
+}
+td.ans {
+  font-size: 18px;
+  background-color: lightyellow;
+}
+button {
+  vertical-align: middle; /* 垂直方向で中央揃え */
+}
+
 
