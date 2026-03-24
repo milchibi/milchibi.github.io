@@ -21,7 +21,7 @@ th, td {
   text-align: left; /* セル内のテキストを左揃え */
 }
 td.ques {
-  font-family: 'HGS教科書体', 'Arial', sans-serif;
+  font-family: 'Arial', sans-serif; // 'HGS教科書体'
   font-size: 24px;
 }
 td.ans {
@@ -31,5 +31,3 @@ td.ans {
 button {
   vertical-align: middle; /* 垂直方向で中央揃え */
 }
-
-
