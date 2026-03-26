@@ -174,7 +174,6 @@
     </table>
 
     <script>
-      const btn = {};
       const btnQ = {};
       const txt = {};
       const txtq = {};
@@ -200,30 +199,33 @@
       let toggle20 = false;
 
       const texts = [
-        { on: '因習に<u><strong>羈束</strong></u>され不自由極まる。',                                   off: '<strong>羈束</strong>', ans: 'きそく<br>[意味]'       },
-        { on: '先人の徳を<u><strong>聿修</strong></u>す。',                                             off: '<strong>聿修</strong>', ans: 'いっしゅう<br>[意味]'   },
-        { on: '<u><strong>翕如</strong></u>たる好演奏を聞いた。',                                       off: '<strong>翕如</strong>', ans: 'きゅうじょ<br>[意味]'   },
-        { on: '両手に<u><strong>腁胝</strong></u>生ず。',                                               off: '<strong>腁胝</strong>', ans: 'へんち<br>[意味]'       },
-        { on: '<u><strong>聳懼</strong></u>の連続に見舞わる。',                                         off: '<strong>聳懼</strong>', ans: 'しょうく<br>[意味]'     },
-        { on: '吉報を<u><strong>翹望</strong></u>す。',                                                 off: '<strong>翹望</strong>', ans: 'ぎょうぼう<br>[意味]'   },
-        { on: '<u><strong>耿耿</strong></u>として暁まで眠れず。',                                       off: '<strong>耿耿</strong>', ans: 'こうこう<br>[意味]'     },
-        { on: '累乗のことを<u><strong>羃</strong></u>という。',                                         off: '<strong>羃</strong>',   ans: 'べき<br>[意味]'         },
-        { on: '大いに和し、<u><strong>耋艾</strong></u>歌詠す。',                                       off: '<strong>耋艾</strong>', ans: 'てつがい<br>[意味]'     },
-        { on: '祖父は古<u><strong>書肆</strong></u>を営んだ。',                                         off: '<strong>書肆</strong>', ans: 'しょし<br>[意味]'       },
-        { on: '夢は<u><strong>須臾</strong></u>にして消え去った。',                                     off: '<strong>須臾</strong>', ans: 'しゅゆ、すゆ<br>[意味]' },
-        { on: '<u><strong>一臠</strong></u>の肉を嘗めて<ruby>一鑊<rt>イッカク</rt></ruby>の味を知る。', off: '<strong>一臠</strong>', ans: 'いちれん<br>[意味]'     },
-        { on: '門を開いて盗を<u><strong>揖</strong></u>す。',                                           off: '<strong>揖</strong>',   ans: 'ゆう<br>[意味]'         },
-        { on: '英奇を<u><strong>仄陋</strong></u>に采る。',                                             off: '<strong>仄陋</strong>', ans: 'そくろう<br>[意味]'     },
-        { on: '<u><strong>羌</strong></u>は中国西部に住んだ異民族だ。',                                 off: '<strong>羌</strong>',   ans: 'きょう<br>[意味]'       },
-        { on: '<u><strong>壎篪</strong></u>相和す。',                                                   off: '<strong>壎篪</strong>', ans: 'けんち<br>[意味]'       },
-        { on: '<u><strong>愆過</strong></u>を直ちに改める。',                                           off: '<strong>愆過</strong>', ans: 'けんか<br>[意味]'       },
-        { on: '一里の老幼、喜躍<u><strong>抃舞</strong></u>す。',                                       off: '<strong>抃舞</strong>', ans: 'べんぶ<br>[意味]'       },
-        { on: '<u><strong>讒言</strong></u>すべきものなし。',                                           off: '<strong>讒言</strong>', ans: 'ざんげん<br>[意味]'     },
-        { on: '<u><strong>涓滴</strong></u>岩を穿つ。',                                                 off: '<strong>涓滴</strong>', ans: 'けんてき<br>[意味]'     }
+        { on: '因習に<span class="word">羈束</span>され不自由極まる。',
+          ans: 'きそく',
+          info: '羈束(キソク)<br>つなぎとめること。束縛すること。<span class="ref">類</span>拘束<br><span class="info">表記</span>「羇束」とも書く。＜漢字ペディア・大見出し＞<br><hr>羈<br><span class="mean">意味</span>②たづな。また、つなぐ。つなぎとめる。とりしまる。「羈束」「羈留」＜漢字ペディア・漢字一字・意味＞<br><hr>羈繫(きけい)<br>＝羈束(きそく)・羈縛(きばく)・羈絆(きはん)・羈靽(きはん)・羈縻(きび)・羈纍(きるい)・羈勒(きろく)<br>①つなぎとめる。②束縛する。③きずな。束縛。不自由なこと。＜新字源＞'},
+        { on: '先人の徳を<span class="word">聿修</span>す。',
+          ans: 'いっしゅう',
+          info: '聿<br><span class="mean">意味</span>②の（述）べる。おさ（修）める。「聿修」＜漢字ペディア・漢字一字・意味＞<br><hr>聿修(いっしゅう)<br>祖先の徳を述べおさめる。一説に、聿は発語の辞で意味がなく、単におさめる意という。〔詩・文王〕＜新字源＞'},
+        { on: '<span class="word">翕如</span>たる好演奏を聞いた。',                                       ans: 'きゅうじょ', info: '[意味]'   },
+        { on: '両手に<span class="word">腁胝</span>生ず。',                                               ans: 'へんち', info: '[意味]'       },
+        { on: '<span class="word">聳懼</span>の連続に見舞わる。',                                         ans: 'しょうく', info: '[意味]'     },
+        { on: '吉報を<span class="word">翹望</span>す。',                                                 ans: 'ぎょうぼう', info: '[意味]'   },
+        { on: '<span class="word">耿耿</span>として暁まで眠れず。',                                       ans: 'こうこう', info: '[意味]'     },
+        { on: '累乗のことを<span class="word">羃</span>という。',                                         ans: 'べき', info: '[意味]'         },
+        { on: '大いに和し、<span class="word">耋艾</span>歌詠す。',                                       ans: 'てつがい', info: '[意味]'     },
+        { on: '祖父は古<span class="word">書肆</span>を営んだ。',                                         ans: 'しょし', info: '[意味]'       },
+        { on: '夢は<span class="word">須臾</span>にして消え去った。',                                     ans: 'しゅゆ、すゆ', info: '[意味]' },
+        { on: '<span class="word">一臠</span>の肉を嘗めて<ruby>一鑊<rt>イッカク</rt></ruby>の味を知る。', ans: 'いちれん', info: '[意味]'     },
+        { on: '門を開いて盗を<span class="word">揖</span>す。',                                           ans: 'ゆう', info: '[意味]'         },
+        { on: '英奇を<span class="word">仄陋</span>に采る。',                                             ans: 'そくろう', info: '[意味]'     },
+        { on: '<span class="word">羌</span>は中国西部に住んだ異民族だ。',                                 ans: 'きょう', info: '[意味]'       },
+        { on: '<span class="word">壎篪</span>相和す。',                                                   ans: 'けんち', info: '[意味]'       },
+        { on: '<span class="word">愆過</span>を直ちに改める。',                                           ans: 'けんか', info: '[意味]'       },
+        { on: '一里の老幼、喜躍<span class="word">抃舞</span>す。',                                       ans: 'べんぶ', info: '[意味]'       },
+        { on: '<span class="word">讒言</span>すべきものなし。',                                           ans: 'ざんげん', info: '[意味]'     },
+        { on: '<span class="word">涓滴</span>岩を穿つ。',                                                 ans: 'けんてき', info: '[意味]'     }
       ];
 
       for (let iLoop = 1; iLoop <= 20; iLoop++) {
-        btn[`btn${iLoop}`] = document.getElementById(`btn${iLoop}`);
         btnQ[`btn${iLoop}q`] = document.getElementById(`btn${iLoop}q`);
         txt[`txt${iLoop}`] = document.getElementById(`txt${iLoop}`);
         txt[`txt${iLoop}q`] = document.getElementById(`txt${iLoop}q`);
@@ -239,7 +241,7 @@
       // 起動時に初期値を設定
       texts.forEach((text, index) => {
         document.getElementById(`txt${index + 1}q`).innerHTML = text.on;
-        document.getElementById(`txt${index + 1}`).innerHTML = text.ans;
+        document.getElementById(`txt${index + 1}`).innerHTML = text.ans + '<br><hr>' + text.info;
       });
 
       toggleDisplay(btn1, txt1);
