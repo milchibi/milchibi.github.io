@@ -31,3 +31,27 @@ td.ans {
 button {
   vertical-align: middle; /* 垂直方向で中央揃え */
 }
+
+.ref {
+  display: inline-block;
+  border: 1px solid black;
+  background: black;
+  color: white;
+  line-height: 1.1;
+}
+.info {
+  display: inline-block;
+  border: 1px solid red;
+  color: red;
+  line-height: 1.1;
+}
+.word {
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.mean {
+  display: inline-block;
+  border: 1px solid black;
+  line-height: 1.1;
+}
