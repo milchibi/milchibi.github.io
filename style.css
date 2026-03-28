@@ -55,3 +55,21 @@ button {
   border: 1px solid black;
   line-height: 1.1;
 }
+.mean2 {
+  display: inline-block;
+  border: 1px solid black;
+  background: black;
+  color: white;
+  line-height: 1.1;
+}
+.circle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2em;
+  width: 0.8em;
+  height: 0.8em;
+  border: 1.5px solid black;
+  background: transparent;
+  border-radius: 50%;
+}
