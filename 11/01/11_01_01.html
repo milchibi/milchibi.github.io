@@ -206,9 +206,10 @@
         .then(csvText => {
           const lines = csvText.split('\r\n');
           const result = lines.map(line => line.split(','));
-          
-          document.getElementById('txt20q').innerText = result[19][3];
-          document.getElementById('txt20').innerText = result[19][4] + '<br><hr>' + result[19][5];
+          console.log(result);
+          console.log(result.length);
+          document.getElementById('txt20q').innerHTML = result[19][3];
+          document.getElementById('txt20').innerHTML = result[19][4] + '<br><hr>' + result[19][5];
 
         });
 
