@@ -201,6 +201,17 @@
       let toggle19 = false;
       let toggle20 = false;
 
+      fetch('../../../data.csv')
+        .then(response => response.text())
+        .then(csvText => {
+          const lines = csvText.split('\r\n');
+          const result = lines.map(line => line.split(,));
+          
+          document.getElementById('txt20q').innerText = result[19][3];
+          document.getElementById('txt20').innerText = result[19][4] + '<br><hr>' + result[19][5];
+
+        });
+
       const texts = [
         { on: '因習に<span class="word">羈束</span>され不自由極まる。', ans: 'きそく', info: '羈束(キソク)<br>つなぎとめること。束縛すること。<span class="ref">類</span>拘束<br><span class="info">表記</span>「羇束」とも書く。＜漢字ペディア＞<br><hr>羈<br><span class="mean">意味</span>②たづな。また、つなぐ。つなぎとめる。とりしまる。「羈束」「羈留」＜漢字ペディア＞<br><hr>羈繫(きけい)＝羈束(きそく)・羈縛(きばく)・羈絆(きはん)・羈靽(きはん)・羈縻(きび)・羈纍(きるい)・羈勒(きろく)<br>①つなぎとめる。②束縛する。③きずな。束縛。不自由なこと。＜新字源＞'},
         { on: '先人の徳を<span class="word">聿修</span>す。', ans: 'いっしゅう', info: '聿<br><span class="mean">意味</span>②の（述）べる。おさ（修）める。「聿修」＜漢字ペディア＞<br><hr>聿修(いっしゅう)<br>祖先の徳を述べおさめる。一説に、聿は発語の辞で意味がなく、単におさめる意という。〔詩・文王〕＜新字源＞'},
@@ -220,11 +231,10 @@
         { on: '<span class="word">壎篪</span>相和す。',                                                   ans: 'けんち', info: '[意味]'},
         { on: '<span class="word">愆過</span>を直ちに改める。',                                           ans: 'けんか', info: '[意味]'},
         { on: '一里の老幼、喜躍<span class="word">抃舞</span>す。',                                       ans: 'べんぶ', info: '[意味]'},
-        { on: '<span class="word">讒言</span>すべきものなし。',                                           ans: 'ざんげん', info: '[意味]'},
-        { on: '<span class="word">涓滴</span>岩を穿つ。',                                                 ans: 'けんてき', info: '[意味]'}
+        { on: '<span class="word">讒言</span>すべきものなし。',                                           ans: 'ざんげん', info: '[意味]'}
       ];
 
-      for (let iLoop = 1; iLoop <= 20; iLoop++) {
+      for (let iLoop = 1; iLoop <= 19; iLoop++) {
         btnQ[`btn${iLoop}q`] = document.getElementById(`btn${iLoop}q`);
         txt[`txt${iLoop}`] = document.getElementById(`txt${iLoop}`);
         txt[`txt${iLoop}q`] = document.getElementById(`txt${iLoop}q`);
@@ -262,7 +272,7 @@
       toggleDisplay(btn17, txt17);
       toggleDisplay(btn18, txt18);
       toggleDisplay(btn19, txt19);
-      toggleDisplay(btn20, txt20);
+      
     </script>
   </body>
 </html>
