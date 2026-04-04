@@ -177,67 +177,52 @@
     <a href="11_01.html">戻る</a>
 
     <script>
-      const btnQ = {};
-      const txt = {};
-      const txtq = {};
-      let toggle1 = false;
-      let toggle2 = false;
-      let toggle3 = false;
-      let toggle4 = false;
-      let toggle5 = false;
-      let toggle6 = false;
-      let toggle7 = false;
-      let toggle8 = false;
-      let toggle9 = false;
-      let toggle10 = false;
-      let toggle11 = false;
-      let toggle12 = false;
-      let toggle13 = false;
-      let toggle14 = false;
-      let toggle15 = false;
-      let toggle16 = false;
-      let toggle17 = false;
-      let toggle18 = false;
-      let toggle19 = false;
-      let toggle20 = false;
-
       fetch('https://milchibi.github.io/data.csv')
         .then(response => response.text())
         .then(csvText => {
           const lines = csvText.split('\n');
           const result = lines.map(line => line.split(','));
+          document.getElementById('txt20q').innerHTML = result[0][3];
+          document.getElementById('txt20').innerHTML = result[0][4] + '<br><hr>' + result[0][5];
+          document.getElementById('txt20q').innerHTML = result[1][3];
+          document.getElementById('txt20').innerHTML = result[1][4] + '<br><hr>' + result[1][5];
+          document.getElementById('txt20q').innerHTML = result[2][3];
+          document.getElementById('txt20').innerHTML = result[2][4] + '<br><hr>' + result[2][5];
+          document.getElementById('txt20q').innerHTML = result[3][3];
+          document.getElementById('txt20').innerHTML = result[3][4] + '<br><hr>' + result[3][5];
+          document.getElementById('txt20q').innerHTML = result[4][3];
+          document.getElementById('txt20').innerHTML = result[4][4] + '<br><hr>' + result[4][5];
+          document.getElementById('txt20q').innerHTML = result[5][3];
+          document.getElementById('txt20').innerHTML = result[5][4] + '<br><hr>' + result[5][5];
+          document.getElementById('txt20q').innerHTML = result[6][3];
+          document.getElementById('txt20').innerHTML = result[6][4] + '<br><hr>' + result[6][5];
+          document.getElementById('txt20q').innerHTML = result[7][3];
+          document.getElementById('txt20').innerHTML = result[7][4] + '<br><hr>' + result[7][5];
+          document.getElementById('txt20q').innerHTML = result[8][3];
+          document.getElementById('txt20').innerHTML = result[8][4] + '<br><hr>' + result[8][5];
+          document.getElementById('txt20q').innerHTML = result[9][3];
+          document.getElementById('txt20').innerHTML = result[9][4] + '<br><hr>' + result[9][5];
+          document.getElementById('txt20q').innerHTML = result[10][3];
+          document.getElementById('txt20').innerHTML = result[10][4] + '<br><hr>' + result[10][5];
+          document.getElementById('txt20q').innerHTML = result[11][3];
+          document.getElementById('txt20').innerHTML = result[11][4] + '<br><hr>' + result[11][5];
+          document.getElementById('txt20q').innerHTML = result[12][3];
+          document.getElementById('txt20').innerHTML = result[12][4] + '<br><hr>' + result[12][5];
+          document.getElementById('txt20q').innerHTML = result[13][3];
+          document.getElementById('txt20').innerHTML = result[13][4] + '<br><hr>' + result[13][5];
+          document.getElementById('txt20q').innerHTML = result[14][3];
+          document.getElementById('txt20').innerHTML = result[14][4] + '<br><hr>' + result[14][5];
+          document.getElementById('txt20q').innerHTML = result[15][3];
+          document.getElementById('txt20').innerHTML = result[15][4] + '<br><hr>' + result[15][5];
+          document.getElementById('txt20q').innerHTML = result[16][3];
+          document.getElementById('txt20').innerHTML = result[16][4] + '<br><hr>' + result[16][5];
+          document.getElementById('txt20q').innerHTML = result[17][3];
+          document.getElementById('txt20').innerHTML = result[17][4] + '<br><hr>' + result[17][5];
+          document.getElementById('txt20q').innerHTML = result[18][3];
+          document.getElementById('txt20').innerHTML = result[18][4] + '<br><hr>' + result[18][5];
           document.getElementById('txt20q').innerHTML = result[19][3];
           document.getElementById('txt20').innerHTML = result[19][4] + '<br><hr>' + result[19][5];
-
         });
-
-      const texts = [
-        { on: '因習に<span class="word">羈束</span>され不自由極まる。', ans: 'きそく', info: '羈束(キソク)<br>つなぎとめること。束縛すること。<span class="ref">類</span>拘束<br><span class="info">表記</span>「羇束」とも書く。＜漢字ペディア＞<br><hr>羈<br><span class="mean">意味</span>②たづな。また、つなぐ。つなぎとめる。とりしまる。「羈束」「羈留」＜漢字ペディア＞<br><hr>羈繫(きけい)＝羈束(きそく)・羈縛(きばく)・羈絆(きはん)・羈靽(きはん)・羈縻(きび)・羈纍(きるい)・羈勒(きろく)<br>①つなぎとめる。②束縛する。③きずな。束縛。不自由なこと。＜新字源＞'},
-        { on: '先人の徳を<span class="word">聿修</span>す。', ans: 'いっしゅう', info: '聿<br><span class="mean">意味</span>②の（述）べる。おさ（修）める。「聿修」＜漢字ペディア＞<br><hr>聿修(いっしゅう)<br>祖先の徳を述べおさめる。一説に、聿は発語の辞で意味がなく、単におさめる意という。〔詩・文王〕＜新字源＞'},
-        { on: '<span class="word">翕如</span>たる好演奏を聞いた。', ans: 'きゅうじょ', info: '翕如(キュウジョ)<br>声調や楽器の音律がよく合うさま。＜漢字ペディア＞<br><hr>翕如(きゅうじょ)<br>諸楽器の音がいっせいに整って起こるさま（朱子説）。一説に、合奏のはじめに金属楽器をならすが、そのとき、他の楽器を鳴らす者がいっせいに用意を整えること（<ruby>鄭玄<rt>じょうげん</rt></ruby>説）〔論・八佾〕「始作翕如也、従<sub>レ</sub>之純如也」＜新字源＞'},
-        { on: '両手に<span class="word">腁胝</span>生ず。', ans: 'へんち', info: '腁<br><span class="mean">意味</span>①たこ。まめ。手足の皮膚が厚くなったもの。「腁胝(ヘンチ)」＜漢字ペディア＞<br><hr>腁<br><span class="mean2">意味</span>②あかぎれ。ひび。腁胝(へんち/へんてい)＜新字源＞'},
-        { on: '<span class="word">聳懼</span>の連続に見舞わる。', ans: 'しょうく', info: '聳<br><span class="mean">意味</span>②おそれる。おそれおののく。「聳懼(ショウク)」「聳動」<span class="ref">類</span>悚(ショウ)＜漢字ペディア＞'},
-        { on: '吉報を<span class="word">翹望</span>す。', ans: 'ぎょうぼう', info: '翹望(ギョウボウ)<br>首をのばして待ち望むこと。物事の実現を強く願うこと。切望。<span class="ref">類</span>鶴首(カクシュ)＜漢字ペディア＞<br><hr>翹首(ぎょうしゅ)＝翹望(ぎょうぼう)<br>首を上げて望み待つ。切望する。<span class="circle">同</span>鶴首(かくしゅ)・延頸(えんけい)＜新字源＞'},
-        { on: '<span class="word">耿耿</span>として暁まで眠れず。', ans: 'こうこう', info: '耿耿(コウコウ)<br>①明るくひかるさま。明るいさま。 「―と照る月」 ②思うことがあって、うれえるさま。＜漢字ペディア＞<br><hr>耿<br><span class="mean">意味</span>①あきらか。明るい。ひかる。ひかり。「耿耿」「耿光」<span class="ref">類</span>炯(ケイ)＜漢字ペディア＞<br><hr>耿耿(こうこう)<br>①心が安らかでないさま。②光りかがやくさま。明るいさま。<span class="circle">同</span>炯炯(けいけい)＜新字源＞<br><hr>耿<br><span class="mean2">意味</span>⑤→耿耿。＜新字源＞'},
-        { on: '累乗のことを<span class="word">羃</span>という。', ans: 'べき', info: '羃<br><span class="mean">意味</span>おおう。おおい。＜漢字ペディア＞<br><hr>冪<br><span class="mean">意味</span>②べき。同じ数の相乗積。「冪数」＜漢字ペディア＞<br><hr>冪 [羃]別体<br><span class="mean2">意味</span>④〘数〙べき。同じ数の相乗積。「自乗冪」＜新字源＞'},
-        { on: '大いに和し、<span class="word">耋艾</span>歌詠す。', ans: 'てつがい', info: '耋艾(てつがい)<br>老人とわか者。一説に、艾も老人。＜新字源＞'},
-        { on: '祖父は古<span class="word">書肆</span>を営んだ。', ans: 'しょし', info: '書肆(ショシ)<br>書店。本屋。「古―」 <span class="ref">類</span>書房<br><span class="info">参考</span>「肆」は店の意。＜漢字ペディア＞<br><hr>肆<br><span class="mean">意味</span>③みせ。品物をならべて売る店。「書肆」<br><span class="mean">下つき</span>書肆＜漢字ペディア＞<br><hr>書賈(しょこ)＝書肆(しょし)・書舗(しょほ)<br>本屋。書店。＜新字源＞<br><hr>肆<br><span class="mean2">意味</span>⑦みせ（店）「書肆」<br>▻書肆＜新字源＞'},
-        { on: '夢は<span class="word">須臾</span>にして消え去った。', ans: 'しゅゆ、すゆ', info: '須臾(シュユ)<br>しばらく。少しの間。寸刻。「―も忘れず」「―にして鳴りやむ」<br><span class="info">参考</span>「スユ」とも読む。＜漢字ペディア＞<br><hr>須<br><span class="mean">意味</span>④しばらく。少しの間。「須臾(シュユ)・(スユ)」＜漢字ペディア＞<br><hr>臾<br><span class="mean">意味</span>②しばらく、わずかの意の「須臾(シュユ)」に用いられる字。＜漢字ペディア＞<br><hr>須臾(しゅゆ)<br>①しばらく。少しのあいだ。暫時。寸刻。〔中庸〕「道也者不<sub>レ</sub>可<sub>二</sub>須臾離<sub>一</sub>也」<span class="circle">同</span>斯臾(しゆ)・斯須・須揺。②むかし、<ruby>陰陽<rt>おんよう</rt></ruby>家で吉凶をうらなう術の一つ。③〘仏〙一昼夜の三十分の一の時間。＜新字源＞'},
-        { on: '<span class="word">一臠</span>の肉を嘗めて<ruby>一鑊<rt>イッカク</rt></ruby>の味を知る。', ans: 'いちれん', info: '臠<br><span class="mean">意味</span>①きりみ。きりにく。細かく切った肉。＜漢字ペディア＞<br><hr>臠<br><span class="mean2">意味</span>①きりみ。きりにく。細かく切った肉。＜新字源＞'},
-        { on: '門を開いて盗を<span class="word">揖</span>す。', ans: 'ゆう', info: '揖<br><span class="mean">意味</span>①会釈。胸の前に両手を組み合わせて行う礼法。「一揖」＜漢字ペディア＞<br><hr>揖<br><span class="mean2">意味</span>①えしゃく。むねの前に組み合わせた両手を前に出し、上下させて行なう例。＜新字源＞'},
-        { on: '英奇を<span class="word">仄陋</span>に采る。',                                             ans: 'そくろう', info: '[意味]'},
-        { on: '<span class="word">羌</span>は中国西部に住んだ異民族だ。',                                 ans: 'きょう', info: '[意味]'},
-        { on: '<span class="word">壎篪</span>相和す。',                                                   ans: 'けんち', info: '[意味]'},
-        { on: '<span class="word">愆過</span>を直ちに改める。',                                           ans: 'けんか', info: '[意味]'},
-        { on: '一里の老幼、喜躍<span class="word">抃舞</span>す。',                                       ans: 'べんぶ', info: '[意味]'},
-        { on: '<span class="word">讒言</span>すべきものなし。',                                           ans: 'ざんげん', info: '[意味]'}
-      ];
-
-      for (let iLoop = 1; iLoop <= 19; iLoop++) {
-        btnQ[`btn${iLoop}q`] = document.getElementById(`btn${iLoop}q`);
-        txt[`txt${iLoop}`] = document.getElementById(`txt${iLoop}`);
-        txt[`txt${iLoop}q`] = document.getElementById(`txt${iLoop}q`);
-      }
 
       function toggleDisplay(button, textElement) {
         button.addEventListener('click', () => {
@@ -245,12 +230,6 @@
           textElement.style.display = isHidden ? 'block' : 'none';
         });
       }
-
-      // 起動時に初期値を設定
-      texts.forEach((text, index) => {
-        document.getElementById(`txt${index + 1}q`).innerHTML = text.on;
-        document.getElementById(`txt${index + 1}`).innerHTML = text.ans + '<br><hr>' + text.info;
-      });
 
       toggleDisplay(btn1, txt1);
       toggleDisplay(btn2, txt2);
