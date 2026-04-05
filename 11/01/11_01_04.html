@@ -42,7 +42,7 @@
           const result = lines.map(line => line.split(','));
           for (let i = 0; i < 20; i++) {
             document.getElementById(`txt${i + 1}q`).innerHTML = result[i + 60][3];
-            document.getElementById(`txt${i + 1}`).innerHTML = result[i + 60][4] + '<br><hr>' + result[i][5];
+            document.getElementById(`txt${i + 1}`).innerHTML = result[i + 60][4] + '<br><hr>' + result[i + 60][5];
           }
         });
 
