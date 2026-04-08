@@ -18,7 +18,7 @@
     <script>
       const tbody = document.getElementById('quizTable');
       
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 1; i <= 10; i++) {
         tbody.insertAdjacentHTML('beforeend', `
           <tr>
             <td width="52">問${i}</td>
@@ -40,7 +40,7 @@
         .then(csvText => {
           const lines = csvText.split('\n');
           const result = lines.map(line => line.split(','));
-          for (let i = 0; i < 20; i++) {
+          for (let i = 0; i < 10; i++) {
             document.getElementById(`txt${i + 1}q`).innerHTML = result[i][3];
             document.getElementById(`txt${i + 1}`).innerHTML = result[i][4] + '<br><hr>' + result[i][5];
           }
@@ -53,7 +53,7 @@
         });
       }
 
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 1; i <= 10; i++) {
         const btn = document.getElementById(`btn${i}`);
         const txt = document.getElementById(`txt${i}`);
         toggleDisplay(btn, txt);
