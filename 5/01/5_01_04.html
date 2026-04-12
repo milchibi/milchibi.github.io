@@ -41,8 +41,8 @@
           const lines = csvText.split('\n');
           const result = lines.map(line => line.split(','));
           for (let i = 0; i < 10; i++) {
-            document.getElementById(`txt${i + 1}q`).innerHTML = result[i + 20][3];
-            document.getElementById(`txt${i + 1}`).innerHTML = result[i + 20][4] + '<br><hr>' + result[i + 20][5];
+            document.getElementById(`txt${i + 1}q`).innerHTML = result[i + 30][3];
+            document.getElementById(`txt${i + 1}`).innerHTML = result[i + 30][4] + '<br><hr>' + result[i + 30][5];
           }
         });
 
