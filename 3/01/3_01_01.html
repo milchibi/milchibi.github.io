@@ -13,7 +13,7 @@
       <tbody id="quizTable"></tbody>
     </table>
     <br>
-    <div id="sel"></div>
+    [<div id="sel0" class="item"></div>・<div id="sel1" class="item"></div>・<div id="sel2" class="item"></div>・<div id="sel3" class="item"></div>・<div id="sel4" class="item"></div>・<div id="sel5" class="item"></div>・<div id="sel6" class="item"></div>・<div id="sel7" class="item"></div>]
     <br>
     <br>
     <a href="3_01.html">戻る</a>
@@ -54,7 +54,11 @@
           arr[6] = result[53][4];
           arr[7] = result[68][4];
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
-          output.innerHTML = '[' + arr[0] + '・' + arr[1] + '・' + arr[2] + '・' + arr[3] + '・' + arr[4] + '・' + arr[5] + '・' + arr[6] + '・' + arr[7] + ']';
+          document.getElementById('sel0').innerHTML = arr[0];
+          arr.forEach((value, i) => {
+            const el = document.getElementById(`sel${i}`);
+            if (el) el.textContent = value;
+          });
         });
 
       function toggleDisplay(button, textElement) {
@@ -69,6 +73,12 @@
         const txt = document.getElementById(`txt${i}`);
         toggleDisplay(btn, txt);
       }
+
+      document.querySelectorAll(".item").forEach(el => {
+        el.addEventListener("click", () => {
+        el.classList.toggle("strike");
+      });
+    });
     </script>
   </body>
 </html>
