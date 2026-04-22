@@ -54,10 +54,15 @@
           arr[6] = result[53][4];
           arr[7] = result[68][4];
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
-          document.getElementById('sel0').innerHTML = arr[0];
           arr.forEach((value, i) => {
             const el = document.getElementById(`sel${i}`);
             if (el) el.textContent = value;
+          });
+
+          document.querySelectorAll(".item").forEach(el => {
+            el.addEventListener("click", () => {
+              el.classList.toggle("strike");
+            });
           });
         });
 
@@ -73,12 +78,6 @@
         const txt = document.getElementById(`txt${i}`);
         toggleDisplay(btn, txt);
       }
-
-      document.querySelectorAll(".item").forEach(el => {
-        el.addEventListener("click", () => {
-          el.classList.toggle("strike");
-        });
-      });
     </script>
   </body>
 </html>
