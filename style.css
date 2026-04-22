@@ -73,3 +73,6 @@ button {
   background: transparent;
   border-radius: 50%;
 }
+.strike {
+  text-decoration: line-through;
+}
