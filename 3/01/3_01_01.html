@@ -49,11 +49,9 @@
             document.getElementById(`txt${i + 1}`).innerHTML = result[i][5];
             arr[i] = result[i][4];
           }
-          console.log(result);
-          arr[5] = result[i + 39][4];
-          arr[6] = result[i + 53][4];
-          arr[7] = result[i + 68][4];
-          console.log(arr);
+          arr[5] = result[39][4];
+          arr[6] = result[53][4];
+          arr[7] = result[68][4];
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
           for (let i = 0; i < 8; i++) {
             document.getElementById(`txt${i + 1}q`).innerHTML = result[i][3];
