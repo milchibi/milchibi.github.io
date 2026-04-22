@@ -20,7 +20,7 @@
 
     <script>
       const tbody = document.getElementById('quizTable');
-      let output = document.getElementById('sel');
+      const offset = 0;
       let arr = new Array(8);
       
       for (let i = 1; i <= 5; i++) {
@@ -46,13 +46,13 @@
           const lines = csvText.split('\n');
           const result = lines.map(line => line.split(','));
           for (let i = 0; i < 5; i++) {
-            document.getElementById(`txt${i + 1}q`).innerHTML = result[i][3];
-            document.getElementById(`txt${i + 1}`).innerHTML = result[i][5];
-            arr[i] = result[i][4];
+            document.getElementById(`txt${i + 1}q`).innerHTML = result[i + offset][3];
+            document.getElementById(`txt${i + 1}`).innerHTML = result[i + offset][5];
+            arr[i] = result[i + offset][4];
           }
-          arr[5] = result[39][4];
-          arr[6] = result[53][4];
-          arr[7] = result[68][4];
+          arr[5] = result[offset + 39][4];
+          arr[6] = result[offset + 53][4];
+          arr[7] = result[offset + 68][4];
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
           arr.forEach((value, i) => {
             const el = document.getElementById(`sel${i}`);
