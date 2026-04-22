@@ -53,9 +53,9 @@
           arr[5] = result[39][4];
           arr[6] = result[53][4];
           arr[7] = result[68][4];
-          console.log(arr);
+          console.log("before:", [...arr]);
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
-          console.log(arr);
+          console.log("after:", [...arr]);
           for (let i = 0; i < 5; i++) {
             document.getElementById(`txt${i + 1}q`).innerHTML = result[i][3];
             document.getElementById(`txt${i + 1}`).innerHTML = result[i][5];
