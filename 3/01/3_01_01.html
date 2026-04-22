@@ -53,15 +53,8 @@
           arr[5] = result[39][4];
           arr[6] = result[53][4];
           arr[7] = result[68][4];
-          console.log("before:", [...arr]);
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
-          console.log("after:", [...arr]);
-          for (let i = 0; i < 5; i++) {
-            document.getElementById(`txt${i + 1}q`).innerHTML = result[i][3];
-            document.getElementById(`txt${i + 1}`).innerHTML = result[i][5];
-            arr[i] = result[i][4];
-          }
-          output.innerHTML = arr[0] + '・' + arr[1] + '・' + arr[2] + '・' + arr[3] + '・' + arr[4] + '・' + arr[5] + '・' + arr[6] + '・' + arr[7];
+          output.innerHTML = '[' + arr[0] + '・' + arr[1] + '・' + arr[2] + '・' + arr[3] + '・' + arr[4] + '・' + arr[5] + '・' + arr[6] + '・' + arr[7] + ']';
         });
 
       function toggleDisplay(button, textElement) {
