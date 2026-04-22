@@ -20,6 +20,7 @@
 
     <script>
       const tbody = document.getElementById('quizTable');
+      let output = document.getElementById('sel');
       let arr = new Array(8);
       
       for (let i = 1; i <= 5; i++) {
@@ -53,12 +54,12 @@
           arr[6] = result[53][4];
           arr[7] = result[68][4];
           arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
-          for (let i = 0; i < 8; i++) {
+          for (let i = 0; i < 5; i++) {
             document.getElementById(`txt${i + 1}q`).innerHTML = result[i][3];
             document.getElementById(`txt${i + 1}`).innerHTML = result[i][5];
             arr[i] = result[i][4];
           }
-          document.getElementById(`sel`).innerHTML = arr[0] + '・' + arr[1] + '・' + arr[2] + '・' + arr[3] + '・' + arr[4] + '・' + arr[5] + '・' + arr[6] + '・' + arr[7];
+          output.innerHTML = arr[0] + '・' + arr[1] + '・' + arr[2] + '・' + arr[3] + '・' + arr[4] + '・' + arr[5] + '・' + arr[6] + '・' + arr[7];
         });
 
       function toggleDisplay(button, textElement) {
