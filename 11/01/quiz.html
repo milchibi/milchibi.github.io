@@ -45,7 +45,7 @@
       </tr>
       <tr>
         <td class="ans">
-          <button class="toggleBtn">解答</button>
+          <button class="toggleBtn" data-id="${i}">解答</button>
         </td>
         <td class="ans">
           <div id="txt${i}" class="hidden"></div>
@@ -72,7 +72,11 @@
   // イベント委譲で高速化＆簡素化
   document.addEventListener('click', (e) => {
     if (e.target.classList.contains('toggleBtn')) {
-      const answer = e.target.closest('tr').nextElementSibling.querySelector('div');
+      const id = e.target.dataset.id;
+      const answer = document.getElementById(`txt${id}`);
+  
+      if (!answer) return;
+  
       answer.style.display =
         answer.style.display === 'block' ? 'none' : 'block';
     }
