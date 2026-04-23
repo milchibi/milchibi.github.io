@@ -9,18 +9,36 @@
   <body>
     <h1>漢検1級勉強</h1>
     <h2>音読み【甲】</h2>
-    　　<a href="11_01_01.html">立春</a>　<a href="11_01_02.html">雨水</a>　<a href="11_01_03.html">啓蟄</a>　<a href="11_01_04.html">春分</a>　<a href="11_01_05.html">清明</a>　<a href="11_01_06.html">穀雨</a>
-    <br><br>
-    　　<a href="11_01_07.html">立夏</a>　<a href="11_01_08.html">小満</a>　<a href="11_01_09.html">芒種</a>　<a href="11_01_10.html">夏至</a>　<a href="11_01_11.html">小暑</a>　<a href="11_01_12.html">大暑</a>
-    <br><br>
-    　　<a href="11_01_13.html">立秋</a>　<a href="11_01_14.html">処暑</a>　<a href="11_01_15.html">白露</a>　<a href="11_01_16.html">秋分</a>　<a href="11_01_17.html">寒露</a>　<a href="11_01_18.html">霜降</a>
-    <br><br>
-    　　<a href="11_01_19.html">立冬</a>　<a href="11_01_20.html">小雪</a>　<a href="11_01_21.html">大雪</a>　<a href="11_01_22.html">冬至</a>　<a href="11_01_23.html">小寒</a>　<a href="11_01_24.html">大寒</a>
 
+    <div id="linkContainer"></div>
+    
+    <br><br>
+    <a href="..\..\index.html">戻る</a>
+    
     <script>
+      const titles = [
+        "立春","雨水","啓蟄","春分","清明","穀雨",
+        "立夏","小満","芒種","夏至","小暑","大暑",
+        "立秋","処暑","白露","秋分","寒露","霜降",
+        "立冬","小雪","大雪","冬至","小寒","大寒"
+      ];
+    
+      const container = document.getElementById('linkContainer');
+    
+      titles.forEach((title, index) => {
+        const link = document.createElement('a');
+        link.href = `quiz.html?page=${index}`;
+        link.textContent = title;
+    
+        container.appendChild(link);
+        container.append('　'); // 全角スペース
+    
+        // 6個ごとに改行
+        if ((index + 1) % 6 === 0) {
+          container.appendChild(document.createElement('br'));
+          container.appendChild(document.createElement('br'));
+        }
+      });
     </script>
   </body>
-  <br>
-  <br>
-  <a href="..\..\index.html">戻る</a>
 </html>
