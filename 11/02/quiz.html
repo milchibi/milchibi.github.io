@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<h1>漢検1級勉強</h1>
+<h2 id="pageSubtitle"></h2>
+
+<table border="1">
+  <tbody id="quizTable"></tbody>
+</table>
+
+<br>
+<a href="12_01.html">戻る</a>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const page = parseInt(params.get('page')) || 0;
+
+  const titles = [
+    "立春","雨水","啓蟄","春分","清明","穀雨",
+    "立夏","小満","芒種","夏至","小暑","大暑",
+    "立秋","処暑","白露","秋分","寒露","霜降",
+    "立冬","小雪","大雪","冬至","小寒","大寒"
+  ];
+
+  const startIndex = page * 20 + 480;
+
+  // タイトル反映
+  const titleText = `漢検1級勉強　音読み【乙-${titles[page] || ''}】`;
+  document.getElementById('pageTitle').textContent = titleText;
+  document.getElementById('pageSubtitle').textContent = `音読み【乙-${titles[page] || ''}】`;
+
+  const tbody = document.getElementById('quizTable');
+
+  for (let i = 1; i <= 20; i++) {
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td width="52">問${i}</td>
+        <td id="txt${i}q" class="ques"></td>
+      </tr>
+      <tr>
+        <td class="ans">
+          <button class="toggleBtn" data-id="${i}">解答</button>
+        </td>
+        <td class="ans">
+          <div id="txt${i}" class="hidden"></div>
+        </td>
+      </tr>
+    `);
+  }
+
+  fetch('https://milchibi.github.io/data_11.csv')
+    .then(res => res.text())
+    .then(csv => {
+      const data = csv.split('\n').map(line => line.split(','));
+
+      for (let i = 0; i < 20; i++) {
+        const row = data[startIndex + i];
+        if (!row) continue;
+
+        document.getElementById(`txt${i+1}q`).innerHTML = row[3];
+        document.getElementById(`txt${i+1}`).innerHTML =
+          row[4] + '<br><hr>' + row[5];
+      }
+    });
+
+  // イベント委譲で高速化＆簡素化
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('toggleBtn')) {
+      const id = e.target.dataset.id;
+      const answer = document.getElementById(`txt${id}`);
+  
+      if (!answer) return;
+  
+      answer.style.display =
+        answer.style.display === 'block' ? 'none' : 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
