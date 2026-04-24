@@ -1,27 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>漢検1級勉強　熟字訓【乙】</title>
+    <title>漢検1級勉強　熟字訓・当て字【乙】</title>
     <link rel="stylesheet" href="..\..\style.css">
   </head>
   <body>
     <h1>漢検1級勉強</h1>
     <h2>熟字訓・当て字【乙】</h2>
-    　　<a href="5_02_01.html">立春</a>　<a href="5_02_02.html">雨水</a>　<a href="5_02_03.html">啓蟄</a>　<a href="5_02_04.html">春分</a>　<a href="5_02_05.html">清明</a>　<a href="5_02_06.html">穀雨</a>
-    <br><br>
-    　　<a href="5_02_07.html">立夏</a>　<a href="5_02_08.html">小満</a>　<a href="5_02_09.html">芒種</a>　<a href="5_02_10.html">夏至</a>　<a href="5_02_11.html">小暑</a>　<a href="5_02_12.html">大暑</a>
-    <br><br>
-    　　<a href="5_02_13.html">立秋</a>　<a href="5_02_14.html">処暑</a>　<a href="5_02_15.html">白露</a>　<a href="5_02_16.html">秋分</a>　<a href="5_02_17.html">寒露</a>　<a href="5_02_18.html">霜降</a>
-    <br><br>
-    　　<a href="5_02_19.html">立冬</a>　<a href="5_02_20.html">小雪</a>　<a href="5_02_21.html">大雪</a>　<a href="5_02_22.html">冬至</a>　<a href="5_02_23.html">小寒</a>　<a href="5_02_24.html">大寒</a>
 
+    <div id="linkContainer"></div>
+    
+    <br><br>
+    <a href="..\..\index.html">戻る</a>
+    
     <script>
+      const titles = [
+        "立春","雨水","啓蟄","春分","清明","穀雨",
+        "立夏","小満","芒種","夏至","小暑","大暑",
+        "立秋","処暑","白露","秋分","寒露","霜降",
+        "立冬","小雪","大雪","冬至","小寒","大寒"
+      ];
+    
+      const container = document.getElementById('linkContainer');
+    
+      titles.forEach((title, index) => {
+        const link = document.createElement('a');
+        link.href = `quiz.html?page=${index}`;
+        link.textContent = title;
+    
+        container.appendChild(link);
+        container.append('　'); // 全角スペース
+    
+        // 6個ごとに改行
+        if ((index + 1) % 6 === 0) {
+          container.appendChild(document.createElement('br'));
+          container.appendChild(document.createElement('br'));
+        }
+      });
     </script>
   </body>
-  <br>
-  <br>
-  <a href="..\..\index.html">戻る</a>
 </html>
