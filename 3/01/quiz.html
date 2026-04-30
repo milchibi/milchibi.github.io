@@ -61,7 +61,7 @@
       fetch('https://milchibi.github.io/data_3.csv')
         .then(res => res.text())
         .then(csv => {
-          const data = csvText.split('\n').map(line => line.split(','));
+          const data = csv.split('\n').map(line => line.split(','));
 
           for (let i = 0; i < 5; i++) {
             const row = data[startIndex + i];
