@@ -66,9 +66,8 @@
       ];
       const container = document.getElementById('linkContainer');
       sels.forEach((title, index) => {
-        const paddedIndex = String(index).padStart(2, '0');
         const link = document.createElement('a');
-        link.href = `11_01.html?sel=${paddedIndex}&page=${index}`;
+        link.href = `11/01/11_01.html?sel=${index}`;
         link.textContent = title;
     
         container.appendChild(link);
