@@ -65,7 +65,7 @@
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
       const container = document.getElementById('linkContainer');
-      titles.forEach((title, index) => {
+      sels.forEach((title, index) => {
         const paddedIndex = String(index).padStart(2, '0');
         const link = document.createElement('a');
         link.href = `11_01.html?sel=${paddedIndex}&page=${index}`;
