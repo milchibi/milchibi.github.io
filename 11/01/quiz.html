@@ -39,9 +39,9 @@
   const startIndex = (sel * 24 * 20) + (page * 20);
 
   // タイトル反映
-  const titleText = `漢検1級勉強　音読み【${sels[sel]}-${titles[page] || ''}】`;
+  const titleText = `漢検1級勉強　音読み【${sels[sel] || ''}-${titles[page] || ''}】`;
   document.getElementById('pageTitle').textContent = titleText;
-  document.getElementById('pageSubtitle').textContent = `音読み【${sels[sel]-${titles[page] || ''}】`;
+  document.getElementById('pageSubtitle').textContent = `音読み【${sels[sel] || ''}-${titles[page] || ''}】`;
 
   const tbody = document.getElementById('quizTable');
 
