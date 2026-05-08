@@ -10,8 +10,7 @@
     <p class="title">漢検1級 分野別勉強</p>
 
     <mark>(一)　音読み</mark><br>
-      <div id="linkContainer"></div>
-    　<a href="11\01\11_01.html">甲</a>　<a href="11\02\11_02.html">乙</a>　<a href="11\03\11_03.html">丙</a>　<a href="11\04\11_04.html">丁</a>　<!--戊　己　庚　辛　壬　癸-->
+      <div id="linkContainer11"></div>
     <br><br>
     <mark>(一)　訓読み</mark><br>
     　<a href="12\01\12_01.html">甲</a>　<a href="12\02\12_02.html">乙</a>　<!--丙　丁　戊　己　庚　辛　壬　癸-->
@@ -64,17 +63,17 @@
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
-      const container = document.getElementById('linkContainer');
+      const container = document.getElementById('linkContainer11');
       sels.forEach((title, index) => {
         const link = document.createElement('a');
-        link.href = `11/01/11_01.html?sel=${index}`;
+        link.href = `select.html?cat=11&sel=${index}`;
         link.textContent = title;
     
         container.appendChild(link);
         container.append('　'); // 全角スペース
     
-        // 10個ごとに改行
-        if ((index + 1) % 10 === 0) {
+        // 6個ごとに改行
+        if ((index + 1) % 6 === 0) {
           container.appendChild(document.createElement('br'));
           container.appendChild(document.createElement('br'));
         }
