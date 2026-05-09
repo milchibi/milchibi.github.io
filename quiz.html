@@ -39,8 +39,18 @@
     "立秋","処暑","白露","秋分","寒露","霜降",
     "立冬","小雪","大雪","冬至","小寒","大寒"
   ];
-
-  const startIndex = (sel * 24 * 20) + (page * 20);
+  
+  let num = 0;
+  let filename = "";
+  if (cat == 0) {
+    num = 20;
+    filename = 'https://milchibi.github.io/data_11.csv';
+  }
+  else if (cat == 1) {
+    num = 10;
+    filename = 'https://milchibi.github.io/data_12.csv';
+  }
+  const startIndex = (sel * 24 * num) + (page * num);
 
   // タイトル反映
   const titleText = `漢検1級勉強　${cats[cat] || ''}【${sels[sel] || ''}-${titles[page] || ''}】`;
@@ -49,7 +59,7 @@
 
   const tbody = document.getElementById('quizTable');
 
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= num; i++) {
     tbody.insertAdjacentHTML('beforeend', `
       <tr>
         <td width="52">問${i}</td>
@@ -66,18 +76,17 @@
     `);
   }
 
-  fetch('https://milchibi.github.io/data_11.csv')
+  fetch(filename)
     .then(res => res.text())
     .then(csv => {
       const data = csv.split('\n').map(line => line.split(','));
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < num; i++) {
         const row = data[startIndex + i];
         if (!row) continue;
 
         document.getElementById(`txt${i+1}q`).innerHTML = row[3];
-        document.getElementById(`txt${i+1}`).innerHTML =
-          row[4] + '<br><hr>' + row[5];
+        document.getElementById(`txt${i+1}`).innerHTML = row[4] + '<br><hr>' + row[5];
       }
     });
 
