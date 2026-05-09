@@ -13,6 +13,8 @@
 <table border="1">
   <tbody id="quizTable"></tbody>
 </table>
+<br>
+  <div id="container"></div>
 
 <br>
 <a href="index.html">戻る</a>
@@ -50,6 +52,19 @@
     num = 10;
     filename = 'https://milchibi.github.io/data_12.csv';
   }
+  else if (cat == 4) {
+    num = 5;
+    filename = 'https://milchibi.github.io/data_3.csv';
+    const container = document.getElementById("container");
+  
+    // spanを8個生成
+    const items = Array.from({ length: 8 }, (_, i) =>
+      `<span id="sel${i}" class="item"></span>`
+    );
+  
+    // 「・」で連結して [] で囲む
+    container.innerHTML = `[${items.join("・")}]`;
+  }
   else if (cat == 7) {
     num = 10;
     filename = 'https://milchibi.github.io/data_5.csv';
@@ -62,6 +77,7 @@
   document.getElementById('pageSubtitle').textContent = `${cats[cat] || ''}【${sels[sel] || ''}-${titles[page] || ''}】`;
 
   const tbody = document.getElementById('quizTable');
+    let arr = new Array(8);
 
   for (let i = 1; i <= num; i++) {
     tbody.insertAdjacentHTML('beforeend', `
@@ -90,7 +106,29 @@
         if (!row) continue;
 
         document.getElementById(`txt${i+1}q`).innerHTML = row[3];
-        document.getElementById(`txt${i+1}`).innerHTML = row[4] + '<br><hr>' + row[5];
+        if (cat != 4) {
+          document.getElementById(`txt${i+1}`).innerHTML = row[4] + '<br><hr>' + row[5];
+        }
+        else {
+          document.getElementById(`txt${i+1}`).innerHTML = row[5];
+          arr[i] = row[4];
+        }
+      }
+      if (cat == 4) {
+        arr[5] = data[startIndex + 39][4];
+        arr[6] = data[startIndex + 53][4];
+        arr[7] = data[startIndex + 68][4];
+        arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
+        arr.forEach((value, i) => {
+          const el = document.getElementById(`sel${i}`);
+          if (el) el.textContent = value;
+        });
+
+        document.querySelectorAll(".item").forEach(el => {
+          el.addEventListener("click", () => {
+            el.classList.toggle("strike");
+          });
+        });
       }
     });
 
