@@ -19,7 +19,7 @@
     <br>
     <mark>(三)　語選択</mark><br>
     <br>
-      <div id="linkContainer4"></div>
+      <div id="linkContainer3"></div>
     <br>
     <mark>(五)　熟字訓・当て字</mark><br>
     <br>
@@ -67,19 +67,19 @@
         }
       });
       
-      const container4 = document.getElementById('linkContainer4');
+      const container3 = document.getElementById('linkContainer3');
       sels.forEach((title, index) => {
         const link = document.createElement('a');
-        link.href = `select.html?cat=7&sel=${index}`;
+        link.href = `select.html?cat=4&sel=${index}`;
         link.textContent = title;
     
-        container4.appendChild(link);
-        container4.append('　'); // 全角スペース
+        container3.appendChild(link);
+        container3.append('　'); // 全角スペース
     
         // 6個ごとに改行
         if ((index + 1) % 6 === 0) {
-          container4.appendChild(document.createElement('br'));
-          container4.appendChild(document.createElement('br'));
+          container3.appendChild(document.createElement('br'));
+          container3.appendChild(document.createElement('br'));
         }
       });
       
