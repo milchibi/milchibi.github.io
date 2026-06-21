@@ -41,14 +41,18 @@
       
       let num = 0;
       let filename = "";
+
+      // 音読み
       if (cat == 0) {
         num = 20;
         filename = 'https://milchibi.github.io/data_11.csv';
       }
+      // 訓読み
       else if (cat == 1) {
         num = 10;
         filename = 'https://milchibi.github.io/data_12.csv';
       }
+      // 語選択
       else if (cat == 4) {
         num = 5;
         filename = 'https://milchibi.github.io/data_3.csv';
@@ -62,6 +66,7 @@
         // 「・」で連結して [] で囲む
         container.innerHTML = `[${items.join("・")}]`;
       }
+      // 熟字訓
       else if (cat == 7) {
         num = 10;
         filename = 'https://milchibi.github.io/data_5.csv';
@@ -112,9 +117,9 @@
             }
           }
           if (cat == 4) {
-            arr[5] = data[startIndex + 39][4];
-            arr[6] = data[startIndex + 53][4];
-            arr[7] = data[startIndex + 68][4];
+            arr[5] = data[startIndex + 0][5];
+            arr[6] = data[startIndex + 1][5];
+            arr[7] = data[startIndex + 2][5];
             arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
             arr.forEach((value, i) => {
               const el = document.getElementById(`sel${i}`);
