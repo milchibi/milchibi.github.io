@@ -117,9 +117,9 @@
             }
           }
           if (cat == 4) {
-            arr[5] = data[startIndex + 0][6];
-            arr[6] = data[startIndex + 1][6];
-            arr[7] = data[startIndex + 2][6];
+            arr[5] = data[data[startIndex + 0][6]][4];
+            arr[6] = data[data[startIndex + 1][6][4];
+            arr[7] = data[data[startIndex + 2][6][4];
             arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
             arr.forEach((value, i) => {
               const el = document.getElementById(`sel${i}`);
