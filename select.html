@@ -44,7 +44,29 @@
     
       const container = document.getElementById('linkContainer');
     
-      titles.forEach((title, index) => {
+      for (const [index, title] of titles.entries()) {
+        // 音読み
+        if (cat === 0) {
+          if (((sel + 1) * (page + 1) * 20) > 4200) {
+            break;
+          }
+        }
+        else if (cat === 1) {
+          if (((sel + 1) * (page + 1) * 10) > 410) {
+            break;
+          }
+        }
+        else if (cat === 4) {
+          if (((sel + 1) * (page + 1) * 5) > 3786) {
+            break;
+          }
+        }
+        else if (cat === 5) {
+          if (((sel + 1) * (page + 1) * 10) > 459) {
+            break;
+          }
+        }
+
         const link = document.createElement('a');
         link.href = `quiz.html?cat=${cat}&sel=${sel}&page=${index}`;
         link.textContent = title;
@@ -57,7 +79,7 @@
           container.appendChild(document.createElement('br'));
           container.appendChild(document.createElement('br'));
         }
-      });
+      }
     </script>
   </body>
 </html>
