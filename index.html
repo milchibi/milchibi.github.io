@@ -38,7 +38,7 @@
 
       // 音読み
       const container11 = document.getElementById('linkContainer11');
-      const maxIndex11 = Math.ceil(4200 / (24 * 20));
+      const maxIndex11 = Math.ceil(4200 / (24 * 20)) - 1;
       for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=0&sel=${index}`;
@@ -60,7 +60,7 @@
 
       // 訓読み
       const container12 = document.getElementById('linkContainer12');
-      const maxIndex12 = Math.ceil(410 / (24 * 10));
+      const maxIndex12 = Math.ceil(410 / (24 * 10)) - 1;
       for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=1&sel=${index}`;
@@ -82,7 +82,7 @@
       
       // 語選択
       const container3 = document.getElementById('linkContainer3');
-      const maxIndex3 = Math.ceil(3786 / (24 * 5));
+      const maxIndex3 = Math.ceil(3786 / (24 * 5)) - 1;
       for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=4&sel=${index}`;
@@ -104,7 +104,7 @@
 
       // 熟字訓
       const container5 = document.getElementById('linkContainer5');
-      const maxIndex5 = Math.ceil(459 / (24 * 10));
+      const maxIndex5 = Math.ceil(459 / (24 * 10)) - 1;
       for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=7&sel=${index}`;
