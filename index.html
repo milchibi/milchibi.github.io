@@ -35,6 +35,8 @@
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
+
+      // 音読み
       const container11 = document.getElementById('linkContainer11');
       sels.forEach((title, index) => {
         const link = document.createElement('a');
@@ -50,7 +52,8 @@
           container11.appendChild(document.createElement('br'));
         }
       });
-      
+
+      // 訓読み
       const container12 = document.getElementById('linkContainer12');
       sels.forEach((title, index) => {
         const link = document.createElement('a');
@@ -67,6 +70,7 @@
         }
       });
       
+      // 語選択
       const container3 = document.getElementById('linkContainer3');
       sels.forEach((title, index) => {
         const link = document.createElement('a');
@@ -82,9 +86,11 @@
           container3.appendChild(document.createElement('br'));
         }
       });
-      
+
+      // 熟字訓
       const container5 = document.getElementById('linkContainer5');
-      sels.forEach((title, index) => {
+      const maxIndex5 = Math.ceil(3786 / (24 * 5));
+      for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=7&sel=${index}`;
         link.textContent = title;
@@ -96,6 +102,10 @@
         if ((index + 1) % 6 === 0) {
           container5.appendChild(document.createElement('br'));
           container5.appendChild(document.createElement('br'));
+        }
+
+        if (index === maxIndex5) {
+          break;
         }
       });
     </script>
