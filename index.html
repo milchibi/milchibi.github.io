@@ -38,7 +38,8 @@
 
       // 音読み
       const container11 = document.getElementById('linkContainer11');
-      sels.forEach((title, index) => {
+      const maxIndex11 = Math.ceil(4200 / (24 * 20));
+      for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=0&sel=${index}`;
         link.textContent = title;
@@ -51,11 +52,16 @@
           container11.appendChild(document.createElement('br'));
           container11.appendChild(document.createElement('br'));
         }
-      });
+
+        if (index === maxIndex11) {
+          break;
+        }
+      }
 
       // 訓読み
       const container12 = document.getElementById('linkContainer12');
-      sels.forEach((title, index) => {
+      const maxIndex12 = Math.ceil(410 / (24 * 10));
+      for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=1&sel=${index}`;
         link.textContent = title;
@@ -68,11 +74,16 @@
           container12.appendChild(document.createElement('br'));
           container12.appendChild(document.createElement('br'));
         }
-      });
+
+        if (index === maxIndex12) {
+          break;
+        }
+      }
       
       // 語選択
       const container3 = document.getElementById('linkContainer3');
-      sels.forEach((title, index) => {
+      const maxIndex3 = Math.ceil(3786 / (24 * 5));
+      for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=4&sel=${index}`;
         link.textContent = title;
@@ -85,11 +96,15 @@
           container3.appendChild(document.createElement('br'));
           container3.appendChild(document.createElement('br'));
         }
-      });
+
+        if (index === maxIndex3) {
+          break;
+        }
+      }
 
       // 熟字訓
       const container5 = document.getElementById('linkContainer5');
-      const maxIndex5 = Math.ceil(3786 / (24 * 5));
+      const maxIndex5 = Math.ceil(459 / (24 * 10));
       for (const [index, title] of sels.entries()) {
         const link = document.createElement('a');
         link.href = `select.html?cat=7&sel=${index}`;
