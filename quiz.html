@@ -15,7 +15,7 @@
     <br>
     <div id="container"></div>
     <br>
-    <a id="backLink" href="#">戻る</a>
+    <a id="prevLink" href="#"前へ</a>　　<a id="backLink" href="#">戻る</a>　　<a id="nextLink" href="#">次へ</a>
   
     <script>
       const params = new URLSearchParams(location.search);
@@ -150,6 +150,52 @@
 
       // 戻るリンク
       document.getElementById("backLink").href = `select.html?cat=${cat}&sel=${sel}`;
+
+      // 前へリンク
+      if (sel == 0 && page == 0) {
+        // 先頭ページのため、前へリンクなし
+      }
+      else if (page == 0) {
+        // 前の十干十二支の最後に戻る
+        document.getElementById("prevLink").href = `select.html?cat=${cat}&sel=${sel-1}&page=23`;
+      }
+      else {
+        // 前の二十四節気に戻る
+        document.getElementById("prevLink").href = `select.html?cat=${cat}&sel=${sel}&page=${page-1}`;
+      }
+
+      // 次へリンク
+      let num;
+      let max;
+      if (cat == 0) {
+        num = 20;
+        max = 4200;
+      }
+      else if (cat == 1) {
+        num = 10;
+        max = 410;
+      }
+      else if (cat == 4) {
+        num = 5;
+        max = 3786;
+      }
+      else { //if (cat == 7) {
+        num = 5;
+        max = 459;
+      }
+        
+      if (((sel * (24 * num)) + ((page + 1) * num)) > max) {
+        // 最終ページのため、次へリンクなし
+      }
+      else if (page == 23) {
+        // 次の十干十二支の先頭に進む
+        document.getElementById("nextLink").href = `select.html?cat=${cat}&sel=${sel+1}&page=0`;
+      }
+      else {
+        // 次の二十四節気に進む
+        document.getElementById("nextLink").href = `select.html?cat=${cat}&sel=${sel}&page=${page+1}`;
+      }
+      
     </script>
   </body>
 </html>
