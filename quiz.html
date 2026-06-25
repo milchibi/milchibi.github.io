@@ -41,21 +41,26 @@
       ];
       
       let num = 0;
+      let max = 0;
       let filename = "";
 
       // 音読み
       if (cat == 0) {
         num = 20;
+        max = 4200;
+      }
         filename = 'https://milchibi.github.io/data_11.csv';
       }
       // 訓読み
       else if (cat == 1) {
         num = 10;
+        max = 410;
         filename = 'https://milchibi.github.io/data_12.csv';
       }
       // 語選択
       else if (cat == 4) {
         num = 5;
+        max = 3786;
         filename = 'https://milchibi.github.io/data_3.csv';
         const container = document.getElementById("container");
       
@@ -70,6 +75,7 @@
       // 熟字訓
       else if (cat == 7) {
         num = 10;
+        max = 459;
         filename = 'https://milchibi.github.io/data_5.csv';
       }
       const startIndex = (sel * 24 * num) + (page * num);
@@ -165,25 +171,6 @@
       }
 
       // 次へリンク
-      let num;
-      let max;
-      if (cat == 0) {
-        num = 20;
-        max = 4200;
-      }
-      else if (cat == 1) {
-        num = 10;
-        max = 410;
-      }
-      else if (cat == 4) {
-        num = 5;
-        max = 3786;
-      }
-      else { //if (cat == 7) {
-        num = 5;
-        max = 459;
-      }
-        
       if (((sel * (24 * num)) + ((page + 1) * num)) > max) {
         // 最終ページのため、次へリンクなし
       }
