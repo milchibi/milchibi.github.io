@@ -9,6 +9,17 @@
   <body>
     <p class="title">漢検1級 分野別勉強</p>
 
+    <input
+      type="number"
+      id="num"
+      name="num"
+      min="0"
+      max="9999"
+      step="1"
+      value="0"
+      placeholder="0～9999">
+    <br>
+
     <mark>(一)　音読み</mark><br>
     <br>
       <div id="linkContainer11"></div>
@@ -35,6 +46,18 @@
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
+      function addNumParameter(link, cat, index) {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();    
+            const num = document.getElementById("num").value;
+            // 入力チェック
+            if (num === "" || num < 0 || num > 9999) {
+                alert("シード値には、0～9999の数値を入力してください。");
+                return;
+            }
+            location.href = `select.html?cat=${cat}&sel=${index}&num=${num}`;
+        });
+      }
 
       // 音読み
       const container11 = document.getElementById('linkContainer11');
@@ -43,7 +66,7 @@
         const link = document.createElement('a');
         link.href = `select.html?cat=0&sel=${index}`;
         link.textContent = title;
-    
+        addNumParameter(link, 0, index);
         container11.appendChild(link);
         container11.append('　'); // 全角スペース
     
@@ -65,7 +88,7 @@
         const link = document.createElement('a');
         link.href = `select.html?cat=1&sel=${index}`;
         link.textContent = title;
-    
+        addNumParameter(link, 1, index);
         container12.appendChild(link);
         container12.append('　'); // 全角スペース
     
@@ -87,7 +110,7 @@
         const link = document.createElement('a');
         link.href = `select.html?cat=4&sel=${index}`;
         link.textContent = title;
-    
+        addNumParameter(link, 4, index);
         container3.appendChild(link);
         container3.append('　'); // 全角スペース
     
@@ -109,7 +132,7 @@
         const link = document.createElement('a');
         link.href = `select.html?cat=7&sel=${index}`;
         link.textContent = title;
-    
+        addNumParameter(link, 7, index);
         container5.appendChild(link);
         container5.append('　'); // 全角スペース
     
