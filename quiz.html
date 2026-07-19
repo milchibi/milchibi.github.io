@@ -22,6 +22,7 @@
       const cat = parseInt(params.get('cat')) || 0;
       const sel = parseInt(params.get('sel')) || 0;
       const page = parseInt(params.get('page')) || 0;
+      const seed = parseInt(params.get('seed')) || 0;
       const cats = [
         "音読み","訓読み","書き取り","書き取り-国字","語選択","四字熟語-書き","四字熟語-意味","熟字訓","熟語-一字訓読み","対義語・類義語","故事成語","文章題"
       ];
@@ -77,16 +78,23 @@
         max = 2182;
         filename = 'https://milchibi.github.io/data_5.csv';
       }
+
       const startIndex = (sel * 24 * num) + (page * num);
-    
+      const shuffledIndex = Array.from({ length: max }, (_, i) => i);
+      for (let i = shuffledIndex.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
+      }
+      
       // タイトル反映
       const titleText = `漢検1級勉強　${cats[cat] || ''}【${sels[sel] || ''}-${titles[page] || ''}】`;
       document.getElementById('pageTitle').textContent = titleText;
       document.getElementById('pageSubtitle').textContent = `${cats[cat] || ''}【${sels[sel] || ''}-${titles[page] || ''}】`;
     
       const tbody = document.getElementById('quizTable');
-        let arr = new Array(8);
-    
+      let arr = new Array(8);
+
+      // 問題数分回す
       for (let i = 1; i <= num; i++) {
         tbody.insertAdjacentHTML('beforeend', `
           <tr>
@@ -110,7 +118,7 @@
           const data = csv.split('\n').map(line => line.split(','));
     
           for (let i = 0; i < num; i++) {
-            const row = data[startIndex + i];
+            const row = data[shuffledIndex[startIndex + i]];
             if (!row) continue;
     
             document.getElementById(`txt${i+1}q`).innerHTML = row[3];
@@ -123,9 +131,9 @@
             }
           }
           if (cat == 4) {
-            arr[5] = data[data[startIndex + 0][6]][4];
-            arr[6] = data[data[startIndex + 1][6]][4];
-            arr[7] = data[data[startIndex + 2][6]][4];
+            arr[5] = data[data[shuffledIndex[startIndex + 0]][6]][4];
+            arr[6] = data[data[shuffledIndex[startIndex + 1]][6]][4];
+            arr[7] = data[data[shuffledIndex[startIndex + 2]][6]][4];
             arr.sort((a, b) => a.localeCompare(b, 'ja', { sensitivity: 'base' }));
             arr.forEach((value, i) => {
               const el = document.getElementById(`sel${i}`);
@@ -181,7 +189,15 @@
         // 次の二十四節気に進む
         document.getElementById("nextLink").href = `quiz.html?cat=${cat}&sel=${sel}&page=${page+1}`;
       }
-      
+
+      function mulberry32(seed) {
+        return function() {
+          let t = seed += 0x6D2B79F5;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        }
+      }
     </script>
   </body>
 </html>
