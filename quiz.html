@@ -165,7 +165,7 @@
         }
       });
 
-      // 戻るリンク
+      // 戻るリンク(戻る時にシード値をセットするか要検討)
       document.getElementById("backLink").href = `select.html?cat=${cat}&sel=${sel}`;
 
       // 前へリンク
@@ -174,11 +174,11 @@
       }
       else if (page == 0) {
         // 前の十干十二支の最後に戻る
-        document.getElementById("prevLink").href = `quiz.html?cat=${cat}&sel=${sel-1}&page=23`;
+        document.getElementById("prevLink").href = `quiz.html?cat=${cat}&sel=${sel-1}&page=23&seed=${seed}`;
       }
       else {
         // 前の二十四節気に戻る
-        document.getElementById("prevLink").href = `quiz.html?cat=${cat}&sel=${sel}&page=${page-1}`;
+        document.getElementById("prevLink").href = `quiz.html?cat=${cat}&sel=${sel}&page=${page-1}&seed=${seed}`;
       }
 
       // 次へリンク
@@ -187,11 +187,11 @@
       }
       else if (page == 23) {
         // 次の十干十二支の先頭に進む
-        document.getElementById("nextLink").href = `quiz.html?cat=${cat}&sel=${sel+1}&page=0`;
+        document.getElementById("nextLink").href = `quiz.html?cat=${cat}&sel=${sel+1}&page=0&seed=${seed}`;
       }
       else {
         // 次の二十四節気に進む
-        document.getElementById("nextLink").href = `quiz.html?cat=${cat}&sel=${sel}&page=${page+1}`;
+        document.getElementById("nextLink").href = `quiz.html?cat=${cat}&sel=${sel}&page=${page+1}&seed=${seed}`;
       }
 
       function mulberry32(seed) {
