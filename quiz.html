@@ -165,8 +165,8 @@
         }
       });
 
-      // 戻るリンク(戻る時にシード値をセットするか要検討)
-      document.getElementById("backLink").href = `select.html?cat=${cat}&sel=${sel}`;
+      // 戻るリンク
+      document.getElementById("backLink").href = `select.html?cat=${cat}&sel=${sel}&seed=${seed}`;
 
       // 前へリンク
       if (sel == 0 && page == 0) {
