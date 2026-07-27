@@ -214,7 +214,10 @@
           const data=localStorage.getItem(KEY);
           document.querySelectorAll(".box").forEach(box=>{
               const i=Number(box.dataset.index);
-              box.className="box c"+data[i];
+
+              // 色だけ変更
+              box.classList.remove("c0","c1","c2","c3");
+              box.classList.add("c" + data[i]);
           });
       }
 
