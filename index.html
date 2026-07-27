@@ -38,6 +38,13 @@
     <br>
 
     <script>
+      const KEY = "colorData";
+      const COUNT = 2182;
+      // 初期値
+      if(localStorage.getItem(KEY)==null){
+          localStorage.setItem(KEY, "0".repeat(COUNT));
+      }
+
       const sels = [
         "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
         "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
