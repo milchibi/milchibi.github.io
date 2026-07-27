@@ -220,7 +220,10 @@
 
       // クリック処理
       document.querySelectorAll(".box").forEach(box=>{
-          box.addEventListener("click",()=>{
+          box.addEventListener("click",(e)=>{
+              // 親要素へクリックを伝えない
+              e.stopPropagation();
+            
               let data=localStorage.getItem(KEY).split("");
               const i=Number(box.dataset.index);
               data[i]=(Number(data[i])+1)%4;
