@@ -41,7 +41,11 @@
         "立冬","小雪","大雪","冬至","小寒","大寒"
       ];
       const KEY = "colorData";
-      
+      const COUNT = 2182;
+      // 初期値
+      if(localStorage.getItem(KEY)==null){
+          localStorage.setItem(KEY, "0".repeat(COUNT));
+      }
       let num = 0;
       let max = 0;
       let filename = "";
