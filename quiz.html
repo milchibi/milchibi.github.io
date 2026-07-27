@@ -113,7 +113,7 @@
               <div id="txt${i}" class="hidden"></div>
             </td>
             <td class="ans">
-              <div class="box" data-index="${i}" class="hidden"></div>
+              <div class="box" data-index="${i}" class="hidden">■</div>
             </td>
           </tr>
         `);
@@ -205,6 +205,29 @@
           return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
         }
       }
+
+      // 表示更新
+      function draw(){
+          const data=localStorage.getItem(KEY);
+          document.querySelectorAll(".box").forEach(box=>{
+              const i=Number(box.dataset.index);
+              box.className="box c"+data[i];
+          });
+      }
+
+      // クリック処理
+      document.querySelectorAll(".box").forEach(box=>{
+          box.addEventListener("click",()=>{
+              let data=localStorage.getItem(KEY).split("");
+              const i=Number(box.dataset.index);
+              data[i]=(Number(data[i])+1)%4;
+              localStorage.setItem(KEY,data.join(""));
+              draw();
+          });
+      });
+
+draw();
+
     </script>
   </body>
 </html>
