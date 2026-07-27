@@ -113,8 +113,8 @@
             <td class="ans">
               <div id="txt${i}" class="hidden"></div>
             </td>
-            <td class="ans boxCell hidden">
-              <div class="box" data-index="${i}">■</div>
+            <td class="ans boxCell">
+              <div class="box hidden" data-index="${i}">■</div>
             </td>
           </tr>
         `);
@@ -161,11 +161,13 @@
         if (e.target.classList.contains('toggleBtn')) {
           const id = e.target.dataset.id;
           const answer = document.getElementById(`txt${id}`);
+          const box = document.querySelector(`.box[data-index="${id}"]`);
       
           if (!answer) return;
-      
-          answer.style.display =
-            answer.style.display === 'block' ? 'none' : 'block';
+          
+          answer.classList.toggle("hidden");
+          box.classList.toggle("hidden");
+          // answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
       });
 
@@ -212,7 +214,7 @@
           const data=localStorage.getItem(KEY);
           document.querySelectorAll(".box").forEach(box=>{
               const i=Number(box.dataset.index);
-              box.className="box c"+data[i];
+              box.className="box hidden c"+data[i];
           });
       }
 
