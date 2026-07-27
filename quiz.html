@@ -40,6 +40,7 @@
         "立秋","処暑","白露","秋分","寒露","霜降",
         "立冬","小雪","大雪","冬至","小寒","大寒"
       ];
+      const KEY = "colorData";
       
       let num = 0;
       let max = 0;
@@ -112,8 +113,8 @@
             <td class="ans">
               <div id="txt${i}" class="hidden"></div>
             </td>
-            <td class="ans">
-              <div class="box" data-index="${i}" class="hidden">■</div>
+            <td class="ans boxcell">
+              <div class="box hidden" data-index="${i}">■</div>
             </td>
           </tr>
         `);
