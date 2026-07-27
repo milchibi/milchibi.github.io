@@ -103,7 +103,7 @@
         tbody.insertAdjacentHTML('beforeend', `
           <tr>
             <td width="52">問${i}</td>
-            <td id="txt${i}q" class="ques"></td>
+            <td id="txt${i}q" class="ques" colspan="2"></td>
           </tr>
           <tr>
             <td class="ans">
@@ -111,6 +111,9 @@
             </td>
             <td class="ans">
               <div id="txt${i}" class="hidden"></div>
+            </td>
+            <td class="ans">
+              <div class="box" data-index="${i}" class="hidden"></div>
             </td>
           </tr>
         `);
