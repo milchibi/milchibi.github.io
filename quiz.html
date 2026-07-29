@@ -238,7 +238,9 @@
         const data = localStorage.getItem(KEY_STR[cat]);
         document.querySelectorAll(".box").forEach(box=>{
           const i = shuffledIndex[startIndex + Number(box.dataset.index) - 1]
-
+console.log('startIndex:', startIndex);
+console.log('Number(box.dataset.index):', Number(box.dataset.index));
+console.log('i:', i);
           // 色だけ変更
           box.classList.remove("c0","c1","c2","c3");
           box.classList.add("c" + data[i]);
