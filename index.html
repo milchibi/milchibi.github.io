@@ -9,41 +9,40 @@
   <body>
     <p class="title">漢検1級 分野別勉強</p>
 
-    ランダム用シード値　<input
-      type="number"
-      id="num"
-      name="num"
-      min="0"
-      max="9999"
-      step="1"
-      value="0"
-      placeholder="0～9999">
+    ランダム用シード値　<input type="number" id="num" name="num" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     <br><br>
 
-    <mark>(一)　音読み</mark><br>
-    <br>
-      <div id="linkContainer11"></div>
-    <br>
-    <mark>(一)　訓読み</mark><br>
-    <br>
-      <div id="linkContainer12"></div>
-    <br>
-    <mark>(三)　語選択</mark><br>
-    <br>
-      <div id="linkContainer3"></div>
-    <br>
-    <mark>(五)　熟字訓・当て字</mark><br>
-    <br>
-      <div id="linkContainer5"></div>
-    <br>
+    <mark>(一)　音読み</mark><br><br>
+      <div id="linkContainer11"></div><br>
+    <mark>(一)　訓読み</mark><br><br>
+      <div id="linkContainer12"></div><br>
+    <mark>(三)　語選択</mark><br><br>
+      <div id="linkContainer3"></div><br>
+    <mark>(五)　熟字訓・当て字</mark><br><br>
+      <div id="linkContainer5"></div><br>
 
     <script>
-      const KEY = "colorData";
-      const COUNT = 2182;
+      const KEY11 = "result11";
+      const COUNT11 = 4200;
+      const KEY12 = "result12";
+      const COUNT12 = 1400;
+      const KEY3 = "result3";
+      const COUNT3 = 3786;
+      const KEY5 = "result5";
+      const COUNT5 = 2182;
 
       // 初期化
-      if (localStorage.getItem(KEY) === null) {
-        localStorage.setItem(KEY, "0".repeat(COUNT));
+      if (localStorage.getItem(KEY11) === null) {
+        localStorage.setItem(KEY11, "0".repeat(COUNT11));
+      }
+      if (localStorage.getItem(KEY12) === null) {
+        localStorage.setItem(KEY12, "0".repeat(COUNT12));
+      }
+      if (localStorage.getItem(KEY3) === null) {
+        localStorage.setItem(KEY3, "0".repeat(COUNT3));
+      }
+      if (localStorage.getItem(KEY5) === null) {
+        localStorage.setItem(KEY5, "0".repeat(COUNT5));
       }
 
       // 干支
@@ -100,10 +99,10 @@
 
       // 各分野の設定
       const categories = [
-        { containerId: "linkContainer11", cat: 0, total: 4200, unit: 20 },
-        { containerId: "linkContainer12", cat: 1, total: 1400, unit: 10 },
-        { containerId: "linkContainer3",  cat: 4, total: 3786, unit: 5  },
-        { containerId: "linkContainer5",  cat: 7, total: 2182, unit: 10 }
+        { containerId: "linkContainer11", cat: 0, total: COUNT11, unit: 20 },
+        { containerId: "linkContainer12", cat: 1, total: COUNT12, unit: 10 },
+        { containerId: "linkContainer3",  cat: 4, total: COUNT3, unit: 5  },
+        { containerId: "linkContainer5",  cat: 7, total: COUNT5, unit: 10 }
       ];
 
       // 一括生成
