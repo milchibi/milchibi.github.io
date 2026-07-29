@@ -235,10 +235,9 @@
 
       // 表示更新
       function draw(){
-        const data=localStorage.getItem(KEY_STR[cat]);
+        const data = localStorage.getItem(KEY_STR[cat]);
         document.querySelectorAll(".box").forEach(box=>{
-          const i = shuffledIndex[startIndex + Number(box.dataset.index)]
-          //const i = Number(box.dataset.index);
+          const i = shuffledIndex[startIndex + Number(box.dataset.index) - 1]
 
           // 色だけ変更
           box.classList.remove("c0","c1","c2","c3");
@@ -252,9 +251,8 @@
           // 親要素へクリックを伝えない
           e.stopPropagation();
             
-          let data=localStorage.getItem(KEY_STR[cat]).split("");
-          const i = shuffledIndex[startIndex + Number(box.dataset.index)]
-          //const i = Number(box.dataset.index);
+          let data = localStorage.getItem(KEY_STR[cat]).split("");
+          const i = shuffledIndex[startIndex + Number(box.dataset.index) - 1]
           data[i] = (Number(data[i]) + 1) % 4;
           localStorage.setItem(KEY_STR[cat],data.join(""));
           draw();
