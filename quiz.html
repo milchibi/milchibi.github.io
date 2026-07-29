@@ -40,12 +40,33 @@
         "立秋","処暑","白露","秋分","寒露","霜降",
         "立冬","小雪","大雪","冬至","小寒","大寒"
       ];
-      const KEY = "colorData";
-      const COUNT = 2182;
-      // 初期値
-      if(localStorage.getItem(KEY)==null){
-          localStorage.setItem(KEY, "0".repeat(COUNT));
+      
+      const KEY11 = "result11";
+      const COUNT11 = 4200;
+      const KEY12 = "result12";
+      const COUNT12 = 1400;
+      const KEY3 = "result3";
+      const COUNT3 = 3786;
+      const KEY5 = "result5";
+      const COUNT5 = 2182;
+      const KEY_STR = [
+        KEY11, KEY12, "NULL21", "NULL22", KEY3, "NULL41", "NULL42", COUNT5, "NULL6", "NULL7", "NULL8", "NULL9", 
+      ];
+
+      // 初期化
+      if (localStorage.getItem(KEY11) === null) {
+        localStorage.setItem(KEY11, "0".repeat(COUNT11));
       }
+      if (localStorage.getItem(KEY12) === null) {
+        localStorage.setItem(KEY12, "0".repeat(COUNT12));
+      }
+      if (localStorage.getItem(KEY3) === null) {
+        localStorage.setItem(KEY3, "0".repeat(COUNT3));
+      }
+      if (localStorage.getItem(KEY5) === null) {
+        localStorage.setItem(KEY5, "0".repeat(COUNT5));
+      }
+      
       let num = 0;
       let max = 0;
       let filename = "";
@@ -53,19 +74,19 @@
       // 音読み
       if (cat == 0) {
         num = 20;
-        max = 4200;
+        max = COUNT11;
         filename = 'https://milchibi.github.io/data_11.csv';
       }
       // 訓読み
       else if (cat == 1) {
         num = 10;
-        max = 1400;
+        max = COUNT12;
         filename = 'https://milchibi.github.io/data_12.csv';
       }
       // 語選択
       else if (cat == 4) {
         num = 5;
-        max = 3786;
+        max = COUNT3;
         filename = 'https://milchibi.github.io/data_3.csv';
         const container = document.getElementById("container");
       
@@ -80,7 +101,7 @@
       // 熟字訓
       else if (cat == 7) {
         num = 10;
-        max = 2182;
+        max = COUNT5;
         filename = 'https://milchibi.github.io/data_5.csv';
       }
 
@@ -215,31 +236,31 @@
 
       // 表示更新
       function draw(){
-          const data=localStorage.getItem(KEY);
-          document.querySelectorAll(".box").forEach(box=>{
-              const i=Number(box.dataset.index);
+        const data=localStorage.getItem(KEY_STR[cat]);
+        document.querySelectorAll(".box").forEach(box=>{
+          const i=Number(box.dataset.index);
 
-              // 色だけ変更
-              box.classList.remove("c0","c1","c2","c3");
-              box.classList.add("c" + data[i]);
-          });
+          // 色だけ変更
+          box.classList.remove("c0","c1","c2","c3");
+          box.classList.add("c" + data[i]);
+        });
       }
 
       // クリック処理
       document.querySelectorAll(".box").forEach(box=>{
-          box.addEventListener("click",(e)=>{
-              // 親要素へクリックを伝えない
-              e.stopPropagation();
+        box.addEventListener("click",(e)=>{
+          // 親要素へクリックを伝えない
+          e.stopPropagation();
             
-              let data=localStorage.getItem(KEY).split("");
-              const i=Number(box.dataset.index);
-              data[i]=(Number(data[i])+1)%4;
-              localStorage.setItem(KEY,data.join(""));
-              draw();
-          });
+          let data=localStorage.getItem(KEY_STR[cat]).split("");
+          const i=Number(box.dataset.index);
+          data[i]=(Number(data[i])+1)%4;
+          localStorage.setItem(KEY_STR[cat],data.join(""));
+          draw();
+        });
       });
 
-draw();
+      draw();
 
     </script>
   </body>
