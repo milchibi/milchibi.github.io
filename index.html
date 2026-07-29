@@ -40,11 +40,13 @@
     <script>
       const KEY = "colorData";
       const COUNT = 2182;
-      // 初期値
-      if(localStorage.getItem(KEY)==null){
-          localStorage.setItem(KEY, "0".repeat(COUNT));
+
+      // 初期化
+      if (localStorage.getItem(KEY) === null) {
+        localStorage.setItem(KEY, "0".repeat(COUNT));
       }
 
+      // 干支
       const sels = [
         "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
         "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
@@ -53,106 +55,66 @@
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
+
+      // シード値付きで遷移
       function addNumParameter(link, cat, index) {
-        link.addEventListener("click", function(e) {
-            e.preventDefault();    
-            const num = document.getElementById("num").value;
-            // 入力チェック
-            if (num === "" || num < 0 || num > 9999) {
-                alert("シード値には、0～9999の数値を入力してください。");
-                return;
-            }
-            location.href = `select.html?cat=${cat}&sel=${index}&num=${num}`;
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const num = document.getElementById("num").value;
+
+          if (num === "" || num < 0 || num > 9999) {
+            alert("シード値には、0～9999の数値を入力してください。");
+            return;
+          }
+
+          location.href = `select.html?cat=${cat}&sel=${index}&num=${num}`;
         });
       }
 
-      // 音読み
-      const container11 = document.getElementById('linkContainer11');
-      const maxIndex11 = Math.ceil(4200 / (24 * 20)) - 1;
-      for (const [index, title] of sels.entries()) {
-        const link = document.createElement('a');
-        link.href = `select.html?cat=0&sel=${index}`;
-        link.textContent = title;
-        addNumParameter(link, 0, index);
-        container11.appendChild(link);
-        container11.append('　'); // 全角スペース
-    
-        // 6個ごとに改行
-        if ((index + 1) % 6 === 0) {
-          container11.appendChild(document.createElement('br'));
-          container11.appendChild(document.createElement('br'));
-        }
+      // リンク生成
+      function createLinks(containerId, cat, total, unit) {
+        const container = document.getElementById(containerId);
 
-        if (index === maxIndex11) {
-          break;
+        // 必要なリンク数
+        const count = Math.ceil(total / (24 * unit));
+
+        for (let index = 0; index < count; index++) {
+
+          const link = document.createElement("a");
+          link.href = `select.html?cat=${cat}&sel=${index}`;
+          link.textContent = sels[index];
+
+          addNumParameter(link, cat, index);
+
+          container.appendChild(link);
+          container.append("　");
+
+          // 6個ごとに改行
+          if ((index + 1) % 6 === 0) {
+            container.appendChild(document.createElement("br"));
+            container.appendChild(document.createElement("br"));
+            }
         }
       }
 
-      // 訓読み
-      const container12 = document.getElementById('linkContainer12');
-      const maxIndex12 = Math.ceil(1400 / (24 * 10)) - 1;
-      for (const [index, title] of sels.entries()) {
-        const link = document.createElement('a');
-        link.href = `select.html?cat=1&sel=${index}`;
-        link.textContent = title;
-        addNumParameter(link, 1, index);
-        container12.appendChild(link);
-        container12.append('　'); // 全角スペース
-    
-        // 6個ごとに改行
-        if ((index + 1) % 6 === 0) {
-          container12.appendChild(document.createElement('br'));
-          container12.appendChild(document.createElement('br'));
-        }
+      // 各分野の設定
+      const categories = [
+        { containerId: "linkContainer11", cat: 0, total: 4200, unit: 20 },
+        { containerId: "linkContainer12", cat: 1, total: 1400, unit: 10 },
+        { containerId: "linkContainer3",  cat: 4, total: 3786, unit: 5  },
+        { containerId: "linkContainer5",  cat: 7, total: 2182, unit: 10 }
+      ];
 
-        if (index === maxIndex12) {
-          break;
-        }
-      }
-      
-      // 語選択
-      const container3 = document.getElementById('linkContainer3');
-      const maxIndex3 = Math.ceil(3786 / (24 * 5)) - 1;
-      for (const [index, title] of sels.entries()) {
-        const link = document.createElement('a');
-        link.href = `select.html?cat=4&sel=${index}`;
-        link.textContent = title;
-        addNumParameter(link, 4, index);
-        container3.appendChild(link);
-        container3.append('　'); // 全角スペース
-    
-        // 6個ごとに改行
-        if ((index + 1) % 6 === 0) {
-          container3.appendChild(document.createElement('br'));
-          container3.appendChild(document.createElement('br'));
-        }
-
-        if (index === maxIndex3) {
-          break;
-        }
-      }
-
-      // 熟字訓
-      const container5 = document.getElementById('linkContainer5');
-      const maxIndex5 = Math.ceil(2182 / (24 * 10)) - 1;
-      for (const [index, title] of sels.entries()) {
-        const link = document.createElement('a');
-        link.href = `select.html?cat=7&sel=${index}`;
-        link.textContent = title;
-        addNumParameter(link, 7, index);
-        container5.appendChild(link);
-        container5.append('　'); // 全角スペース
-    
-        // 6個ごとに改行
-        if ((index + 1) % 6 === 0) {
-          container5.appendChild(document.createElement('br'));
-          container5.appendChild(document.createElement('br'));
-        }
-
-        if (index === maxIndex5) {
-          break;
-        }
-      }
+      // 一括生成
+      categories.forEach(category => {
+        createLinks(
+          category.containerId,
+          category.cat,
+          category.total,
+          category.unit
+        );
+      });
     </script>
   </body>
 </html>
