@@ -38,6 +38,29 @@
         "立冬","小雪","大雪","冬至","小寒","大寒"
       ];
 
+      const KEY11 = "result11";
+      const COUNT11 = 4200;
+      const KEY12 = "result12";
+      const COUNT12 = 1400;
+      const KEY3 = "result3";
+      const COUNT3 = 3786;
+      const KEY5 = "result5";
+      const COUNT5 = 2182;
+
+      // 初期化
+      if (localStorage.getItem(KEY11) === null) {
+        localStorage.setItem(KEY11, "0".repeat(COUNT11));
+      }
+      if (localStorage.getItem(KEY12) === null) {
+        localStorage.setItem(KEY12, "0".repeat(COUNT12));
+      }
+      if (localStorage.getItem(KEY3) === null) {
+        localStorage.setItem(KEY3, "0".repeat(COUNT3));
+      }
+      if (localStorage.getItem(KEY5) === null) {
+        localStorage.setItem(KEY5, "0".repeat(COUNT5));
+      }
+      
       // タイトル反映
       const titleText = `漢検1級勉強　${cats[cat]}【${sels[sel]}】`;
       document.getElementById('pageTitle').textContent = titleText;
@@ -48,22 +71,22 @@
       for (const [index, title] of titles.entries()) {
         // 音読み
         if (cat == 0) {
-          if (((sel * (24 * 20)) + ((index + 1) * 20)) > 4200) {
+          if (((sel * (24 * 20)) + ((index + 1) * 20)) > COUNT11) {
             break;
           }
         }
         else if (cat == 1) {
-          if (((sel * (24 * 10)) + ((index + 1) * 10)) > 1400) {
+          if (((sel * (24 * 10)) + ((index + 1) * 10)) > COUNT12) {
             break;
           }
         }
         else if (cat == 4) {
-          if (((sel * (24 * 5)) + ((index + 1) * 5)) > 3786) {
+          if (((sel * (24 * 5)) + ((index + 1) * 5)) > COUNT3) {
             break;
           }
         }
         else if (cat == 7) {
-          if (((sel * (24 * 10)) + ((index + 1) * 10)) > 2182) {
+          if (((sel * (24 * 10)) + ((index + 1) * 10)) > COUNT5) {
             break;
           }
         }
