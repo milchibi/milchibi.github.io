@@ -192,7 +192,6 @@
           
           answer.classList.toggle("hidden");
           box.classList.toggle("hidden");
-          // answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
         }
       });
 
@@ -238,7 +237,8 @@
       function draw(){
         const data=localStorage.getItem(KEY_STR[cat]);
         document.querySelectorAll(".box").forEach(box=>{
-          const i=Number(box.dataset.index);
+          const i = shuffledIndex[startIndex + Number(box.dataset.index)]
+          //const i = Number(box.dataset.index);
 
           // 色だけ変更
           box.classList.remove("c0","c1","c2","c3");
@@ -253,8 +253,9 @@
           e.stopPropagation();
             
           let data=localStorage.getItem(KEY_STR[cat]).split("");
-          const i=Number(box.dataset.index);
-          data[i]=(Number(data[i])+1)%4;
+          const i = shuffledIndex[startIndex + Number(box.dataset.index)]
+          //const i = Number(box.dataset.index);
+          data[i] = (Number(data[i]) + 1) % 4;
           localStorage.setItem(KEY_STR[cat],data.join(""));
           draw();
         });
