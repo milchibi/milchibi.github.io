@@ -12,7 +12,7 @@
     ランダム用シード値　<input type="number" id="num" name="num" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     <br><br>
 
-    <mark>(一)　音読み</mark><br><br>
+    <mark>(一)　音読み</mark>　<div id="status11"></div><br><br>
       <div id="linkContainer11"></div><br>
     <mark>(一)　訓読み</mark><br><br>
       <div id="linkContainer12"></div><br>
@@ -114,6 +114,16 @@
           category.unit
         );
       });
+
+  // localStorageから取得
+  const sts11 = localStorage.getItem("KEY11") || "";
+
+  // 0の数を数える
+  const cnt11_0 = (sts11.match(/0/g) || []).length;
+
+  // 表示
+  document.getElementById("status11").innerHTML =
+    "⬛︎" + cnt11_0;
     </script>
   </body>
 </html>
