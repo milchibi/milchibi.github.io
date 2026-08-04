@@ -13,13 +13,16 @@
     <br><br>
 
     <mark>(一)　音読み</mark>
-      <div id="status11"></div>
+      <div id="status11"></div><br>
       <div id="linkContainer11"></div><br>
-    <mark>(一)　訓読み</mark><br><br>
+    <mark>(一)　訓読み</mark>
+      <div id="status12"></div><br>
       <div id="linkContainer12"></div><br>
-    <mark>(三)　語選択</mark><br><br>
+    <mark>(三)　語選択</mark>
+      <div id="status3"></div><br>
       <div id="linkContainer3"></div><br>
-    <mark>(五)　熟字訓・当て字</mark><br><br>
+    <mark>(五)　熟字訓・当て字</mark>
+      <div id="status5"></div><br>
       <div id="linkContainer5"></div><br>
 
     <script>
@@ -119,16 +122,40 @@
   // localStorageから取得
   let val11 = localStorage.getItem(KEY11) || "";
   const sts11 = String(val11);
+  let val12 = localStorage.getItem(KEY12) || "";
+  const sts12 = String(val12);
+  let val3 = localStorage.getItem(KEY3) || "";
+  const sts3 = String(val3);
+  let val5 = localStorage.getItem(KEY5) || "";
+  const sts5 = String(val5);
 
   // 0,1,2,3の数を数える
   const cnt11_0 = (sts11.match(/0/g) || []).length;
   const cnt11_1 = (sts11.match(/1/g) || []).length;
   const cnt11_2 = (sts11.match(/2/g) || []).length;
   const cnt11_3 = (sts11.match(/3/g) || []).length;
+  const cnt12_0 = (sts12.match(/0/g) || []).length;
+  const cnt12_1 = (sts12.match(/1/g) || []).length;
+  const cnt12_2 = (sts12.match(/2/g) || []).length;
+  const cnt12_3 = (sts12.match(/3/g) || []).length;
+  const cnt3_0 = (sts3.match(/0/g) || []).length;
+  const cnt3_1 = (sts3.match(/1/g) || []).length;
+  const cnt3_2 = (sts3.match(/2/g) || []).length;
+  const cnt3_3 = (sts3.match(/3/g) || []).length;
+  const cnt5_0 = (sts5.match(/0/g) || []).length;
+  const cnt5_1 = (sts5.match(/1/g) || []).length;
+  const cnt5_2 = (sts5.match(/2/g) || []).length;
+  const cnt5_3 = (sts5.match(/3/g) || []).length;
 
   // 表示
   document.getElementById("status11").innerHTML = 
     '<span class="c0">⬛︎</span>' + cnt11_0 + '<span class="c1">⬛︎</span>' + cnt11_1 + '<span class="c2">⬛︎</span>' + cnt11_2 + '<span class="c3">⬛︎</span>' + cnt11_3;
+  document.getElementById("status12").innerHTML = 
+    '<span class="c0">⬛︎</span>' + cnt12_0 + '<span class="c1">⬛︎</span>' + cnt12_1 + '<span class="c2">⬛︎</span>' + cnt12_2 + '<span class="c3">⬛︎</span>' + cnt12_3;
+  document.getElementById("status3").innerHTML = 
+    '<span class="c0">⬛︎</span>' + cnt3_0 + '<span class="c1">⬛︎</span>' + cnt3_1 + '<span class="c2">⬛︎</span>' + cnt3_2 + '<span class="c3">⬛︎</span>' + cnt3_3;
+  document.getElementById("status3").innerHTML = 
+    '<span class="c0">⬛︎</span>' + cnt5_0 + '<span class="c1">⬛︎</span>' + cnt5_1 + '<span class="c2">⬛︎</span>' + cnt5_2 + '<span class="c3">⬛︎</span>' + cnt5_3;
     </script>
   </body>
 </html>
