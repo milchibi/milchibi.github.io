@@ -23,14 +23,11 @@
 
     <script>
       const KEY7_1 = "result7_1";
-      const COUNT1 = 20;
+      const COUNT1 = 80;
       const KEY7_11 = "result7_11";
       const COUNT11 = 20;
 
       // 初期化
-      if (localStorage.getItem(KEY7_1) === null) {
-        localStorage.setItem(KEY7_1, "0".repeat(COUNT1));
-      }
       if (localStorage.getItem(KEY7_11) === null) {
         localStorage.setItem(KEY7_11, "0".repeat(COUNT11));
       }
@@ -104,8 +101,14 @@
       });
 
   // localStorageから取得
-  let val1 = localStorage.getItem(KEY7_1) || "";
-  const sts1 = String(val1);
+  let val1 = localStorage.getItem(KEY7_1);
+  let sts1 = String(val1);
+  if(sts1 === null){
+    sts1 = "0".repeat(COUNT1);
+  } else if(sts1.length < COUNT1){
+    sts1 += "0".repeat(COUNT1 - sts1.length);
+  }
+  localStorage.setItem(KEY7_1, sts1);
   let val11 = localStorage.getItem(KEY7_11) || "";
   const sts11 = String(val11);
 
