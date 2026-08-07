@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle"></title>
+    <link rel="stylesheet" href="..\..\style.css">
+  </head>
+  <body>
+    <h1>漢検7級勉強</h1>
+    <h2 id="pageSubtitle"></h2>
+
+    <div id="linkContainer"></div>
+    
+    <br><br>
+    <a href="..\..\index7.html">戻る</a>
+    
+    <script>
+      const params = new URLSearchParams(location.search);
+      const cat = parseInt(params.get('cat')) || 0;
+      const sel = parseInt(params.get('sel')) || 0;
+      const seed = parseInt(params.get('num')) || 0;
+      const cats = [
+        "音読み","訓読み","書き取り","書き取り-国字","語選択","四字熟語-書き","四字熟語-意味","熟字訓","熟語-一字訓読み","対義語・類義語","故事成語","文章題"
+      ];
+      const sels = [
+        "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
+        "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
+        "甲申","乙酉","丙戌","丁亥","戊子","己丑","庚寅","辛卯","壬辰","癸巳",
+        "甲午","乙未","丙申","丁酉","戊戌","己亥","庚子","辛丑","壬寅","癸卯",
+        "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
+        "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
+      ];
+      const titles = [
+        "立春","雨水","啓蟄","春分","清明","穀雨",
+        "立夏","小満","芒種","夏至","小暑","大暑",
+        "立秋","処暑","白露","秋分","寒露","霜降",
+        "立冬","小雪","大雪","冬至","小寒","大寒"
+      ];
+
+      const KEY7_1 = "result7_1";
+      const COUNT1 = 20;
+      const KEY7_11 = "result7_11";
+      const COUNT11 = 20;
+
+      // 初期化
+      if (localStorage.getItem(KEY7_1) === null) {
+        localStorage.setItem(KEY7_1, "0".repeat(COUNT1));
+      }
+      if (localStorage.getItem(KEY7_11) === null) {
+        localStorage.setItem(KEY7_11, "0".repeat(COUNT11));
+      }
+      
+      // タイトル反映
+      const titleText = `漢検7級勉強　${cats[cat]}【${sels[sel]}】`;
+      document.getElementById('pageTitle').textContent = titleText;
+      document.getElementById('pageSubtitle').textContent = `${cats[cat]}【${sels[sel]}】`;
+    
+      const container = document.getElementById('linkContainer');
+    
+      for (const [index, title] of titles.entries()) {
+        // 読み
+        if (cat == 0) {
+          if (((sel * (24 * 20)) + ((index + 1) * 20)) > COUNT1) {
+            break;
+          }
+        }
+        // 書き
+        else if (cat == 10) {
+          if (((sel * (24 * 10)) + ((index + 1) * 20)) > COUNT11) {
+            break;
+          }
+        }
+
+        const link = document.createElement('a');
+        link.href = `quiz7.html?cat=${cat}&sel=${sel}&page=${index}&seed=${seed}`;
+        link.textContent = title;
+    
+        container.appendChild(link);
+        container.append('　'); // 全角スペース
+    
+        // 6個ごとに改行
+        if ((index + 1) % 6 === 0) {
+          container.appendChild(document.createElement('br'));
+          container.appendChild(document.createElement('br'));
+        }
+      }
+    </script>
+  </body>
+</html>
