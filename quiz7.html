@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle"></title>
+    <link rel="stylesheet" href="../../style.css">
+  </head>
+  <body>
+    <h1>漢検7級勉強</h1>
+    <h2 id="pageSubtitle"></h2>
+    <table border="1">
+      <tbody id="quizTable"></tbody>
+    </table>
+    <br>
+    <div id="container"></div>
+    <br>
+    <a id="prevLink" href="">前へ</a>　　<a id="backLink" href="">戻る</a>　　<a id="nextLink" href="">次へ</a>
+  
+    <script>
+      const params = new URLSearchParams(location.search);
+      const cat = parseInt(params.get('cat')) || 0;
+      const sel = parseInt(params.get('sel')) || 0;
+      const page = parseInt(params.get('page')) || 0;
+      const seed = parseInt(params.get('seed')) || 0;
+      const cats = [
+        "読み","音訓読み分け","選択","筆順","音訓識別","対義語","送り仮名","部首","同音書き","熟語","書き"
+      ];
+      const sels = [
+        "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
+        "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
+        "甲申","乙酉","丙戌","丁亥","戊子","己丑","庚寅","辛卯","壬辰","癸巳",
+        "甲午","乙未","丙申","丁酉","戊戌","己亥","庚子","辛丑","壬寅","癸卯",
+        "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
+        "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
+      ];
+      const titles = [
+        "立春","雨水","啓蟄","春分","清明","穀雨",
+        "立夏","小満","芒種","夏至","小暑","大暑",
+        "立秋","処暑","白露","秋分","寒露","霜降",
+        "立冬","小雪","大雪","冬至","小寒","大寒"
+      ];
+      
+      const KEY7_1 = "result7_1";
+      const COUNT1 = 20;
+      const KEY7_11 = "result7_11";
+      const COUNT11 = 20;
+      const KEY_STR = [
+        KEY7_1, "NULL7_2", "NULL7_3", "NULL7_4", "NULL7_5", "NULL7_6", "NULL7_7", "NULL7_8", "NULL7_9", "NULL7_10", KEY7_11 
+      ];
+
+      // 初期化
+      if (localStorage.getItem(KEY7_1) === null) {
+        localStorage.setItem(KEY7_1, "0".repeat(COUNT1));
+      }
+      if (localStorage.getItem(KEY7_11) === null) {
+        localStorage.setItem(KEY7_11, "0".repeat(COUNT11));
+      }
+      
+      let num = 0;
+      let max = 0;
+      let filename = "";
+
+      // 読み
+      if (cat == 0) {
+        num = 20;
+        max = COUNT1;
+        filename = 'https://milchibi.github.io/data7_1.csv';
+      }
+      // 書き
+      else if (cat == 10) {
+        num = 20;
+        max = COUNT11;
+        filename = 'https://milchibi.github.io/data7_11.csv';
+      }
+      const startIndex = (sel * 24 * num) + (page * num);
+      const shuffledIndex = Array.from({ length: max }, (_, i) => i);
+
+      if (seed != 0) {
+        const random = mulberry32(seed);
+        for (let i = shuffledIndex.length - 1; i > 0; i--) {
+          const j = Math.floor(random() * (i + 1));
+          [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
+        }
+      }
+      
+      // タイトル反映
+      const titleText = `漢検7級勉強　${cats[cat] || ''}【${sels[sel] || ''}-${titles[page] || ''}】`;
+      document.getElementById('pageTitle').textContent = titleText;
+      document.getElementById('pageSubtitle').textContent = `${cats[cat] || ''}【${sels[sel] || ''}-${titles[page] || ''}】`;
+    
+      const tbody = document.getElementById('quizTable');
+
+      // 問題数分回す
+      for (let i = 1; i <= num; i++) {
+        tbody.insertAdjacentHTML('beforeend', `
+          <tr>
+            <td width="52">問${i}</td>
+            <td id="txt${i}q" class="ques" colspan="2"></td>
+          </tr>
+          <tr>
+            <td class="ans">
+              <button class="toggleBtn" data-id="${i}">解答</button>
+            </td>
+            <td class="ans">
+              <div id="txt${i}" class="hidden"></div>
+            </td>
+            <td class="ans boxCell">
+              <div class="box hidden" data-index="${i}">■</div>
+            </td>
+          </tr>
+        `);
+      }
+    
+      fetch(filename)
+        .then(res => res.text())
+        .then(csv => {
+          const data = csv.split('\n').map(line => line.split(','));
+    
+          for (let i = 0; i < num; i++) {
+            const row = data[shuffledIndex[startIndex + i]];
+            if (!row) continue;
+    
+            document.getElementById(`txt${i+1}q`).innerHTML = row[3];
+            document.getElementById(`txt${i+1}`).innerHTML = row[5];
+          }
+        });
+    
+      // イベント委譲で高速化＆簡素化
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('toggleBtn')) {
+          const id = e.target.dataset.id;
+          const answer = document.getElementById(`txt${id}`);
+          const box = document.querySelector(`.box[data-index="${id}"]`);
+      
+          if (!answer) return;
+          
+          answer.classList.toggle("hidden");
+          box.classList.toggle("hidden");
+        }
+      });
+
+      // 戻るリンク
+      document.getElementById("backLink").href = `select7.html?cat=${cat}&sel=${sel}&seed=${seed}`;
+
+      // 前へリンク
+      if (sel == 0 && page == 0) {
+        // 先頭ページのため、前へリンクなし
+      }
+      else if (page == 0) {
+        // 前の十干十二支の最後に戻る
+        document.getElementById("prevLink").href = `quiz7.html?cat=${cat}&sel=${sel-1}&page=23&seed=${seed}`;
+      }
+      else {
+        // 前の二十四節気に戻る
+        document.getElementById("prevLink").href = `quiz7.html?cat=${cat}&sel=${sel}&page=${page-1}&seed=${seed}`;
+      }
+
+      // 次へリンク
+      if (((sel * (24 * num)) + ((page + 1 + 1) * num)) > max) {
+        // 最終ページのため、次へリンクなし
+      }
+      else if (page == 23) {
+        // 次の十干十二支の先頭に進む
+        document.getElementById("nextLink").href = `quiz7.html?cat=${cat}&sel=${sel+1}&page=0&seed=${seed}`;
+      }
+      else {
+        // 次の二十四節気に進む
+        document.getElementById("nextLink").href = `quiz7.html?cat=${cat}&sel=${sel}&page=${page+1}&seed=${seed}`;
+      }
+
+      function mulberry32(seed) {
+        return function() {
+          let t = seed += 0x6D2B79F5;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        }
+      }
+
+      // 表示更新
+      function draw(){
+        const data = localStorage.getItem(KEY_STR[cat]);
+        document.querySelectorAll(".box").forEach(box=>{
+          const i = shuffledIndex[startIndex + Number(box.dataset.index) - 1]
+          // 色だけ変更
+          box.classList.remove("c0","c1","c2","c3");
+          box.classList.add("c" + data[i]);
+        });
+      }
+
+      // クリック処理
+      document.querySelectorAll(".box").forEach(box=>{
+        box.addEventListener("click",(e)=>{
+          // 親要素へクリックを伝えない
+          e.stopPropagation();
+            
+          let data = localStorage.getItem(KEY_STR[cat]).split("");
+          const i = shuffledIndex[startIndex + Number(box.dataset.index) - 1]
+          data[i] = (Number(data[i]) + 1) % 4;
+          localStorage.setItem(KEY_STR[cat],data.join(""));
+          draw();
+        });
+      });
+
+      draw();
+
+    </script>
+  </body>
+</html>
