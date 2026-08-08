@@ -25,12 +25,7 @@
       const KEY7_1 = "result7_1";
       const COUNT1 = 100;
       const KEY7_11 = "result7_11";
-      const COUNT11 = 20;
-
-      // 初期化
-      if (localStorage.getItem(KEY7_11) === null) {
-        localStorage.setItem(KEY7_11, "0".repeat(COUNT11));
-      }
+      const COUNT11 = 40;
 
       // 干支
       const sels = [
@@ -109,8 +104,15 @@
         sts1 += "0".repeat(COUNT1 - sts1.length);
       }
       localStorage.setItem(KEY7_1, sts1);
-      let val11 = localStorage.getItem(KEY7_11) || "";
-      const sts11 = String(val11);
+      
+      let val11 = localStorage.getItem(KEY7_11);
+      let sts11 = String(val11);
+      if(sts11 === null){
+        sts11 = "0".repeat(COUNT11);
+      } else if(sts11.length < COUNT11){
+        sts11 += "0".repeat(COUNT11 - sts11.length);
+      }
+      localStorage.setItem(KEY7_1, sts1);
     
       // 0,1,2,3の数を数える
       const cnt1_0 = (sts1.match(/0/g) || []).length;
