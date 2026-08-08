@@ -23,7 +23,7 @@
 
     <script>
       const KEY7_1 = "result7_1";
-      const COUNT1 = 80;
+      const COUNT1 = 100;
       const KEY7_11 = "result7_11";
       const COUNT11 = 20;
 
@@ -100,33 +100,33 @@
         );
       });
 
-  // localStorageから取得
-  let val1 = localStorage.getItem(KEY7_1);
-  let sts1 = String(val1);
-  if(sts1 === null){
-    sts1 = "0".repeat(COUNT1);
-  } else if(sts1.length < COUNT1){
-    sts1 += "0".repeat(COUNT1 - sts1.length);
-  }
-  localStorage.setItem(KEY7_1, sts1);
-  let val11 = localStorage.getItem(KEY7_11) || "";
-  const sts11 = String(val11);
-
-  // 0,1,2,3の数を数える
-  const cnt1_0 = (sts1.match(/0/g) || []).length;
-  const cnt1_1 = (sts1.match(/1/g) || []).length;
-  const cnt1_2 = (sts1.match(/2/g) || []).length;
-  const cnt1_3 = (sts1.match(/3/g) || []).length;
-  const cnt11_0 = (sts11.match(/0/g) || []).length;
-  const cnt11_1 = (sts11.match(/1/g) || []).length;
-  const cnt11_2 = (sts11.match(/2/g) || []).length;
-  const cnt11_3 = (sts11.match(/3/g) || []).length;
-
-  // 表示
-  document.getElementById("status1").innerHTML = 
-    '<span class="c0">⬛︎</span>' + cnt1_0 + '　<span class="c1">⬛︎</span>' + cnt1_1 + '　<span class="c2">⬛︎</span>' + cnt1_2 + '　<span class="c3">⬛︎</span>' + cnt1_3;
-  document.getElementById("status11").innerHTML = 
-    '<span class="c0">⬛︎</span>' + cnt11_0 + '　<span class="c1">⬛︎</span>' + cnt11_1 + '　<span class="c2">⬛︎</span>' + cnt11_2 + '　<span class="c3">⬛︎</span>' + cnt11_3;
+      // localStorageから取得
+      let val1 = localStorage.getItem(KEY7_1);
+      let sts1 = String(val1);
+      if(sts1 === null){
+        sts1 = "0".repeat(COUNT1);
+      } else if(sts1.length < COUNT1){
+        sts1 += "0".repeat(COUNT1 - sts1.length);
+      }
+      localStorage.setItem(KEY7_1, sts1);
+      let val11 = localStorage.getItem(KEY7_11) || "";
+      const sts11 = String(val11);
+    
+      // 0,1,2,3の数を数える
+      const cnt1_0 = (sts1.match(/0/g) || []).length;
+      const cnt1_1 = (sts1.match(/1/g) || []).length;
+      const cnt1_2 = (sts1.match(/2/g) || []).length;
+      const cnt1_3 = (sts1.match(/3/g) || []).length;
+      const cnt11_0 = (sts11.match(/0/g) || []).length;
+      const cnt11_1 = (sts11.match(/1/g) || []).length;
+      const cnt11_2 = (sts11.match(/2/g) || []).length;
+      const cnt11_3 = (sts11.match(/3/g) || []).length;
+    
+      // 表示
+      document.getElementById("status1").innerHTML = 
+        '<span class="c0">⬛︎</span>' + cnt1_0 + '　<span class="c1">⬛︎</span>' + cnt1_1 + '　<span class="c2">⬛︎</span>' + cnt1_2 + '　<span class="c3">⬛︎</span>' + cnt1_3;
+      document.getElementById("status11").innerHTML = 
+        '<span class="c0">⬛︎</span>' + cnt11_0 + '　<span class="c1">⬛︎</span>' + cnt11_1 + '　<span class="c2">⬛︎</span>' + cnt11_2 + '　<span class="c3">⬛︎</span>' + cnt11_3;
     </script>
   </body>
 </html>
