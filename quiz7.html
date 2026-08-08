@@ -44,15 +44,11 @@
       const KEY7_1 = "result7_1";
       const COUNT1 = 100;
       const KEY7_11 = "result7_11";
-      const COUNT11 = 20;
+      const COUNT11 = 40;
       const KEY_STR = [
         KEY7_1, "NULL7_2", "NULL7_3", "NULL7_4", "NULL7_5", "NULL7_6", "NULL7_7", "NULL7_8", "NULL7_9", "NULL7_10", KEY7_11 
       ];
 
-      // 初期化
-      if (localStorage.getItem(KEY7_11) === null) {
-        localStorage.setItem(KEY7_11, "0".repeat(COUNT11));
-      }
       // localStorageから取得
       let val1 = localStorage.getItem(KEY7_1);
       let sts1 = String(val1);
@@ -62,6 +58,15 @@
         sts1 += "0".repeat(COUNT1 - sts1.length);
       }
       localStorage.setItem(KEY7_1, sts1);
+      
+      let val11 = localStorage.getItem(KEY7_11);
+      let sts11 = String(val11);
+      if(sts11 === null){
+        sts11 = "0".repeat(COUNT11);
+      } else if(sts11.length < COUNT11){
+        sts11 += "0".repeat(COUNT11 - sts11.length);
+      }
+      localStorage.setItem(KEY7_11, sts11);
       
       let num = 0;
       let max = 0;
