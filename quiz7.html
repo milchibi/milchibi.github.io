@@ -51,20 +51,26 @@
 
       // localStorageから取得
       let val1 = localStorage.getItem(KEY7_1);
-      let sts1 = String(val1);
-      if(sts1 === null){
+      let sts1;
+      if(val1 === null){
         sts1 = "0".repeat(COUNT1);
-      } else if(sts1.length < COUNT1){
-        sts1 += "0".repeat(COUNT1 - sts1.length);
+      } else {
+        sts1 = String(val1);
+        if(sts1.length < COUNT1){
+          sts1 += "0".repeat(COUNT1 - sts1.length);
+        }
       }
       localStorage.setItem(KEY7_1, sts1);
       
       let val11 = localStorage.getItem(KEY7_11);
-      let sts11 = String(val11);
+      let sts11;
       if(sts11 === null){
         sts11 = "0".repeat(COUNT11);
-      } else if(sts11.length < COUNT11){
-        sts11 += "0".repeat(COUNT11 - sts11.length);
+      } else {
+        sts11 = String(val11);
+        if(sts11.length < COUNT11){
+          sts11 += "0".repeat(COUNT11 - sts11.length);
+        }
       }
       localStorage.setItem(KEY7_11, sts11);
       
