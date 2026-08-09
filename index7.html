@@ -110,11 +110,11 @@
       
       let val11 = localStorage.getItem(KEY7_11);
       let sts11;
-      if(sts11 === null){
+      if (val11 === null){
         sts11 = "0".repeat(COUNT11);
       } else {
         sts11 = String(val11);
-        if(sts11.length < COUNT11){
+        if (sts11.length < COUNT11){
           sts11 += "0".repeat(COUNT11 - sts11.length);
         }
       }
