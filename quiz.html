@@ -53,19 +53,54 @@
         KEY11, KEY12, "NULL21", "NULL22", KEY3, "NULL41", "NULL42", KEY5, "NULL6", "NULL7", "NULL8", "NULL9", 
       ];
 
-      // 初期化
-      if (localStorage.getItem(KEY11) === null) {
-        localStorage.setItem(KEY11, "0".repeat(COUNT11));
+      // localStorageから取得
+      let val11 = localStorage.getItem(KEY11);
+      let sts11;
+      if (val11 === null){
+        sts11 = "0".repeat(COUNT11);
+      } else {
+        sts11 = String(val11);
+        if (sts11.length < COUNT11){
+          sts11 += "0".repeat(COUNT11 - sts11.length);
+        }
       }
-      if (localStorage.getItem(KEY12) === null) {
-        localStorage.setItem(KEY12, "0".repeat(COUNT12));
+      localStorage.setItem(KEY11, sts11);
+      
+      let val12 = localStorage.getItem(KEY12);
+      let sts12;
+      if (val12 === null){
+        sts12 = "0".repeat(COUNT12);
+      } else {
+        sts12 = String(val12);
+        if (sts12.length < COUNT12){
+          sts12 += "0".repeat(COUNT12 - sts12.length);
+        }
       }
-      if (localStorage.getItem(KEY3) === null) {
-        localStorage.setItem(KEY3, "0".repeat(COUNT3));
+      localStorage.setItem(KEY12, sts12);
+      
+      let val3 = localStorage.getItem(KEY3);
+      let sts3;
+      if (val3 === null){
+        sts3 = "0".repeat(COUNT3);
+      } else {
+        sts3 = String(val3);
+        if (sts3.length < COUNT3){
+          sts3 += "0".repeat(COUNT3 - sts3.length);
+        }
       }
-      if (localStorage.getItem(KEY5) === null) {
-        localStorage.setItem(KEY5, "0".repeat(COUNT5));
+      localStorage.setItem(KEY3, sts3);
+      
+      let val5 = localStorage.getItem(KEY5);
+      let sts5;
+      if (val5 === null){
+        sts5 = "0".repeat(COUNT5);
+      } else {
+        sts5 = String(val5);
+        if (sts5.length < COUNT5){
+          sts5 += "0".repeat(COUNT5 - sts5.length);
+        }
       }
+      localStorage.setItem(KEY5, sts5);
       
       let num = 0;
       let max = 0;
@@ -238,9 +273,6 @@
         const data = localStorage.getItem(KEY_STR[cat]);
         document.querySelectorAll(".box").forEach(box=>{
           const i = shuffledIndex[startIndex + Number(box.dataset.index) - 1]
-console.log('startIndex:', startIndex);
-console.log('Number(box.dataset.index):', Number(box.dataset.index));
-console.log('i:', i);
           // 色だけ変更
           box.classList.remove("c0","c1","c2","c3");
           box.classList.add("c" + data[i]);
