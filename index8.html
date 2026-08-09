@@ -9,7 +9,7 @@
   <body>
     <p class="title">漢検8級 分野別勉強</p>
     <div><a href="index.html">一級</a></div><br>
-    <div><a href="index8.html">七級</a></div><br>
+    <div><a href="index7.html">七級</a></div><br>
 
     ランダム用シード値　<input type="number" id="num" name="num" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     <br><br>
@@ -91,11 +91,14 @@
 
       // localStorageから取得
       let val8 = localStorage.getItem(KEY8_8);
-      let sts8 = String(val8);
-      if(sts8 === null){
+      let sts8;
+      if (val8 === null){
         sts8 = "0".repeat(COUNT8);
-      } else if(sts8.length < COUNT8){
-        sts8 += "0".repeat(COUNT8 - sts8.length);
+      } else {
+        sts8 = String(val8);
+        if (sts8.length < COUNT8){
+          sts8 += "0".repeat(COUNT8 - sts8.length);
+        }
       }
       localStorage.setItem(KEY8_8, sts8);
     
