@@ -29,6 +29,10 @@
       <div id="linkContainer5"></div><br>
 
     <script>
+      const params = new URLSearchParams(location.search);
+      const grade = parseInt(params.get('grade')) || 0;
+      const seed = parseInt(params.get('seed')) || 0;
+      
       const KEY11 = "result11";
       const COUNT11 = 4200;
       const KEY12 = "result12";
