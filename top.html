@@ -56,8 +56,6 @@
         9: {
           title: "漢検8級 分野別勉強",
     
-          selectPage: "select.html",
-    
           categories: [
             {
               title: "(八)　書き",
@@ -76,8 +74,6 @@
         // -------------------------------------------------------
         8: {
           title: "漢検7級 分野別勉強",
-    
-          selectPage: "select.html",
     
           categories: [
             {
@@ -107,8 +103,6 @@
         7: {
           title: "漢検6級 分野別勉強",
     
-          selectPage: "select6.html",
-    
           categories: [
             {
               title: "(一)　読み",
@@ -136,8 +130,6 @@
         // -------------------------------------------------------
         0: {
           title: "漢検1級 分野別勉強",
-    
-          selectPage: "select.html",
     
           categories: [
             {
@@ -242,7 +234,7 @@
           }
     
           location.href =
-            `${config.selectPage}?grade=${grade}&cat=${cat}&sel=${index}&num=${num}`;
+            `select.html?grade=${grade}&cat=${cat}&sel=${index}&num=${num}`;
         });
       }
     
@@ -265,7 +257,7 @@
           const link = document.createElement("a");
     
           link.href =
-            `${config.selectPage}?grade=${grade}&cat=${category.cat}&sel=${index}`;
+            `select.html?grade=${grade}&cat=${category.cat}&sel=${index}`;
     
           link.textContent = sels[index];
     
