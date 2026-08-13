@@ -31,7 +31,7 @@
 
 const params = new URLSearchParams(location.search);
 
-const grade = parseInt(params.get('grade')) || 1;
+const grade = parseInt(params.get('grade')) || 0;
 const cat   = parseInt(params.get('cat'))   || 0;
 const sel   = parseInt(params.get('sel'))   || 0;
 const page  = parseInt(params.get('page'))  || 0;
@@ -68,7 +68,7 @@ const gradeConfigs = {
   /* -------------------------------------------------------
      漢検1級
      ------------------------------------------------------- */
-  1: {
+  0: {
     heading: "漢検1級勉強",
 
     cats: [
@@ -142,7 +142,7 @@ const gradeConfigs = {
   /* -------------------------------------------------------
      漢検6級
      ------------------------------------------------------- */
-  6: {
+  7: {
     heading: "漢検6級勉強",
 
     cats: [
@@ -199,7 +199,7 @@ const gradeConfigs = {
   /* -------------------------------------------------------
      漢検7級
      ------------------------------------------------------- */
-  7: {
+  8: {
     heading: "漢検7級勉強",
 
     cats: [
@@ -256,7 +256,7 @@ const gradeConfigs = {
   /* -------------------------------------------------------
      漢検8級
      ------------------------------------------------------- */
-  8: {
+  9: {
     heading: "漢検8級勉強",
 
     cats: [
@@ -539,14 +539,14 @@ fetch(filename)
       /*
        * 解答
        */
-      if (grade === 1 && cat === 4) {
+      if (grade === 0 && cat === 4) {
 
         // 語選択
         document.getElementById(
           `txt${i + 1}`
         ).innerHTML = row[5];
       }
-      else if (grade === 1 && cat !== 4) {
+      else if (grade === 0 && cat !== 4) {
 
         document.getElementById(
           `txt${i + 1}`
@@ -568,7 +568,7 @@ fetch(filename)
        1級・語選択
        ------------------------------------------------------- */
 
-    if (grade === 1 && cat === 4) {
+    if (grade === 0 && cat === 4) {
 
       const arr = new Array(8);
 
