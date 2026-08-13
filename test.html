@@ -46,7 +46,10 @@
 
           // 入力されたシード値を取得
           const seed = document.getElementById('num').value;
-
+          if (seed === "" || seed < 0 || seed > 9999) {
+            alert("シード値には、0～9999の数値を入力してください。");
+            return;
+          }
           // gradeとseedを付けて移動
           location.href = `index.html?grade=${grade}&seed=${seed}`;
         });
