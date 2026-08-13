@@ -74,7 +74,7 @@
             return;
           }
 
-          location.href = `select.html?cat=${cat}&sel=${index}&num=${num}`;
+          location.href = `select.html?grade=${grade}&cat=${cat}&sel=${index}&num=${num}`;
         });
       }
 
@@ -88,7 +88,7 @@
         for (let index = 0; index < count; index++) {
 
           const link = document.createElement("a");
-          link.href = `select.html?cat=${cat}&sel=${index}`;
+          link.href = `select.html?grade=${grade}&cat=${cat}&sel=${index}`;
           link.textContent = sels[index];
 
           addNumParameter(link, cat, index);
