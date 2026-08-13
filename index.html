@@ -3,14 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>漢検1級 分野別勉強</title>
+    <title>漢検 分野別勉強</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <p class="title">漢検1級 分野別勉強</p>
-    <div><a href="index6.html">六級</a></div><br>
-    <div><a href="index7.html">七級</a></div><br>
-    <div><a href="index8.html">八級</a></div><br>
+    <p class="title" id="pageSubtitle"></p>
 
     ランダム用シード値　<input type="number" id="num" name="num" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     <br><br>
@@ -27,6 +24,8 @@
     <mark>(五)　熟字訓・当て字</mark>
       <div id="status5"></div><br>
       <div id="linkContainer5"></div><br>
+    <br><br>
+    <a href="..\..\test.html">戻る</a>
 
     <script>
       const params = new URLSearchParams(location.search);
@@ -51,6 +50,17 @@
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
+      
+      // タイトル反映
+      if (grade == 9) {
+        document.getElementById('pageSubtitle').textContent = `漢検8級 分野別勉強`;
+      } else if (grade == 8) {
+        document.getElementById('pageSubtitle').textContent = `漢検7級 分野別勉強`;
+      } else if (grade == 7) {
+        document.getElementById('pageSubtitle').textContent = `漢検6級 分野別勉強`;
+      } else {
+        document.getElementById('pageSubtitle').textContent = `漢検1級 分野別勉強`;
+      }
 
       // シード値付きで遷移
       function addNumParameter(link, cat, index) {
