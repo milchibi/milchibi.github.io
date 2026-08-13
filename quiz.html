@@ -133,9 +133,7 @@ const gradeConfigs = {
         max: 2182,
         filename: "https://milchibi.github.io/data_5.csv"
       }
-    },
-
-    selectPage: "select.html"
+    }
   },
 
 
@@ -190,9 +188,7 @@ const gradeConfigs = {
         max: 30,
         filename: "https://milchibi.github.io/data6_11.csv"
       }
-    },
-
-    selectPage: "select6.html"
+    }
   },
 
 
@@ -247,9 +243,7 @@ const gradeConfigs = {
         max: 80,
         filename: "https://milchibi.github.io/data7_11.csv"
       }
-    },
-
-    selectPage: "select7.html"
+    }
   },
 
 
@@ -291,9 +285,7 @@ const gradeConfigs = {
         max: 20,
         filename: "https://milchibi.github.io/data8_8.csv"
       }
-    },
-
-    selectPage: "select8.html"
+    }
   }
 };
 
@@ -715,7 +707,7 @@ document.addEventListener(
    ========================================================= */
 
 document.getElementById("backLink").href =
-  `${config.selectPage}?grade=${grade}&cat=${cat}&sel=${sel}&seed=${seed}`;
+  `select.html?grade=${grade}&cat=${cat}&sel=${sel}&seed=${seed}`;
 
 
 /* =========================================================
