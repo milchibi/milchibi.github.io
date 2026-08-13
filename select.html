@@ -7,136 +7,357 @@
     <link rel="stylesheet" href="..\..\style.css">
   </head>
   <body>
-    <h1>漢検1級勉強</h1>
+    <h1 id="gradeTitle"></h1>
     <h2 id="pageSubtitle"></h2>
-
+  
     <div id="linkContainer"></div>
-    
+  
     <br><br>
-    <a href="..\..\index.html">戻る</a>
+  
+    <a id="backLink" href="#">戻る</a>
     
     <script>
+      // =========================================================
+      // URLパラメータ
+      // =========================================================
+    
       const params = new URLSearchParams(location.search);
-      const cat = parseInt(params.get('cat')) || 0;
-      const sel = parseInt(params.get('sel')) || 0;
-      const seed = parseInt(params.get('num')) || 0;
-      const cats = [
-        "音読み","訓読み","書き取り","書き取り-国字","語選択","四字熟語-書き","四字熟語-意味","熟字訓","熟語-一字訓読み","対義語・類義語","故事成語","文章題"
-      ];
+    
+      const grade = parseInt(params.get("grade"), 10) || 0;
+      const cat   = parseInt(params.get("cat"), 10) || 0;
+      const sel   = parseInt(params.get("sel"), 10) || 0;
+      const seed  = parseInt(params.get("num"), 10) || 0;
+    
+    
+      // =========================================================
+      // 共通データ
+      // =========================================================
+    
       const sels = [
         "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
         "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
         "甲申","乙酉","丙戌","丁亥","戊子","己丑","庚寅","辛卯","壬辰","癸巳",
         "甲午","乙未","丙申","丁酉","戊戌","己亥","庚子","辛丑","壬寅","癸卯",
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
-        "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
+        "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥"
       ];
+    
+    
       const titles = [
         "立春","雨水","啓蟄","春分","清明","穀雨",
         "立夏","小満","芒種","夏至","小暑","大暑",
         "立秋","処暑","白露","秋分","寒露","霜降",
         "立冬","小雪","大雪","冬至","小寒","大寒"
       ];
-
-      const KEY11 = "result11";
-      const COUNT11 = 4200;
-      const KEY12 = "result12";
-      const COUNT12 = 1400;
-      const KEY3 = "result3";
-      const COUNT3 = 3786;
-      const KEY5 = "result5";
-      const COUNT5 = 2182;
-
-      // localStorageから取得
-      let val11 = localStorage.getItem(KEY11);
-      let sts11;
-      if (val11 === null){
-        sts11 = "0".repeat(COUNT11);
-      } else {
-        sts11 = String(val11);
-        if (sts11.length < COUNT11){
-          sts11 += "0".repeat(COUNT11 - sts11.length);
-        }
-      }
-      localStorage.setItem(KEY11, sts11);
-      
-      let val12 = localStorage.getItem(KEY12);
-      let sts12;
-      if (val12 === null){
-        sts12 = "0".repeat(COUNT12);
-      } else {
-        sts12 = String(val12);
-        if (sts12.length < COUNT12){
-          sts12 += "0".repeat(COUNT12 - sts12.length);
-        }
-      }
-      localStorage.setItem(KEY12, sts12);
-      
-      let val3 = localStorage.getItem(KEY3);
-      let sts3;
-      if (val3 === null){
-        sts3 = "0".repeat(COUNT3);
-      } else {
-        sts3 = String(val3);
-        if (sts3.length < COUNT3){
-          sts3 += "0".repeat(COUNT3 - sts3.length);
-        }
-      }
-      localStorage.setItem(KEY3, sts3);
-      
-      let val5 = localStorage.getItem(KEY5);
-      let sts5;
-      if (val5 === null){
-        sts5 = "0".repeat(COUNT5);
-      } else {
-        sts5 = String(val5);
-        if (sts5.length < COUNT5){
-          sts5 += "0".repeat(COUNT5 - sts5.length);
-        }
-      }
-      localStorage.setItem(KEY5, sts5);
-      
-      // タイトル反映
-      const titleText = `漢検1級勉強　${cats[cat]}【${sels[sel]}】`;
-      document.getElementById('pageTitle').textContent = titleText;
-      document.getElementById('pageSubtitle').textContent = `${cats[cat]}【${sels[sel]}】`;
     
-      const container = document.getElementById('linkContainer');
+    
+      // =========================================================
+      // 級ごとの設定
+      // =========================================================
+    
+      const gradeConfig = {
+    
+        // -------------------------------------------------------
+        // grade=0 → 漢検1級
+        // -------------------------------------------------------
+        0: {
+          gradeName: "漢検1級",
+          quizPage: "quiz.html",
+    
+          cats: [
+            "音読み",
+            "訓読み",
+            "書き取り",
+            "書き取り-国字",
+            "語選択",
+            "四字熟語-書き",
+            "四字熟語-意味",
+            "熟字訓",
+            "熟語-一字訓読み",
+            "対義語・類義語",
+            "故事成語",
+            "文章題"
+          ],
+    
+          categories: {
+            0:  { count: 4200, unit: 20, key: "result11" },
+            1:  { count: 1400, unit: 10, key: "result12" },
+            4:  { count: 3786, unit: 5,  key: "result3" },
+            7:  { count: 2182, unit: 10, key: "result5" }
+          }
+        },
+    
+    
+        // -------------------------------------------------------
+        // grade=7 → 漢検6級
+        // -------------------------------------------------------
+        7: {
+          gradeName: "漢検6級",
+          quizPage: "quiz6.html",
+    
+          cats: [
+            "読み",
+            "音訓読み分け",
+            "選択",
+            "筆順",
+            "音訓識別",
+            "対義語",
+            "送り仮名",
+            "部首",
+            "同音書き",
+            "熟語",
+            "書き"
+          ],
+    
+          categories: {
+            0:  { count: 30, unit: 10, key: "result6_1" },
+            10: { count: 30, unit: 10, key: "result6_11" }
+          }
+        },
+    
+    
+        // -------------------------------------------------------
+        // grade=8 → 漢検7級
+        // -------------------------------------------------------
+        8: {
+          gradeName: "漢検7級",
+          quizPage: "quiz7.html",
+    
+          cats: [
+            "読み",
+            "音訓読み分け",
+            "選択",
+            "筆順",
+            "音訓識別",
+            "対義語",
+            "送り仮名",
+            "部首",
+            "同音書き",
+            "熟語",
+            "書き"
+          ],
+    
+          categories: {
+            0:  { count: 140, unit: 20, key: "result7_1" },
+            10: { count: 80,  unit: 20, key: "result7_11" }
+          }
+        },
+    
+    
+        // -------------------------------------------------------
+        // grade=9 → 漢検8級
+        // -------------------------------------------------------
+        9: {
+          gradeName: "漢検8級",
+          quizPage: "quiz8.html",
+    
+          cats: [
+            "読み",
+            "筆順",
+            "対義語",
+            "部首",
+            "同音書き",
+            "送り仮名",
+            "音訓読み",
+            "書き"
+          ],
+    
+          categories: {
+            7: { count: 20, unit: 10, key: "result8_8" }
+          }
+        }
+    
+      };
+    
+    
+      // =========================================================
+      // gradeの設定を取得
+      // =========================================================
+    
+      const config = gradeConfig[grade];
+    
+    
+      // =========================================================
+      // 不正なgradeの場合
+      // =========================================================
+    
+      if (!config) {
+    
+        document.getElementById("gradeTitle").textContent =
+          "級が指定されていません";
+    
+        document.getElementById("pageSubtitle").textContent =
+          "URLのgradeパラメータを確認してください。";
+    
+        throw new Error("Invalid grade: " + grade);
+      }
+    
+    
+      // =========================================================
+      // 現在のcatの設定を取得
+      // =========================================================
+    
+      const categoryConfig = config.categories[cat];
+    
+    
+      if (!categoryConfig) {
+    
+        document.getElementById("gradeTitle").textContent =
+          config.gradeName;
+    
+        document.getElementById("pageSubtitle").textContent =
+          "指定された分野はありません。";
+    
+        throw new Error(
+          "Invalid category: grade=" + grade + ", cat=" + cat
+        );
+      }
+    
+    
+      // =========================================================
+      // localStorageの初期化
+      // =========================================================
+    
+      function getStatus(key, count) {
+    
+        let value = localStorage.getItem(key);
+    
+        let status;
+    
+        if (value === null) {
+    
+          status = "0".repeat(count);
+    
+        } else {
+    
+          status = String(value);
+    
+          // 短ければ0で補う
+          if (status.length < count) {
+            status += "0".repeat(count - status.length);
+          }
+    
+          // 長ければ切る
+          if (status.length > count) {
+            status = status.substring(0, count);
+          }
+        }
+    
+        localStorage.setItem(key, status);
+    
+        return status;
+      }
+    
+    
+      // localStorageを初期化
+      const status = getStatus(
+        categoryConfig.key,
+        categoryConfig.count
+      );
+    
+    
+      // =========================================================
+      // タイトル
+      // =========================================================
+    
+      const categoryName = config.cats[cat] || "不明";
+    
+      const selectName =
+        sels[sel] || "不明";
+    
+    
+      const titleText =
+        `${config.gradeName}勉強　${categoryName}【${selectName}】`;
+    
+    
+      document.getElementById("pageTitle").textContent =
+        titleText;
+    
+      document.getElementById("gradeTitle").textContent =
+        `${config.gradeName}勉強`;
+    
+      document.getElementById("pageSubtitle").textContent =
+        `${categoryName}【${selectName}】`;
+    
+    
+      // =========================================================
+      // 戻るリンク
+      // =========================================================
+    
+      document.getElementById("backLink").href =
+        `index.html?grade=${grade}`;
+    
+    
+      // =========================================================
+      // 問題ページのリンク生成
+      // =========================================================
+    
+      const container =
+        document.getElementById("linkContainer");
+    
+    
+      /*
+       * 1つの「選択」（甲子など）につき、
+       *
+       * 24ページ × unit問
+       *
+       * となっている。
+       *
+       * 例：
+       * 1級 音読み
+       * unit = 20
+       *
+       * 甲子
+       *   立春 → 1～20
+       *   雨水 → 21～40
+       *   ...
+       */
+    
     
       for (const [index, title] of titles.entries()) {
-        // 音読み
-        if (cat == 0) {
-          if (((sel * (24 * 20)) + ((index + 1) * 20)) > COUNT11) {
-            break;
-          }
+    
+        const start =
+          (sel * (24 * categoryConfig.unit))
+          +
+          ((index + 1) * categoryConfig.unit);
+    
+    
+        // このページに問題が存在しない場合は終了
+        if (start > categoryConfig.count) {
+          break;
         }
-        else if (cat == 1) {
-          if (((sel * (24 * 10)) + ((index + 1) * 10)) > COUNT12) {
-            break;
-          }
-        }
-        else if (cat == 4) {
-          if (((sel * (24 * 5)) + ((index + 1) * 5)) > COUNT3) {
-            break;
-          }
-        }
-        else if (cat == 7) {
-          if (((sel * (24 * 10)) + ((index + 1) * 10)) > COUNT5) {
-            break;
-          }
-        }
-
-        const link = document.createElement('a');
-        link.href = `quiz.html?cat=${cat}&sel=${sel}&page=${index}&seed=${seed}`;
+    
+    
+        // リンク作成
+        const link = document.createElement("a");
+    
+        link.href =
+          `${config.quizPage}` +
+          `?grade=${grade}` +
+          `&cat=${cat}` +
+          `&sel=${sel}` +
+          `&page=${index}` +
+          `&seed=${seed}`;
+    
+    
         link.textContent = title;
     
+    
         container.appendChild(link);
-        container.append('　'); // 全角スペース
+    
+        container.append("　");
+    
     
         // 6個ごとに改行
         if ((index + 1) % 6 === 0) {
-          container.appendChild(document.createElement('br'));
-          container.appendChild(document.createElement('br'));
+    
+          container.appendChild(
+            document.createElement("br")
+          );
+    
+          container.appendChild(
+            document.createElement("br")
+          );
         }
       }
     </script>
