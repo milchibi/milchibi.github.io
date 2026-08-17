@@ -31,7 +31,12 @@ td.ans {
 button {
   vertical-align: middle; /* 垂直方向で中央揃え */
 }
-
+ul, li {
+  font-size: 10px;
+}
+ul {
+  padding-left: 20px;
+}
 .ref {
   display: inline-block;
   border: 1px solid black;
