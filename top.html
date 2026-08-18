@@ -38,164 +38,59 @@
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥",
       ];
 
-      // =========================================================
       // 級ごとの設定
-      //
-      // grade は URL の値
-      //
-      // 9 → 漢検8級
-      // 8 → 漢検7級
-      // 7 → 漢検6級
-      // 0 → 漢検1級
-      // =========================================================
       const gradeConfig = {
-
-        // -------------------------------------------------------
         // 漢検8級
-        // -------------------------------------------------------
         9: {
           title: "漢検8級 分野別勉強",
-    
           categories: [
-            {
-              title: "(八)　書き",
-              statusId: "status8",
-              linkId: "linkContainer8",
-              key: "result8_8",
-              cat: 7,
-              total: 40,
-              unit: 10
-            }
+            { title: "(八)　書き", statusId: "status8", linkId: "linkContainer8", key: "result8_8", cat: 7, total: 40, unit: 10 }
           ]
         },
-    
-        // -------------------------------------------------------
         // 漢検7級
-        // -------------------------------------------------------
         8: {
           title: "漢検7級 分野別勉強",
-    
           categories: [
-            {
-              title: "(一)　読み",
-              statusId: "status1",
-              linkId: "linkContainer1",
-              key: "result7_1",
-              cat: 0,
-              total: 160,
-              unit: 20
-            },
-            {
-              title: "(十一)　書き",
-              statusId: "status11",
-              linkId: "linkContainer11",
-              key: "result7_11",
-              cat: 10,
-              total: 80,
-              unit: 20
-            }
+            { title: "(一)　読み",   statusId: "status1",  linkId: "linkContainer1",  key: "result7_1",  cat: 0,  total: 160, unit: 20 },
+            { title: "(十一)　書き", statusId: "status11", linkId: "linkContainer11", key: "result7_11", cat: 10, total: 80,  unit: 20 }
           ]
         },
-    
-        // -------------------------------------------------------
         // 漢検6級
-        // -------------------------------------------------------
         7: {
           title: "漢検6級 分野別勉強",
-    
           categories: [
-            {
-              title: "(一)　読み",
-              statusId: "status1",
-              linkId: "linkContainer1",
-              key: "result6_1",
-              cat: 0,
-              total: 40,
-              unit: 10
-            },
-            {
-              title: "(十一)　書き",
-              statusId: "status11",
-              linkId: "linkContainer11",
-              key: "result6_11",
-              cat: 10,
-              total: 30,
-              unit: 10
-            }
+            { title: "(一)　読み",   statusId: "status1",  linkId: "linkContainer1",  key: "result6_1",  cat: 0,  total: 40, unit: 10 },
+            { title: "(十一)　書き", statusId: "status11", linkId: "linkContainer11", key: "result6_11", cat: 10, total: 30, unit: 10 }
           ]
         },
-    
-        // -------------------------------------------------------
         // 漢検1級
-        // -------------------------------------------------------
         0: {
           title: "漢検1級 分野別勉強",
-    
           categories: [
-            {
-              title: "(一)　音読み",
-              statusId: "status11",
-              linkId: "linkContainer11",
-              key: "result11",
-              cat: 0,
-              total: 4200,
-              unit: 20
-            },
-            {
-              title: "(一)　訓読み",
-              statusId: "status12",
-              linkId: "linkContainer12",
-              key: "result12",
-              cat: 1,
-              total: 1399,
-              unit: 10
-            },
-            {
-              title: "(三)　語選択",
-              statusId: "status3",
-              linkId: "linkContainer3",
-              key: "result3",
-              cat: 4,
-              total: 3786,
-              unit: 5
-            },
-            {
-              title: "(五)　熟字訓・当て字",
-              statusId: "status5",
-              linkId: "linkContainer5",
-              key: "result5",
-              cat: 7,
-              total: 2182,
-              unit: 10
-            }
+            { title: "(一)　音読み", statusId: "status11", linkId: "linkContainer11", key: "result11", cat: 0, total: 4200, unit: 20 },
+            { title: "(一)　訓読み", statusId: "status12", linkId: "linkContainer12", key: "result12", cat: 1, total: 1399, unit: 10 },
+            { title: "(三)　語選択", statusId: "status3", linkId: "linkContainer3", key: "result3", cat: 4, total: 3786, unit: 5 },
+            { title: "(五)　熟字訓・当て字", statusId: "status5", linkId: "linkContainer5", key: "result5", cat: 7, total: 2182, unit: 10 }
           ]
         }
       };
     
-      // =========================================================
       // grade が存在しない場合
-      // =========================================================
       const config = gradeConfig[grade] || gradeConfig[0];
 
-      // =========================================================
       // タイトル
-      // =========================================================
       document.getElementById("pageSubtitle").textContent = config.title;
 
-      // =========================================================
-      // 分野HTMLを生成
-      // =========================================================
-    
+      // 分野HTMLを生成    
       const categoryContainer = document.getElementById("categories");
     
       config.categories.forEach(category => {
-    
+
         // 見出し
         const mark = document.createElement("mark");
         mark.textContent = category.title;
     
         categoryContainer.appendChild(mark);
-    
     
         // ステータス
         const status = document.createElement("div");
@@ -204,7 +99,6 @@
         categoryContainer.appendChild(status);
     
         categoryContainer.appendChild(document.createElement("br"));
-    
     
         // リンク
         const links = document.createElement("div");
@@ -215,17 +109,10 @@
         categoryContainer.appendChild(document.createElement("br"));
       });
 
-
-      // =========================================================
       // シード値付きで遷移
-      // =========================================================
-    
       function addNumParameter(link, cat, index) {
-    
         link.addEventListener("click", function(e) {
-    
           e.preventDefault();
-    
           const num = document.getElementById("num").value;
     
           if (num === "" || num < 0 || num > 9999) {
@@ -238,13 +125,8 @@
         });
       }
     
-    
-      // =========================================================
-      // 分野リンク生成
-      // =========================================================
-    
+      // 分野リンク生成    
       function createLinks(category) {
-    
         const container =
           document.getElementById(category.linkId);
     
@@ -270,7 +152,6 @@
           container.appendChild(link);
           container.append("　");
     
-    
           // 6個ごとに改行
           if ((index + 1) % 6 === 0) {
     
@@ -285,25 +166,15 @@
         }
       }
     
-    
-      // =========================================================
       // localStorageの状態を取得
-      // =========================================================
-    
       function getStatus(key, count) {
-    
         let value = localStorage.getItem(key);
-    
         let status;
     
         if (value === null) {
-    
           status = "0".repeat(count);
-    
         } else {
-    
           status = String(value);
-    
           if (status.length < count) {
             status += "0".repeat(count - status.length);
           }
@@ -313,47 +184,31 @@
             status = status.substring(0, count);
           }
         }
-    
         localStorage.setItem(key, status);
     
         return status;
       }
     
-    
-      // =========================================================
       // ステータス表示
-      // =========================================================
-    
-      function showStatus(category, status) {
-    
+      function showStatus(category, status) {    
         const cnt0 =
           (status.match(/0/g) || []).length;
-    
         const cnt1 =
           (status.match(/1/g) || []).length;
-    
         const cnt2 =
           (status.match(/2/g) || []).length;
-    
         const cnt3 =
           (status.match(/3/g) || []).length;
     
-    
         document.getElementById(category.statusId).innerHTML =
-    
           '<span class="c0">⬛︎</span>' + cnt0 +
           '　<span class="c1">⬛︎</span>' + cnt1 +
           '　<span class="c2">⬛︎</span>' + cnt2 +
           '　<span class="c3">⬛︎</span>' + cnt3;
       }
     
-    
-      // =========================================================
       // 全分野を処理
-      // =========================================================
-    
       config.categories.forEach(category => {
-    
         // リンク生成
         createLinks(category);
     
