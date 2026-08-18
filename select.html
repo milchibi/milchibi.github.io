@@ -17,22 +17,14 @@
     <a id="backLink" href="#">戻る</a>
     
     <script>
-      // =========================================================
       // URLパラメータ
-      // =========================================================
-    
       const params = new URLSearchParams(location.search);
-    
       const grade = parseInt(params.get("grade"), 10) || 0;
       const cat   = parseInt(params.get("cat"), 10) || 0;
       const sel   = parseInt(params.get("sel"), 10) || 0;
       const seed  = parseInt(params.get("num"), 10) || 0;
     
-    
-      // =========================================================
       // 共通データ
-      // =========================================================
-    
       const sels = [
         "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
         "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
@@ -41,8 +33,6 @@
         "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
         "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥"
       ];
-    
-    
       const titles = [
         "立春","雨水","啓蟄","春分","清明","穀雨",
         "立夏","小満","芒種","夏至","小暑","大暑",
@@ -50,19 +40,11 @@
         "立冬","小雪","大雪","冬至","小寒","大寒"
       ];
     
-    
-      // =========================================================
       // 級ごとの設定
-      // =========================================================
-    
       const gradeConfig = {
-    
-        // -------------------------------------------------------
         // grade=0 → 漢検1級
-        // -------------------------------------------------------
         0: {
           gradeName: "漢検1級",
-    
           cats: [
             "音読み",
             "訓読み",
@@ -77,22 +59,17 @@
             "故事成語",
             "文章題"
           ],
-    
           categories: {
             0:  { count: 4200, unit: 20, key: "result11" },
             1:  { count: 1399, unit: 10, key: "result12" },
             4:  { count: 3786, unit: 5,  key: "result3" },
-            7:  { count: 2182, unit: 10, key: "result5" }
+            7:  { count: 2182, unit: 10, key: "result5" },
+            10: { count: 2390, unit: 10, key: "result8" }
           }
         },
-    
-    
-        // -------------------------------------------------------
         // grade=7 → 漢検6級
-        // -------------------------------------------------------
         7: {
           gradeName: "漢検6級",
-    
           cats: [
             "読み",
             "音訓読み分け",
@@ -106,20 +83,14 @@
             "熟語",
             "書き"
           ],
-    
           categories: {
             0:  { count: 40, unit: 10, key: "result6_1" },
             10: { count: 30, unit: 10, key: "result6_11" }
           }
         },
-    
-    
-        // -------------------------------------------------------
         // grade=8 → 漢検7級
-        // -------------------------------------------------------
         8: {
           gradeName: "漢検7級",
-    
           cats: [
             "読み",
             "音訓読み分け",
@@ -133,20 +104,14 @@
             "熟語",
             "書き"
           ],
-    
           categories: {
             0:  { count: 160, unit: 20, key: "result7_1" },
             10: { count: 80,  unit: 20, key: "result7_11" }
           }
         },
-    
-    
-        // -------------------------------------------------------
         // grade=9 → 漢検8級
-        // -------------------------------------------------------
         9: {
           gradeName: "漢検8級",
-    
           cats: [
             "読み",
             "筆順",
@@ -157,93 +122,58 @@
             "音訓読み",
             "書き"
           ],
-    
           categories: {
             7: { count: 40, unit: 10, key: "result8_8" }
           }
         }
-    
       };
     
-    
-      // =========================================================
       // gradeの設定を取得
-      // =========================================================
-    
       const config = gradeConfig[grade];
     
-    
-      // =========================================================
       // 不正なgradeの場合
-      // =========================================================
-    
       if (!config) {
-    
         document.getElementById("gradeTitle").textContent =
           "級が指定されていません";
-    
         document.getElementById("pageSubtitle").textContent =
           "URLのgradeパラメータを確認してください。";
-    
         throw new Error("Invalid grade: " + grade);
       }
     
-    
-      // =========================================================
       // 現在のcatの設定を取得
-      // =========================================================
-    
       const categoryConfig = config.categories[cat];
     
-    
       if (!categoryConfig) {
-    
         document.getElementById("gradeTitle").textContent =
           config.gradeName;
-    
         document.getElementById("pageSubtitle").textContent =
           "指定された分野はありません。";
-    
         throw new Error(
           "Invalid category: grade=" + grade + ", cat=" + cat
         );
       }
     
-    
-      // =========================================================
       // localStorageの初期化
-      // =========================================================
-    
       function getStatus(key, count) {
-    
         let value = localStorage.getItem(key);
-    
         let status;
-    
         if (value === null) {
-    
           status = "0".repeat(count);
-    
         } else {
-    
           status = String(value);
-    
           // 短ければ0で補う
           if (status.length < count) {
             status += "0".repeat(count - status.length);
           }
-    
           // 長ければ切る
           if (status.length > count) {
             status = status.substring(0, count);
           }
         }
-    
         localStorage.setItem(key, status);
     
         return status;
       }
-    
     
       // localStorageを初期化
       const status = getStatus(
@@ -251,78 +181,38 @@
         categoryConfig.count
       );
     
-    
-      // =========================================================
       // タイトル
-      // =========================================================
-    
       const categoryName = config.cats[cat] || "不明";
-    
       const selectName =
         sels[sel] || "不明";
-    
-    
       const titleText =
         `${config.gradeName}勉強　${categoryName}【${selectName}】`;
     
-    
       document.getElementById("pageTitle").textContent =
         titleText;
-    
       document.getElementById("gradeTitle").textContent =
         `${config.gradeName}勉強`;
-    
       document.getElementById("pageSubtitle").textContent =
         `${categoryName}【${selectName}】`;
     
-    
-      // =========================================================
       // 戻るリンク
-      // =========================================================
-    
       document.getElementById("backLink").href =
         `top.html?grade=${grade}`;
     
-    
-      // =========================================================
       // 問題ページのリンク生成
-      // =========================================================
-    
       const container =
         document.getElementById("linkContainer");
     
-    
-      /*
-       * 1つの「選択」（甲子など）につき、
-       *
-       * 24ページ × unit問
-       *
-       * となっている。
-       *
-       * 例：
-       * 1級 音読み
-       * unit = 20
-       *
-       * 甲子
-       *   立春 → 1～20
-       *   雨水 → 21～40
-       *   ...
-       */
-    
-    
       for (const [index, title] of titles.entries()) {
-    
         const start =
           (sel * (24 * categoryConfig.unit))
           +
           ((index + 1) * categoryConfig.unit);
     
-    
         // このページに問題が存在しない場合は終了
         if (start > categoryConfig.count) {
           break;
         }
-    
     
         // リンク作成
         const link = document.createElement("a");
@@ -335,22 +225,15 @@
           `&page=${index}` +
           `&seed=${seed}`;
     
-    
         link.textContent = title;
-    
-    
         container.appendChild(link);
-    
         container.append("　");
-    
     
         // 6個ごとに改行
         if ((index + 1) % 6 === 0) {
-    
           container.appendChild(
             document.createElement("br")
           );
-    
           container.appendChild(
             document.createElement("br")
           );
