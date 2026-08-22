@@ -13,7 +13,7 @@
     <div id="gradeLinks"></div>
     <br>
     
-    ランダム用シード値　<input type="number" id="num" name="num" min="0" max="9999" step="1" value="0" placeholder="0～9999">
+    ランダム用シード値　<input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     <br><br>
 
     <!-- 分野 -->
@@ -26,7 +26,7 @@
       const params = new URLSearchParams(location.search);
       const grade = parseInt(params.get('grade')) || 0;
       const seed = parseInt(params.get('seed')) || 0;
-      document.getElementById("num").value = seed;
+      document.getElementById("seed").value = seed;
 
       // 干支
       const sels = [
@@ -114,15 +114,15 @@
       function addNumParameter(link, cat, index) {
         link.addEventListener("click", function(e) {
           e.preventDefault();
-          const num = document.getElementById("num").value;
+          const seed = document.getElementById("seed").value;
     
-          if (num === "" || num < 0 || num > 9999) {
+          if (seed === "" || seed < 0 || seed > 9999) {
             alert("シード値には、0～9999の数値を入力してください。");
             return;
           }
     
           location.href =
-            `select.html?grade=${grade}&cat=${cat}&sel=${index}&num=${num}`;
+            `select.html?grade=${grade}&cat=${cat}&sel=${index}&seed=${seed}`;
         });
       }
     
@@ -202,10 +202,10 @@
           (status.match(/3/g) || []).length;
     
         document.getElementById(category.statusId).innerHTML =
-          `<a href="list.html?grade=${grade}&cat=${category.cat}&status=0"><span class="c0">⬛︎</span>${cnt0}</a>` +
-          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=1"><span class="c1">⬛︎</span>${cnt1}</a>` +
-          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=2"><span class="c2">⬛︎</span>${cnt2}</a>` +
-          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=3"><span class="c3">⬛︎</span>${cnt3}</a>`;
+          `<a href="list.html?grade=${grade}&cat=${category.cat}&status=0&seed=${seed}"><span class="c0">⬛︎</span>${cnt0}</a>` +
+          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=1&seed=${seed}"><span class="c1">⬛︎</span>${cnt1}</a>` +
+          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=2&seed=${seed}"><span class="c2">⬛︎</span>${cnt2}</a>` +
+          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=3&seed=${seed}"><span class="c3">⬛︎</span>${cnt3}</a>`;
       }
     
       // 全分野を処理
