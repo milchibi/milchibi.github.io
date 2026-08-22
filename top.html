@@ -202,10 +202,10 @@
           (status.match(/3/g) || []).length;
     
         document.getElementById(category.statusId).innerHTML =
-          '<span class="c0">⬛︎</span>' + cnt0 +
-          '　<span class="c1">⬛︎</span>' + cnt1 +
-          '　<span class="c2">⬛︎</span>' + cnt2 +
-          '　<span class="c3">⬛︎</span>' + cnt3;
+          `<a href="list.html?grade=${grade}&cat=${category.cat}&status=0"><span class="c0">⬛︎</span>${cnt0}</a>` +
+          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=1"><span class="c1">⬛︎</span>${cnt1}</a>` +
+          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=2"><span class="c2">⬛︎</span>${cnt2}</a>` +
+          `　<a href="list.html?grade=${grade}&cat=${category.cat}&status=3"><span class="c3">⬛︎</span>${cnt3}</a>`;
       }
     
       // 全分野を処理
