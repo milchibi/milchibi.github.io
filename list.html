@@ -267,6 +267,8 @@
               ).innerHTML = row[4];
             }
           }
+          // 問題生成後に初期状態を反映
+          draw();
         })
       
         .catch(error => {
@@ -359,53 +361,50 @@
             });
         }
     
-    // ■クリック処理
-    document
-      .querySelectorAll(".box")
-      .forEach(box => {
-        box.addEventListener(
-          "click",
-          e => {
-            // 親要素へのクリック伝播を止める
-            e.stopPropagation();
-    
-            const key = KEY_STR[cat];
-            // 状態管理対象外
-            if (!key || key.startsWith("NULL")) {
-              return;
-            }
-    
-            let data =
-              localStorage
-                .getItem(key)
-                ?.split("");
-    
-            if (!data) {
-              return;
-            }
-    
-            const questionNumber = Number(box.dataset.index);
-            const i = shuffledIndex[
-                questionNumber -
-                1
-              ];
-    
-            if (i === undefined || data[i] === undefined) {
-              return;
-            }
-    
-            // 0 → 1 → 2 → 3 → 0
-            data[i] = (Number(data[i]) + 1) % 4;
-    
-            localStorage.setItem(
-              key,
-              data.join("")
-            );
-    
-            draw();
+        // ■クリック処理
+        document.addEventListener("click", e => {
+          const box = e.target.closest(".box");
+        
+          // ■以外をクリックした場合
+          if (!box) {
+            return;
           }
-        );
-      });
+        
+          // 親要素へのクリック伝播を止める
+          e.stopPropagation();
+        
+          const key = KEY_STR[cat];
+        
+          // 状態管理対象外
+          if (!key || key.startsWith("NULL")) {
+            return;
+          }
+        
+          let data = localStorage
+            .getItem(key)
+            ?.split("");
+        
+          if (!data) {
+            return;
+          }
+        
+          const questionNumber = Number(box.dataset.index);
+          const i = shuffledIndex[questionNumber - 1];
+        
+          if (i === undefined || data[i] === undefined) {
+            return;
+          }
+        
+          // 0 → 1 → 2 → 3 → 0
+          data[i] = (Number(data[i]) + 1) % 4;
+        
+          localStorage.setItem(
+            key,
+            data.join("")
+          );
+        
+          draw();
+        });
     
       // 初期表示
       draw();
