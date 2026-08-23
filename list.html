@@ -1,384 +1,372 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle"></title>
-  <link rel="stylesheet" href="../../style.css">
-</head>
-
-<body>
-  <h1 id="pageHeading"></h1>
-  <h2 id="pageSubtitle"></h2>
-
-  <table border="1">
-    <tbody id="quizTable"></tbody>
-  </table>
-
-  <br>
-  <div id="container"></div>
-  <br>
-
-  <a id="backLink" href="#">戻る</a>
-
-  <script>
-    // URLパラメータ
-    const params = new URLSearchParams(location.search);
-    
-    const grade  = parseInt(params.get('grade'))  || 0; // 級
-    const cat    = parseInt(params.get('cat'))    || 0; // 分野
-    const status = parseInt(params.get('status')) || 0; // 指定理解度
-    const seed   = parseInt(params.get('seed'))   || 0; // ランダムシード値
-
-    // 級別設定
-    const gradeConfigs = {    
-      // 漢検1級
-      0: {
-        heading: "漢検1級勉強",
-        cats: ["音読み", "訓読み", "書き取り", "書き取り-国字", "語選択", "四字熟語-書き", "四字熟語-意味", "熟字訓", "熟語-一字訓読み", "対義語・類義語", "故事成語", "文章題"],
-        keys: ["result11", "result12", "NULL21", "NULL22", "result3", "NULL41", "NULL42", "result5", "NULL6", "NULL7", "result8", "NULL9"],
-        categories: {
-          0: {
-            max: 4200,
-            filename: "https://milchibi.github.io/data_11.csv"
-          },
-          1: {
-            max: 1400,
-            filename: "https://milchibi.github.io/data_12.csv"
-          },
-          4: {
-            max: 3786,
-            filename: "https://milchibi.github.io/data_3.csv",
-            selectionMode: true
-          },
-          7: {
-            max: 2182,
-            filename: "https://milchibi.github.io/data_5.csv"
-          },
-          10: {
-            max: 2390,
-            filename: "https://milchibi.github.io/data_8.csv"
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle"></title>
+    <link rel="stylesheet" href="../../style.css">
+  </head>
+  
+  <body>
+    <h1 id="pageHeading"></h1>
+    <h2 id="pageSubtitle"></h2>
+  
+    <table border="1">
+      <tbody id="quizTable"></tbody>
+    </table>
+  
+    <br>
+    <div id="container"></div>
+    <br>
+  
+    <a id="backLink" href="#">戻る</a>
+  
+    <script>
+      // URLパラメータ
+      const params = new URLSearchParams(location.search);
+      
+      const grade  = parseInt(params.get('grade'))  || 0; // 級
+      const cat    = parseInt(params.get('cat'))    || 0; // 分野
+      const status = parseInt(params.get('status')) || 0; // 指定理解度
+      const seed   = parseInt(params.get('seed'))   || 0; // ランダムシード値
+  
+      // 級別設定
+      const gradeConfigs = {    
+        // 漢検1級
+        0: {
+          heading: "漢検1級勉強",
+          cats: ["音読み", "訓読み", "書き取り", "書き取り-国字", "語選択", "四字熟語-書き", "四字熟語-意味", "熟字訓", "熟語-一字訓読み", "対義語・類義語", "故事成語", "文章題"],
+          keys: ["result11", "result12", "NULL21", "NULL22", "result3", "NULL41", "NULL42", "result5", "NULL6", "NULL7", "result8", "NULL9"],
+          categories: {
+            0: {
+              max: 4200,
+              filename: "https://milchibi.github.io/data_11.csv"
+            },
+            1: {
+              max: 1400,
+              filename: "https://milchibi.github.io/data_12.csv"
+            },
+            4: {
+              max: 3786,
+              filename: "https://milchibi.github.io/data_3.csv",
+              selectionMode: true
+            },
+            7: {
+              max: 2182,
+              filename: "https://milchibi.github.io/data_5.csv"
+            },
+            10: {
+              max: 2390,
+              filename: "https://milchibi.github.io/data_8.csv"
+            }
+          }
+        },
+        // 漢検6級
+        7: {
+          heading: "漢検6級勉強",
+          cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
+          keys: ["result6_1", "NULL6_2", "NULL6_3", "NULL6_4", "NULL6_5", "NULL6_6", "NULL6_6", "NULL6_8", "NULL6_9", "NULL6_10", "result6_11"],
+          categories: {
+            0: {
+              max: 40,
+              filename: "https://milchibi.github.io/data6_1.csv"
+            },
+            10: {
+              max: 30,
+              filename: "https://milchibi.github.io/data6_11.csv"
+            }
+          }
+        },
+        // 漢検7級
+        8: {
+          heading: "漢検7級勉強",
+          cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
+          keys: ["result7_1", "NULL7_2", "NULL7_3", "NULL7_4", "NULL7_5", "NULL7_6", "NULL7_7", "NULL7_8", "NULL7_9", "NULL7_10", "result7_11"],
+          categories: {
+            0: {
+              max: 160,
+              filename: "https://milchibi.github.io/data7_1.csv"
+            },
+            10: {
+              max: 80,
+              filename: "https://milchibi.github.io/data7_11.csv"
+            }
+          }
+        },
+        // 漢検8級
+        9: {
+          heading: "漢検8級勉強",
+          cats: ["読み", "筆順", "対義語", "部首", "同音書き", "送り仮名", "音訓読み", "書き"],
+          keys: ["NULL8_1", "NULL8_2", "NULL8_3", "NULL8_4", "NULL8_5", "NULL8_6", "NULL8_7", "result8_8"],
+          categories: {
+            7: {
+              max: 40,
+              filename: "https://milchibi.github.io/data8_8.csv"
+            }
           }
         }
-      },
-    
-      // 漢検6級
-      7: {
-        heading: "漢検6級勉強",
-        cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
-        keys: ["result6_1", "NULL6_2", "NULL6_3", "NULL6_4", "NULL6_5", "NULL6_6", "NULL6_6", "NULL6_8", "NULL6_9", "NULL6_10", "result6_11"],
-        categories: {
-          0: {
-            max: 40,
-            filename: "https://milchibi.github.io/data6_1.csv"
-          },
-          10: {
-            max: 30,
-            filename: "https://milchibi.github.io/data6_11.csv"
-          }
-        }
-      },
-    
-      // 漢検7級
-      8: {
-        heading: "漢検7級勉強",
-        cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
-        keys: ["result7_1", "NULL7_2", "NULL7_3", "NULL7_4", "NULL7_5", "NULL7_6", "NULL7_7", "NULL7_8", "NULL7_9", "NULL7_10", "result7_11"],
-        categories: {
-          0: {
-            max: 160,
-            filename: "https://milchibi.github.io/data7_1.csv"
-          },
-          10: {
-            max: 80,
-            filename: "https://milchibi.github.io/data7_11.csv"
-          }
-        }
-      },
-    
-      // 漢検8級
-      9: {
-        heading: "漢検8級勉強",
-        cats: ["読み", "筆順", "対義語", "部首", "同音書き", "送り仮名", "音訓読み", "書き"],
-        keys: ["NULL8_1", "NULL8_2", "NULL8_3", "NULL8_4", "NULL8_5", "NULL8_6", "NULL8_7", "result8_8"],
-        categories: {
-          7: {
-            max: 40,
-            filename: "https://milchibi.github.io/data8_8.csv"
-          }
-        }
-      }
-    };
-    
-    // gradeのチェック
-    const config = gradeConfigs[grade];
-    
-    if (!config) {
-      document.body.innerHTML = `
-        <h1>エラー</h1>
-        <p>対応していない級です。</p>
-      `;
-      throw new Error("Unsupported grade: " + grade);
-    }
-    
-    // catの設定
-    const catConfig = config.categories[cat];
-    
-    if (!catConfig) {
-      document.body.innerHTML = `
-        <h1>エラー</h1>
-        <p>この級では対応していない分野です。</p>
-      `;
-      throw new Error("Unsupported category: grade=" + grade + ", cat=" + cat);
-    }
-    
-    const max = catConfig.max;
-    const filename = catConfig.filename;
-    
-    // localStorage初期化
-    const KEY_STR = config.keys;
-    
-    // 必要なresultキーだけ初期化
-    Object.entries(max).forEach(([key, count]) => {
-      let value = localStorage.getItem(key);
-      let status;
-    
-      if (value === null) {
-        status = "0".repeat(count);
-      }
-      else {
-        status = String(value);
-        if (status.length < count) {
-          status += "0".repeat(count - status.length);
-        }
-        // 長すぎた場合はCOUNTに合わせる
-        if (status.length > count) {
-          status = status.substring(0, count);
-        }
-      }
-      localStorage.setItem(key, status);
-    });
-    
-    // インデックス
-    const shuffledIndex = Array.from({ length: max }, (_, i) => i);
-    
-    // シャッフル
-    if (seed !== 0) {
-      const random = mulberry32(seed);
-      for (let i = shuffledIndex.length - 1; i > 0; i--) {
-        const j = Math.floor(random() * (i + 1));
-        [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
-      }
-    }
-    
-    // タイトル
-    const catName = config.cats[cat] || "";
-    const titleText = `${config.heading}　${catName}`;
-    
-    document.getElementById("pageTitle").textContent = titleText;
-    document.getElementById("pageHeading").textContent = config.heading;
-    document.getElementById("pageSubtitle").textContent = `${catName}`;
-    
-    // 問題欄生成
-    const tbody = document.getElementById("quizTable");
-    
-    const key = KEY_STR[cat];
-    let statusData =
-      localStorage
-        .getItem(key)
-        ?.split("")
-        .map(Number) || [];
-
-    // CSV読み込み
-    fetch(filename)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`CSV読み込み失敗: ${res.status} ${filename}`);
-        }
-        return res.text();
-      })
-    
-      .then(csv => {
-        const csvData =
-          csv
-            .split("\n")
-            .map(line => line.split(","));
-
-        
-    for (let i = 0; i <= max; i++) {      
-      const index = shuffledIndex[i];
-      const status = statusData[index];
-      if (status !== 0) continue;
-      const row = csvData[index];
-      if (!row) continue;
-
-      // 表示する問題番号
-      const questionNumber = i + 1;
-
-      // HTML生成
-      tbody.insertAdjacentHTML(
-        "beforeend",
-        `
-          <tr>
-            <td width="52">問${questionNumber}</td>
-            <td id="txt${questionNumber}q" class="ques" colspan="2"></td>
-          </tr>
-    
-          <tr>
-            <td class="ans">
-              <button
-                class="toggleBtn"
-                data-id="${questionNumber}">
-                解答
-              </button>
-            </td>
-    
-            <td class="ans">
-              <div
-                id="txt${questionNumber}"
-                class="hidden">
-              </div>
-            </td>
-    
-            <td class="ans boxCell">
-              <div
-                class="box hidden"
-                data-index="${questionNumber}">
-                ■
-              </div>
-            </td>
-          </tr>
-        `
-      );
-    }
-    
-
-    
-          // 問題
-          document.getElementById(
-            `txt${questionNumber}q`
-          ).innerHTML = row[3];
-    
-          // 解答
-          if (grade === 0) {
-            document.getElementById(
-              `txt${questionNumber}`
-            ).innerHTML =
-              row[4] +
-              "<br><hr>" +
-              row[5];
-          }
-          else {
-            document.getElementById(
-              `txt${questionNumber}`
-            ).innerHTML = row[4];
-          }
-        }
-      })
-    
-      .catch(error => {
-        console.error(error);
-        document.querySelector(
-          "#quizTable"
-        ).innerHTML = `
-          <tr>
-            <td colspan="3">
-              問題データを読み込めませんでした。
-            </td>
-          </tr>
-        `;
-      });
-    
-    // 解答表示・非表示
-    document.addEventListener(
-      "click",
-      e => {
-    
-        if (!e.target.classList.contains("toggleBtn")) {
-          return;
-        }
-    
-        const id = e.target.dataset.id;
-        const answer = document.getElementById(`txt${id}`);
-        const box =
-          document.querySelector(
-            `.box[data-index="${id}"]`
-          );
-    
-        if (!answer || !box) {
-          return;
-        }
-    
-        answer.classList.toggle("hidden");
-        box.classList.toggle("hidden");
-      }
-    );
-    
-    // 戻るリンク
-    document.getElementById("backLink").href =
-      `index.html?seed=${seed}`;
-    
-    // 乱数
-    function mulberry32(seed) {
-      return function() {
-        let t = seed += 0x6D2B79F5;
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
       };
-    }
-    
-    // ■の色表示
-    function draw() {
+      
+      // gradeのチェック
+      const config = gradeConfigs[grade];
+      
+      if (!config) {
+        document.body.innerHTML = `
+          <h1>エラー</h1>
+          <p>対応していない級です。</p>
+        `;
+        throw new Error("Unsupported grade: " + grade);
+      }
+      
+      // catの設定
+      const catConfig = config.categories[cat];
+      
+      if (!catConfig) {
+        document.body.innerHTML = `
+          <h1>エラー</h1>
+          <p>この級では対応していない分野です。</p>
+        `;
+        throw new Error("Unsupported category: grade=" + grade + ", cat=" + cat);
+      }
+      
+      const max = catConfig.max;
+      const filename = catConfig.filename;
+      
+      // localStorage初期化
+      const KEY_STR = config.keys;
+
+      // 現在のカテゴリのキー
       const key = KEY_STR[cat];
-    
-      // NULLカテゴリなどは状態管理対象外
-      if (!key || key.startsWith("NULL")) {
-        return;
+
+      if (key && !key.startsWith("NULL")) {
+        let storedValue = localStorage.getItem(key);
+        if (storedValue === null) {
+          storedValue = "0".repeat(max);
+        } else {
+          storedValue = String(storedValue);
+          // 短い場合は0で補う
+          if (storedValue.length < max) {
+            storedValue += "0".repeat(max - storedValue.length);
+          }
+          // 長い場合はmaxに合わせる
+          if (storedValue.length > max) {
+            storedValue = storedValue.substring(0, max);
+          }
+        }
+        localStorage.setItem(key, storedValue);
+      });
+      
+      // インデックス
+      const shuffledIndex = Array.from({ length: max }, (_, i) => i);
+      
+      // シャッフル
+      if (seed !== 0) {
+        const random = mulberry32(seed);
+        for (let i = shuffledIndex.length - 1; i > 0; i--) {
+          const j = Math.floor(random() * (i + 1));
+          [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
+        }
       }
-    
-      const data = localStorage.getItem(key);
-    
-      if (!data) {
-        return;
-      }
-    
-      document
-        .querySelectorAll(".box")
-        .forEach(box => {
-    
-          const questionNumber = Number(box.dataset.index);
-          const shuffledPosition = questionNumber - 1;
-          const i = shuffledIndex[shuffledPosition];
-    
-          // 範囲外なら何もしない
-          if (i === undefined || data[i] === undefined) {
+      
+      // タイトル
+      const catName = config.cats[cat] || "";
+      const titleText = `${config.heading}　${catName}`;
+      
+      document.getElementById("pageTitle").textContent = titleText;
+      document.getElementById("pageHeading").textContent = config.heading;
+      document.getElementById("pageSubtitle").textContent = `${catName}`;
+      
+      // 問題欄生成
+      const tbody = document.getElementById("quizTable");
+      
+      const key = KEY_STR[cat];
+      let statusData = localStorage
+          .getItem(key)
+          ?.split("")
+          .map(Number) || [];
+  
+      // CSV読み込み
+      fetch(filename)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`CSV読み込み失敗: ${res.status} ${filename}`);
+          }
+          return res.text();
+        })
+      
+        .then(csv => {
+          // CSVを配列化
+          const csvData =
+            csv
+              .trim()
+              .split("\n")
+              .map(line => line.split(","));
+  
+          for (let i = 0; i < max; i++) {
+            const index = shuffledIndex[i];
+            const status = statusData[index];
+            if (status !== 0) continue;
+            const row = csvData[index];
+            if (!row) continue;
+  
+            // 表示する問題番号
+            const questionNumber = i + 1;
+      
+            // HTML生成
+            tbody.insertAdjacentHTML(
+              "beforeend",
+              `
+                <tr>
+                  <td width="52">問${questionNumber}</td>
+                  <td id="txt${questionNumber}q" class="ques" colspan="2"></td>
+                </tr>
+          
+                <tr>
+                  <td class="ans">
+                    <button
+                      class="toggleBtn"
+                      data-id="${questionNumber}">
+                      解答
+                    </button>
+                  </td>
+          
+                  <td class="ans">
+                    <div
+                      id="txt${questionNumber}"
+                      class="hidden">
+                    </div>
+                  </td>
+          
+                  <td class="ans boxCell">
+                    <div
+                      class="box hidden"
+                      data-index="${questionNumber}">
+                      ■
+                    </div>
+                  </td>
+                </tr>
+              `
+            );
+
+            // 問題
+            document.getElementById(
+              `txt${questionNumber}q`
+            ).innerHTML = row[3];
+        
+            // 解答
+            if (grade === 0) {
+              document.getElementById(
+                `txt${questionNumber}`
+              ).innerHTML =
+                row[4] +
+                "<br><hr>" +
+                row[5];
+            }
+            else {
+              document.getElementById(
+                `txt${questionNumber}`
+              ).innerHTML = row[4];
+            }
+          }
+        })
+      
+        .catch(error => {
+          console.error(error);
+          document.querySelector(
+            "#quizTable"
+          ).innerHTML = `
+            <tr>
+              <td colspan="3">
+                問題データを読み込めませんでした。
+              </td>
+            </tr>
+          `;
+        });
+      
+        // 解答表示・非表示
+        document.addEventListener(
+          "click",
+          e => {
+        
+            if (!e.target.classList.contains("toggleBtn")) {
+              return;
+            }
+        
+            const id = e.target.dataset.id;
+            const answer = document.getElementById(`txt${id}`);
+            const box =
+              document.querySelector(
+                `.box[data-index="${id}"]`
+              );
+        
+            if (!answer || !box) {
+              return;
+            }
+        
+            answer.classList.toggle("hidden");
+            box.classList.toggle("hidden");
+          }
+        );
+      
+        // 戻るリンク
+        document.getElementById("backLink").href =
+          `index.html?seed=${seed}`;
+        
+        // 乱数
+        function mulberry32(seed) {
+          return function() {
+            let t = seed += 0x6D2B79F5;
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+      
+        // ■の色表示
+        function draw() {
+          const key = KEY_STR[cat];
+        
+          // NULLカテゴリなどは状態管理対象外
+          if (!key || key.startsWith("NULL")) {
             return;
           }
-    
-          // 色だけ変更
-          box.classList.remove(
-            "c0",
-            "c1",
-            "c2",
-            "c3"
-          );
-    
-          box.classList.add(
-            "c" + data[i]
-          );
-        });
-    }
+        
+          const data = localStorage.getItem(key);
+        
+          if (!data) {
+            return;
+          }
+        
+          document
+            .querySelectorAll(".box")
+            .forEach(box => {
+              const questionNumber = Number(box.dataset.index);
+              const shuffledPosition = questionNumber - 1;
+              const i = shuffledIndex[shuffledPosition];
+        
+              // 範囲外なら何もしない
+              if (i === undefined || data[i] === undefined) {
+                return;
+              }
+        
+              // 色だけ変更
+              box.classList.remove(
+                "c0",
+                "c1",
+                "c2",
+                "c3"
+              );
+              box.classList.add("c" + data[i]);
+            });
+        }
     
     // ■クリック処理
     document
       .querySelectorAll(".box")
       .forEach(box => {
-    
         box.addEventListener(
           "click",
           e => {
-    
             // 親要素へのクリック伝播を止める
             e.stopPropagation();
     
@@ -420,10 +408,9 @@
         );
       });
     
-    // 初期表示
-    draw();
+      // 初期表示
+      draw();
     
     </script>
-  
   </body>
 </html>
