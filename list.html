@@ -154,7 +154,7 @@
           }
         }
         localStorage.setItem(key, storedValue);
-      });
+      }
       
       // インデックス
       const shuffledIndex = Array.from({ length: max }, (_, i) => i);
@@ -179,7 +179,6 @@
       // 問題欄生成
       const tbody = document.getElementById("quizTable");
       
-      const key = KEY_STR[cat];
       let statusData = localStorage
           .getItem(key)
           ?.split("")
