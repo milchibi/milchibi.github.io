@@ -203,8 +203,8 @@
   
           for (let i = 0; i < max; i++) {
             const index = shuffledIndex[i];
-            const status = statusData[index];
-            if (status !== 0) continue;
+            const statusResult = statusData[index];
+            if (statusResult !== status) continue;
             const row = csvData[index];
             if (!row) continue;
   
