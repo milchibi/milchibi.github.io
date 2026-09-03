@@ -65,11 +65,31 @@
         2: {
           heading: "漢検2級勉強",
           cats: ["読み", "部首", "熟語構成", "四字熟語-書き", "四字熟語-意味", "対義語・類義語", "同音書き", "誤字訂正", "送り仮名", "書き"],
-          keys: ["result2_1", "NULL2_2", "NULL2_3", "NULL2_41", "NULL2_42", "NULL2_5", "NULL2_6", "NULL2_7", "NULL2_8", "NULL2_9"],
+          keys: ["result2_1", "NULL2_2", "NULL2_3", "NULL2_41", "NULL2_42", "NULL2_5", "NULL2_6", "NULL2_7", "NULL2_8", "result2_9"],
+          categories: {
+            0: {
+              max: 20,
+              filename: "https://milchibi.github.io/data2_1.csv"
+            },
+            8: {
+              max: 20,
+              filename: "https://milchibi.github.io/data2_9.csv"
+            }
+          }
+        },
+        // 漢検準2級
+        3: {
+          heading: "漢検準2級勉強",
+          cats: ["読み", "部首", "熟語構成", "四字熟語-書き", "四字熟語-意味", "対義語・類義語", "同音書き", "誤字訂正", "送り仮名", "書き"],
+          keys: ["resultP2_1", "NULLP2_2", "NULLP2_3", "NULLP2_41", "NULLP2_42", "NULLP2_5", "NULLP2_6", "NULLP2_7", "NULLP2_8", "resultP2_9"],
           categories: {
             0: {
               max: 10,
-              filename: "https://milchibi.github.io/data2_1.csv"
+              filename: "https://milchibi.github.io/dataP2_1.csv"
+            },
+            8: {
+              max: 10,
+              filename: "https://milchibi.github.io/dataP2_9.csv"
             }
           }
         },
