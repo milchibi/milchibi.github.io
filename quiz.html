@@ -86,7 +86,7 @@
               num: 5,
               max: 3786,
               filename: "https://milchibi.github.io/data_3.csv",
-              selectionMode: true
+              selectionMode: 8
             },
             7: {
               num: 10,
@@ -97,7 +97,7 @@
               num: 5,
               max: 353,
               filename: "https://milchibi.github.io/data_71.csv",
-              selectionMode: true
+              selectionMode: 5
             },
             10: {
               num: 10,
@@ -307,11 +307,11 @@
       document.getElementById("pageSubtitle").textContent = `${catName}【${selName}-${pageName}】`;
       
       // 語選択用コンテナ
-      if (catConfig.selectionMode) {
+      if (catConfig.selectionMode !== 0) {
         const container = document.getElementById("container");
         const items =
           Array.from(
-            { length: 8 },
+            { length: catConfig.selectionMode },
             (_, i) =>
               `<span id="sel${i}" class="item"></span>`
           );
