@@ -55,8 +55,8 @@
         // 漢検1級
         0: {
           heading: "漢検1級勉強",
-          cats: ["音読み", "訓読み", "書き取り", "書き取り-国字", "語選択", "四字熟語-書き", "四字熟語-意味", "熟字訓", "熟語-一字訓読み", "対義語・類義語", "故事成語", "文章題"],
-          keys: ["result11", "result12", "result21", "NULL22", "result3", "NULL41", "NULL42", "result5", "NULL6", "result71", "result8", "NULL9"],
+          cats: ["音読み", "訓読み", "書き取り", "書き取り-国字", "語選択", "四字熟語-書き", "四字熟語-意味", "熟字訓", "熟語-一字訓読み", "対義語", "類義語", "故事成語", "文章題"],
+          keys: ["result11", "result12", "result21", "NULL22", "result3", "NULL41", "NULL42", "result5", "NULL6", "result71", "result72", "result8", "NULL9"],
           counts: {
             result11: 4521,
             result12: 1566,
@@ -64,6 +64,7 @@
             result3: 3786,
             result5: 2190,
             result71: 353,
+            result72: 699,
             result8: 2390
           },
           categories: {
@@ -104,6 +105,12 @@
               selectionNum: 5
             },
             10: {
+              num: 5,
+              max: 699,
+              filename: "https://milchibi.github.io/data_72.csv",
+              selectionNum: 5
+            },
+            11: {
               num: 10,
               max: 2390,
               filename: "https://milchibi.github.io/data_8.csv",
@@ -403,7 +410,8 @@
               // 語選択
               document.getElementById(`txt${i + 1}`).innerHTML = row[5];
             }
-            else if (grade === 0 && cat === 9) {
+            else if (grade === 0 && (cat === 9 || cat === 10)) {
+              // 対義語、類義語
               document.getElementById(`txt${i + 1}`).innerHTML =
                 row[4] +
                 "<br><hr>" +
@@ -426,8 +434,8 @@
             }
           }
 
-          // 1級・語選択or対義語 の選択肢
-          if (grade === 0 && (cat === 4 || cat === 9)) {
+          // 1級・語選択or対義語・類義語 の選択肢
+          if (grade === 0 && (cat === 4 || cat === 9 || cat === 10)) {
             let arr;
             if (cat === 4) {
               arr = new Array(8);
