@@ -70,39 +70,44 @@
             0: {
               num: 20,
               max: 4521,
-              filename: "https://milchibi.github.io/data_11.csv"
+              filename: "https://milchibi.github.io/data_11.csv",
+              selectionNum: 0
             },
             1: {
               num: 10,
               max: 1566,
-              filename: "https://milchibi.github.io/data_12.csv"
+              filename: "https://milchibi.github.io/data_12.csv",
+              selectionNum: 0
             },
             2: {
               num: 18,
               max: 558,
-              filename: "https://milchibi.github.io/data_21.csv"
+              filename: "https://milchibi.github.io/data_21.csv",
+              selectionNum: 0
             },
             4: {
               num: 5,
               max: 3786,
               filename: "https://milchibi.github.io/data_3.csv",
-              selectionMode: 8
+              selectionNum: 8
             },
             7: {
               num: 10,
               max: 2190,
-              filename: "https://milchibi.github.io/data_5.csv"
+              filename: "https://milchibi.github.io/data_5.csv",
+              selectionNum: 0
             },
             9: {
               num: 5,
               max: 353,
               filename: "https://milchibi.github.io/data_71.csv",
-              selectionMode: 5
+              selectionNum: 5
             },
             10: {
               num: 10,
               max: 2390,
-              filename: "https://milchibi.github.io/data_8.csv"
+              filename: "https://milchibi.github.io/data_8.csv",
+              selectionNum: 0
             }
           }
         },
@@ -119,12 +124,14 @@
             0: {
               num: 10,
               max: 20,
-              filename: "https://milchibi.github.io/data2_1.csv"
+              filename: "https://milchibi.github.io/data2_1.csv",
+              selectionNum: 0
             },
             8: {
               num: 10,
               max: 20,
-              filename: "https://milchibi.github.io/data2_9.csv"
+              filename: "https://milchibi.github.io/data2_9.csv",
+              selectionNum: 0
             }
           }
         },
@@ -141,12 +148,14 @@
             0: {
               num: 10,
               max: 10,
-              filename: "https://milchibi.github.io/dataP2_1.csv"
+              filename: "https://milchibi.github.io/dataP2_1.csv",
+              selectionNum: 0
             },
             8: {
               num: 10,
               max: 10,
-              filename: "https://milchibi.github.io/dataP2_9.csv"
+              filename: "https://milchibi.github.io/dataP2_9.csv",
+              selectionNum: 0
             }
           }
         },
@@ -163,12 +172,14 @@
             0: {
               num: 10,
               max: 20,
-              filename: "https://milchibi.github.io/data5_1.csv"
+              filename: "https://milchibi.github.io/data5_1.csv",
+              selectionNum: 0
             },
             10: {
               num: 10,
               max: 20,
-              filename: "https://milchibi.github.io/data5_11.csv"
+              filename: "https://milchibi.github.io/data5_11.csv",
+              selectionNum: 0
             }
           }
         },
@@ -185,12 +196,14 @@
             0: {
               num: 10,
               max: 40,
-              filename: "https://milchibi.github.io/data6_1.csv"
+              filename: "https://milchibi.github.io/data6_1.csv",
+              selectionNum: 0
             },
             10: {
               num: 10,
               max: 30,
-              filename: "https://milchibi.github.io/data6_11.csv"
+              filename: "https://milchibi.github.io/data6_11.csv",
+              selectionNum: 0
             }
           }
         },
@@ -207,12 +220,14 @@
             0: {
               num: 20,
               max: 180,
-              filename: "https://milchibi.github.io/data7_1.csv"
+              filename: "https://milchibi.github.io/data7_1.csv",
+              selectionNum: 0
             },
             10: {
               num: 20,
               max: 100,
-              filename: "https://milchibi.github.io/data7_11.csv"
+              filename: "https://milchibi.github.io/data7_11.csv",
+              selectionNum: 0
             }
           }
         },
@@ -228,7 +243,8 @@
             7: {
               num: 10,
               max: 40,
-              filename: "https://milchibi.github.io/data8_8.csv"
+              filename: "https://milchibi.github.io/data8_8.csv",
+              selectionNum: 0
             }
           }
         }
@@ -307,11 +323,11 @@
       document.getElementById("pageSubtitle").textContent = `${catName}【${selName}-${pageName}】`;
       
       // 語選択用コンテナ
-      if (catConfig.selectionMode !== 0) {
+      if (catConfig.selectionNum !== 0) {
         const container = document.getElementById("container");
         const items =
           Array.from(
-            { length: catConfig.selectionMode },
+            { length: catConfig.selectionNum },
             (_, i) =>
               `<span id="sel${i}" class="item"></span>`
           );
