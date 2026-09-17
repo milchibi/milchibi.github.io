@@ -91,16 +91,16 @@
         0: {
           title: "漢検1級 分野別勉強",
           categories: [
-            { title: "(一)　音読み", statusId: "status11", linkId: "linkContainer11", key: "result11", cat: 0, total: 4521, unit: 20 },
-            { title: "(一)　訓読み", statusId: "status12", linkId: "linkContainer12", key: "result12", cat: 1, total: 1566, unit: 10 },
-            { title: "(二)　書き取り", statusId: "status21", linkId: "linkContainer21", key: "result21", cat: 2, total: 558, unit: 18 },
-            { title: "(三)　語選択", statusId: "status3", linkId: "linkContainer3", key: "result3", cat: 4, total: 3786, unit: 5 },
-            { title: "(四)　四字熟語・書き", statusId: "status41", linkId: "linkContainer41", key: "result41", cat: 5, total: 964, unit: 10 },
-            { title: "(五)　熟字訓・当て字", statusId: "status5", linkId: "linkContainer5", key: "result5", cat: 7, total: 2190, unit: 10 },
-            { title: "(六)　熟語・一字訓読み", statusId: "status6", linkId: "linkContainer6", key: "result6", cat: 8, total: 1028, unit: 5 },
-            { title: "(七)　対義語", statusId: "status71", linkId: "linkContainer71", key: "result71", cat: 9, total: 459, unit: 5 },
-            { title: "(七)　類義語", statusId: "status72", linkId: "linkContainer72", key: "result72", cat: 10, total: 795, unit: 5 },
-            { title: "(八)　故事成語", statusId: "status8", linkId: "linkContainer8", key: "result8", cat: 11, total: 2390, unit: 10 }
+            { title: "(一)　音読み", statusId: "status11", linkId: "linkContainer11", key: "result11", key2: null, cat: 0, total: 4521, unit: 20 },
+            { title: "(一)　訓読み", statusId: "status12", linkId: "linkContainer12", key: "result12", key2: null, cat: 1, total: 1566, unit: 10 },
+            { title: "(二)　書き取り", statusId: "status21", linkId: "linkContainer21", key: "result21", key2: null, cat: 2, total: 558, unit: 18 },
+            { title: "(三)　語選択", statusId: "status3", linkId: "linkContainer3", key: "result3", key2: null, cat: 4, total: 3786, unit: 5 },
+            { title: "(四)　四字熟語・書き", statusId: "status41", linkId: "linkContainer41", key: "result41", key2: "result41_2", cat: 5, total: 964, unit: 10 },
+            { title: "(五)　熟字訓・当て字", statusId: "status5", linkId: "linkContainer5", key: "result5", key2: null, cat: 7, total: 2190, unit: 10 },
+            { title: "(六)　熟語・一字訓読み", statusId: "status6", linkId: "linkContainer6", key: "result6", key2: null, cat: 8, total: 1028, unit: 5 },
+            { title: "(七)　対義語", statusId: "status71", linkId: "linkContainer71", key: "result71", key2: null, cat: 9, total: 459, unit: 5 },
+            { title: "(七)　類義語", statusId: "status72", linkId: "linkContainer72", key: "result72", key2: null, cat: 10, total: 795, unit: 5 },
+            { title: "(八)　故事成語", statusId: "status8", linkId: "linkContainer8", key: "result8", key2: null, cat: 11, total: 2390, unit: 10 }
           ]
         }
       };
@@ -127,7 +127,6 @@
         status.id = category.statusId;
     
         categoryContainer.appendChild(status);
-    
         categoryContainer.appendChild(document.createElement("br"));
     
         // リンク
@@ -135,7 +134,6 @@
         links.id = category.linkId;
     
         categoryContainer.appendChild(links);
-    
         categoryContainer.appendChild(document.createElement("br"));
       });
 
@@ -150,48 +148,32 @@
             return;
           }
     
-          location.href =
-            `select.html?grade=${grade}&cat=${cat}&sel=${index}&seed=${seed}`;
+          location.href = `select.html?grade=${grade}&cat=${cat}&sel=${index}&seed=${seed}`;
         });
       }
     
       // 分野リンク生成    
       function createLinks(category) {
-        const container =
-          document.getElementById(category.linkId);
+        const container = document.getElementById(category.linkId);
     
         // 必要なリンク数
-        const count =
-          Math.ceil(category.total / (24 * category.unit));
+        const count = Math.ceil(category.total / (24 * category.unit));
     
         for (let index = 0; index < count; index++) {
-    
           const link = document.createElement("a");
     
-          link.href =
-            `select.html?grade=${grade}&cat=${category.cat}&sel=${index}`;
-    
+          link.href = `select.html?grade=${grade}&cat=${category.cat}&sel=${index}`;
           link.textContent = sels[index];
     
-          addNumParameter(
-            link,
-            category.cat,
-            index
-          );
+          addNumParameter(link, category.cat, index);
     
           container.appendChild(link);
           container.append("　");
     
           // 6個ごとに改行
           if ((index + 1) % 6 === 0) {
-    
-            container.appendChild(
-              document.createElement("br")
-            );
-    
-            container.appendChild(
-              document.createElement("br")
-            );
+            container.appendChild(document.createElement("br"));
+            container.appendChild(document.createElement("br"));
           }
         }
       }
@@ -220,15 +202,18 @@
       }
     
       // ステータス表示
-      function showStatus(category, status) {    
-        const cnt0 =
-          (status.match(/0/g) || []).length;
-        const cnt1 =
-          (status.match(/1/g) || []).length;
-        const cnt2 =
-          (status.match(/2/g) || []).length;
-        const cnt3 =
-          (status.match(/3/g) || []).length;
+      function showStatus(category, status, status2) {    
+        let cnt0 = (status.match(/0/g) || []).length;
+        let cnt1 = (status.match(/1/g) || []).length;
+        let cnt2 = (status.match(/2/g) || []).length;
+        let cnt3 = (status.match(/3/g) || []).length;
+        if (status2 !== null)
+        {
+          cnt0 += (status2.match(/0/g) || []).length;
+          cnt1 += (status2.match(/1/g) || []).length;
+          cnt2 += (status2.match(/2/g) || []).length;
+          cnt3 += (status2.match(/3/g) || []).length;
+        }
     
         document.getElementById(category.statusId).innerHTML =
           `<a href="list.html?grade=${grade}&cat=${category.cat}&status=0&seed=${seed}"><span class="c0">⬛︎</span>${cnt0}</a>` +
@@ -243,17 +228,14 @@
         createLinks(category);
     
         // localStorage取得
-        const status =
-          getStatus(
-            category.key,
-            category.total
-          );
+        const status = getStatus(category.key, category.total);
+        let status2 = null;
+        if (category.statusId === "status41") {
+          status2 = getStatus(category.key2, category.total);
+        }
     
         // 状態表示
-        showStatus(
-          category,
-          status
-        );
+        showStatus(category, status, status2);
       });
     </script>
   </body>
