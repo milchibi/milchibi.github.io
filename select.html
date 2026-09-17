@@ -61,16 +61,16 @@
             "文章題"
           ],
           categories: {
-            0:  { count: 4521, unit: 20, key: "result11" },
-            1:  { count: 1566, unit: 10, key: "result12" },
-            2:  { count: 558, unit: 18, key: "result21" },
-            4:  { count: 3786, unit: 5,  key: "result3" },
-            5:  { count: 964, unit: 10,  key: "result41" },
-            7:  { count: 2190, unit: 10, key: "result5" },
-            8:  { count: 1028, unit: 5, key: "result6" },
-            9:  { count: 459, unit: 5, key: "result71" },
-            10:  { count: 795, unit: 5, key: "result72" },
-            11: { count: 2390, unit: 10, key: "result8" }
+            0:  { count: 4521, unit: 20, key: "result11", key2: null },
+            1:  { count: 1566, unit: 10, key: "result12", key2: null },
+            2:  { count: 558, unit: 18, key: "result21", key2: null },
+            4:  { count: 3786, unit: 5, key: "result3", key2: null },
+            5:  { count: 964, unit: 10, key: "result41", key2: "result41_2" },
+            7:  { count: 2190, unit: 10, key: "result5", key2: null },
+            8:  { count: 1028, unit: 5, key: "result6", key2: null },
+            9:  { count: 459, unit: 5, key: "result71", key2: null },
+            10:  { count: 795, unit: 5, key: "result72", key2: null },
+            11: { count: 2390, unit: 10, key: "result8", key2: null }
           }
         },
         // grade=2 → 漢検2級
@@ -80,8 +80,8 @@
             "読み",
             "部首",
             "熟語構成",
-            "四字熟語-書き",
-            "四字熟語-意味",
+            "四字熟語・書き",
+            "四字熟語・意味",
             "対義語・類義語",
             "同音書き",
             "誤字訂正",
@@ -89,8 +89,8 @@
             "書き"
           ],
           categories: {
-            0:  { count: 20, unit: 10, key: "result2_1" },
-            8:  { count: 20, unit: 10, key: "result2_9" }
+            0:  { count: 20, unit: 10, key: "result2_1", key2: null },
+            8:  { count: 20, unit: 10, key: "result2_9", key2: null }
           }
         },
         // grade=3 → 漢検準2級
@@ -100,8 +100,8 @@
             "読み",
             "部首",
             "熟語構成",
-            "四字熟語-書き",
-            "四字熟語-意味",
+            "四字熟語・書き",
+            "四字熟語・意味",
             "対義語・類義語",
             "同音書き",
             "誤字訂正",
@@ -109,8 +109,8 @@
             "書き"
           ],
           categories: {
-            0:  { count: 10, unit: 10, key: "resultP2_1" },
-            8:  { count: 10, unit: 10, key: "resultP2_9" }
+            0:  { count: 10, unit: 10, key: "resultP2_1", key2: null },
+            8:  { count: 10, unit: 10, key: "resultP2_9", key2: null }
           }
         },
         // grade=6 → 漢検5級
@@ -130,8 +130,8 @@
             "書き"
           ],
           categories: {
-            0:  { count: 20, unit: 10, key: "result5_1" },
-            10: { count: 20, unit: 10, key: "result5_11" }
+            0:  { count: 20, unit: 10, key: "result5_1", key2: null },
+            10: { count: 20, unit: 10, key: "result5_11", key2: null }
           }
         },
         // grade=7 → 漢検6級
@@ -151,8 +151,8 @@
             "書き"
           ],
           categories: {
-            0:  { count: 40, unit: 10, key: "result6_1" },
-            10: { count: 30, unit: 10, key: "result6_11" }
+            0:  { count: 40, unit: 10, key: "result6_1", key2: null },
+            10: { count: 30, unit: 10, key: "result6_11", key2: null }
           }
         },
         // grade=8 → 漢検7級
@@ -172,8 +172,8 @@
             "書き"
           ],
           categories: {
-            0:  { count: 180, unit: 20, key: "result7_1" },
-            10: { count: 100,  unit: 20, key: "result7_11" }
+            0:  { count: 180, unit: 20, key: "result7_1", key2: null },
+            10: { count: 100,  unit: 20, key: "result7_11", key2: null }
           }
         },
         // grade=9 → 漢検8級
@@ -190,7 +190,7 @@
             "書き"
           ],
           categories: {
-            7: { count: 40, unit: 10, key: "result8_8" }
+            7: { count: 40, unit: 10, key: "result8_8", key2: null }
           }
         }
       };
@@ -200,10 +200,8 @@
     
       // 不正なgradeの場合
       if (!config) {
-        document.getElementById("gradeTitle").textContent =
-          "級が指定されていません";
-        document.getElementById("pageSubtitle").textContent =
-          "URLのgradeパラメータを確認してください。";
+        document.getElementById("gradeTitle").textContent = "級が指定されていません";
+        document.getElementById("pageSubtitle").textContent = "URLのgradeパラメータを確認してください。";
         throw new Error("Invalid grade: " + grade);
       }
     
@@ -211,13 +209,9 @@
       const categoryConfig = config.categories[cat];
     
       if (!categoryConfig) {
-        document.getElementById("gradeTitle").textContent =
-          config.gradeName;
-        document.getElementById("pageSubtitle").textContent =
-          "指定された分野はありません。";
-        throw new Error(
-          "Invalid category: grade=" + grade + ", cat=" + cat
-        );
+        document.getElementById("gradeTitle").textContent = config.gradeName;
+        document.getElementById("pageSubtitle").textContent = "指定された分野はありません。";
+        throw new Error("Invalid category: grade=" + grade + ", cat=" + cat);
       }
     
       // localStorageの初期化
@@ -243,32 +237,26 @@
       }
     
       // localStorageを初期化
-      const status = getStatus(
-        categoryConfig.key,
-        categoryConfig.count
-      );
-    
+      const status = getStatus(categoryConfig.key, categoryConfig.count);
+      let status2 = null;
+      if (categoryConfig.key2 !== null) {
+        status2 = getStatus(categoryConfig.key2, categoryConfig.count);
+      }
+
       // タイトル
       const categoryName = config.cats[cat] || "不明";
-      const selectName =
-        sels[sel] || "不明";
-      const titleText =
-        `${config.gradeName}勉強　${categoryName}【${selectName}】`;
+      const selectName = sels[sel] || "不明";
+      const titleText = `${config.gradeName}勉強　${categoryName}【${selectName}】`;
     
-      document.getElementById("pageTitle").textContent =
-        titleText;
-      document.getElementById("gradeTitle").textContent =
-        `${config.gradeName}勉強`;
-      document.getElementById("pageSubtitle").textContent =
-        `${categoryName}【${selectName}】`;
+      document.getElementById("pageTitle").textContent = titleText;
+      document.getElementById("gradeTitle").textContent = `${config.gradeName}勉強`;
+      document.getElementById("pageSubtitle").textContent = `${categoryName}【${selectName}】`;
     
       // 戻るリンク
-      document.getElementById("backLink").href =
-        `top.html?grade=${grade}`;
+      document.getElementById("backLink").href = `top.html?grade=${grade}`;
     
       // 問題ページのリンク生成
-      const container =
-        document.getElementById("linkContainer");
+      const container = document.getElementById("linkContainer");
     
       for (const [index, title] of titles.entries()) {
         const start =
@@ -277,7 +265,7 @@
           ((index + 1) * categoryConfig.unit);
     
         // このページに問題が存在しない場合は終了
-        if (start > categoryConfig.count) {
+        if ((start > categoryConfig.count) || ((categoryConfig.key2 !== null) && (start > (categoryConfig.count * 2)))) {
           break;
         }
     
@@ -298,12 +286,8 @@
     
         // 6個ごとに改行
         if ((index + 1) % 6 === 0) {
-          container.appendChild(
-            document.createElement("br")
-          );
-          container.appendChild(
-            document.createElement("br")
-          );
+          container.appendChild(document.createElement("br"));
+          container.appendChild(document.createElement("br"));
         }
       }
     </script>
