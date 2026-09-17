@@ -417,7 +417,7 @@
             if (!row) continue;
       
             // 問題
-            if (grade === 0 && cat === 6) {
+            if (grade === 0 && cat === 5) {
               document.getElementById(`txt${i + 1}q`).innerHTML = "（　　）" + row[3].slice(-2);
             }
             else {
@@ -433,7 +433,7 @@
               // 四字熟語・書き
               document.getElementById(`txt${i + 1}`).innerHTML = 
                 row[6] + 
-                "<br>" + 
+                "<br><hr>" + 
                 row[7];
             }
             else if (grade === 0 && (cat === 9 || cat === 10)) {
