@@ -239,8 +239,10 @@
       // localStorageを初期化
       const status = getStatus(categoryConfig.key, categoryConfig.count);
       let status2 = null;
+      console.log(categoryConfig.key2);
       if (categoryConfig.key2 !== null) {
         status2 = getStatus(categoryConfig.key2, categoryConfig.count);
+        console.log(status2);
       }
 
       // タイトル
