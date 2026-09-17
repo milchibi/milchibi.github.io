@@ -157,7 +157,13 @@
         const container = document.getElementById(category.linkId);
     
         // 必要なリンク数
-        const count = Math.ceil(category.total / (24 * category.unit));
+        let count;
+        if (category.statusId === "status41") {
+          count = Math.ceil((category.total * 2) / (24 * category.unit));
+        }
+        else {
+          count = Math.ceil(category.total / (24 * category.unit));
+        }
     
         for (let index = 0; index < count; index++) {
           const link = document.createElement("a");
