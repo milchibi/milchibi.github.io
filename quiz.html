@@ -57,6 +57,7 @@
           heading: "漢検1級勉強",
           cats: ["音読み", "訓読み", "書き取り", "書き取り・国字", "語選択", "四字熟語・書き", "四字熟語・意味", "熟字訓", "熟語・一字訓読み", "対義語", "類義語", "故事成語", "文章題"],
           keys: ["result11", "result12", "result21", "NULL22", "result3", "result41", "NULL42", "result5", "result6", "result71", "result72", "result8", "NULL9"],
+          keys2: [null, null, null, null, null, "result41_2", null, null, null, null, null, null, null],
           counts: {
             result11: 4521,
             result12: 1566,
@@ -135,8 +136,9 @@
         // 漢検2級
         2: {
           heading: "漢検2級勉強",
-          cats: ["読み", "部首", "熟語構成", "四字熟語-書き", "四字熟語-意味", "対義語・類義語", "同音書き", "誤字訂正", "送り仮名", "書き"],
+          cats: ["読み", "部首", "熟語構成", "四字熟語・書き", "四字熟語・意味", "対義語・類義語", "同音書き", "誤字訂正", "送り仮名", "書き"],
           keys: ["result2_1", "NULL2_2", "NULL2_3", "NULL2_41", "NULL2_42", "NULL2_5", "NULL2_6", "NULL2_7", "NULL2_8", "result2_9"],
+          keys2: [null, null, null, null, null, null, null, null, null, null],
           counts: {
             result2_1: 20,
             result2_9: 20
@@ -159,8 +161,9 @@
         // 漢検準2級
         3: {
           heading: "漢検準2級勉強",
-          cats: ["読み", "部首", "熟語構成", "四字熟語-書き", "四字熟語-意味", "対義語・類義語", "同音書き", "誤字訂正", "送り仮名", "書き"],
+          cats: ["読み", "部首", "熟語構成", "四字熟語・書き", "四字熟語・意味", "対義語・類義語", "同音書き", "誤字訂正", "送り仮名", "書き"],
           keys: ["resultP2_1", "NULLP2_2", "NULLP2_3", "NULLP2_41", "NULLP2_42", "NULLP2_5", "NULLP2_6", "NULLP2_7", "NULLP2_8", "resultP2_9"],
+          keys2: [null, null, null, null, null, null, null, null, null, null],
           counts: {
             resultP2_1: 10,
             resultP2_9: 10
@@ -185,6 +188,7 @@
           heading: "漢検5級勉強",
           cats: ["読み", "部首", "筆順", "送り仮名", "音訓構成", "一字書き", "対義語・類義語", "熟語選択", "熟語構成", "同音書き", "書き"],
           keys: ["result5_1", "NULL5_2", "NULL5_3", "NULL5_4", "NULL5_5", "NULL5_6", "NULL5_7", "NULL5_8", "NULL5_9", "NULL5_10", "result5_11"],
+          keys2: [null, null, null, null, null, null, null, null, null, null, null],
           counts: {
             result5_1: 20,
             result5_11: 20
@@ -209,6 +213,7 @@
           heading: "漢検6級勉強",
           cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
           keys: ["result6_1", "NULL6_2", "NULL6_3", "NULL6_4", "NULL6_5", "NULL6_6", "NULL6_6", "NULL6_8", "NULL6_9", "NULL6_10", "result6_11"],
+          keys2: [null, null, null, null, null, null, null, null, null, null, null],
           counts: {
             result6_1: 40,
             result6_11: 30
@@ -233,6 +238,7 @@
           heading: "漢検7級勉強",
           cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
           keys: ["result7_1", "NULL7_2", "NULL7_3", "NULL7_4", "NULL7_5", "NULL7_6", "NULL7_7", "NULL7_8", "NULL7_9", "NULL7_10", "result7_11"],
+          keys2: [null, null, null, null, null, null, null, null, null, null, null],
           counts: {
             result7_1: 180,
             result7_11: 100
@@ -257,6 +263,7 @@
           heading: "漢検8級勉強",
           cats: ["読み", "筆順", "対義語", "部首", "同音書き", "送り仮名", "音訓読み", "書き"],
           keys: ["NULL8_1", "NULL8_2", "NULL8_3", "NULL8_4", "NULL8_5", "NULL8_6", "NULL8_7", "result8_8"],
+          keys2: [null, null, null, null, null, null, null, null],
           counts: {
             result8_8: 40
           },
@@ -299,6 +306,7 @@
 
       // localStorage初期化
       const KEY_STR = config.keys;
+      const KEY_STR2 = config.keys2;
 
       // 必要なresultキーだけ初期化
       Object.entries(config.counts).forEach(([key, count]) => {
@@ -321,8 +329,15 @@
       });
 
       // インデックス
-      const startIndex = (sel * 24 * num) + (page * num);
+      let startIndex;
+      if (grade === 0 && car === 5) {
+        startIndex = (sel * 24 * (num / 2)) + (page * (num / 2));
+      }
+      else {
+        startIndex = (sel * 24 * num) + (page * num);
+      }
       const shuffledIndex = Array.from({ length: max }, (_, i) => i);
+      const shuffledIndex2 = Array.from({ length: max }, (_, i) => i);
 
       // シャッフル
       if (seed !== 0) {
@@ -330,6 +345,11 @@
         for (let i = shuffledIndex.length - 1; i > 0; i--) {
           const j = Math.floor(random() * (i + 1));
           [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
+          [shuffledIndex2[i], shuffledIndex2[j]] = [shuffledIndex2[j], shuffledIndex2[i]];
+        }
+        for (let i = shuffledIndex.length - 1; i > 0; i--) {
+          const j = Math.floor(random() * (i + 1));
+          [shuffledIndex2[i], shuffledIndex2[j]] = [shuffledIndex2[j], shuffledIndex2[i]];
         }
       }
 
@@ -411,26 +431,16 @@
               .map(line => line.split(","));
 
           // 問題表示
-          for (let i = 0; i < num; i++) {
-            const index = shuffledIndex[startIndex + i];
-            const row = data[index];
-            if (!row) continue;
-      
-            // 問題
-            if (grade === 0 && cat === 5) {
+          if (grade === 0 && cat === 5) {
+            for (let i = 0; i < (num / 2); i++) {
+              const index = shuffledIndex[startIndex + i];
+              const row = data[index];
+              if (!row) continue;
+        
+              // 問題
               document.getElementById(`txt${i + 1}q`).innerHTML = "（　　）" + row[3].slice(-2);
-            }
-            else {
-              document.getElementById(`txt${i + 1}q`).innerHTML = row[3];
-            }
-      
-            // 解答
-            if (grade === 0 && cat === 4) {
-              // 語選択
-              document.getElementById(`txt${i + 1}`).innerHTML = row[5];
-            }
-            else if (grade === 0 && cat === 5) {
-              // 四字熟語・書き
+
+              // 解答
               document.getElementById(`txt${i + 1}`).innerHTML = 
                 "■" + row[3].slice(0, 2) + 
                 "<br><hr>" + 
@@ -438,27 +448,59 @@
                 "<br>" + 
                 row[7];
             }
-            else if (grade === 0 && (cat === 9 || cat === 10)) {
-              // 対義語、類義語
-              document.getElementById(`txt${i + 1}`).innerHTML =
-                row[4] +
-                "<br><hr>" +
-                "■" + row[6] + 
+            for (let i = 0; i < (num / 2); i++) {
+              const index = shuffledIndex2[startIndex + i];
+              const row = data[index];
+              if (!row) continue;
+        
+              // 問題
+              document.getElementById(`txt${i + 1 + (num / 2)}q`).innerHTML = row[3].slice(0, 2) + "（　　）";
+
+              // 解答
+              document.getElementById(`txt${i + 1 + (num / 2)}`).innerHTML = 
+                "■" + row[3].slice(-2) + 
+                "<br><hr>" + 
+                row[6] + 
                 "<br>" + 
-                row[7] + 
-                "<br>" + 
-                "■" + row[8] + 
-                "<br>" + 
-                row[9];
+                row[7];
             }
-            else if (grade === 0) {
-              document.getElementById(`txt${i + 1}`).innerHTML =
-                row[4] +
-                "<br><hr>" +
-                row[5];
-            }
-            else {
-              document.getElementById(`txt${i + 1}`).innerHTML = row[4];
+          }
+          else {
+            for (let i = 0; i < num; i++) {
+              const index = shuffledIndex[startIndex + i];
+              const row = data[index];
+              if (!row) continue;
+        
+              // 問題
+              document.getElementById(`txt${i + 1}q`).innerHTML = row[3];
+        
+              // 解答
+              if (grade === 0 && cat === 4) {
+                // 語選択
+                document.getElementById(`txt${i + 1}`).innerHTML = row[5];
+              }
+              else if (grade === 0 && (cat === 9 || cat === 10)) {
+                // 対義語、類義語
+                document.getElementById(`txt${i + 1}`).innerHTML =
+                  row[4] +
+                  "<br><hr>" +
+                  "■" + row[6] + 
+                  "<br>" + 
+                  row[7] + 
+                  "<br>" + 
+                  "■" + row[8] + 
+                  "<br>" + 
+                  row[9];
+              }
+              else if (grade === 0) {
+                document.getElementById(`txt${i + 1}`).innerHTML =
+                  row[4] +
+                  "<br><hr>" +
+                  row[5];
+              }
+              else {
+                document.getElementById(`txt${i + 1}`).innerHTML = row[4];
+              }
             }
           }
 
@@ -478,13 +520,20 @@
             // 1～5問目
             for (let i = 0; i < num; i++) {
               const index = shuffledIndex[startIndex + i];
+              const index2 = shuffledIndex2[startIndex + i];
               const row = data[index];
+              const row2 = data[index2];
               if (row) {
                 if (cat === 4) {
                   arr[i] = row[4];
                 }
                 else if (cat === 5) {
-                  arr[i] = row[4];
+                  if (num < 5) {
+                    arr[i] = row[4];
+                  }
+                  else {
+                    arr[i] = row2[4];
+                  }
                 }
                 else {
                   arr[i] = row[5];
@@ -646,6 +695,7 @@
       // ■の色表示
       function draw() {
         const key = KEY_STR[cat];
+        const key2 = KEY_STR2[cat]
       
         // NULLカテゴリなどは状態管理対象外
         if (!key || key.startsWith("NULL")) {
@@ -653,17 +703,25 @@
         }
       
         const data = localStorage.getItem(key);
-      
         if (!data) {
           return;
         }
 
+        let data2;
+        if (key2 !== null) {
+          data2 = localStrorage.getItem(key2);
+          if (!data2) {
+            return;
+          }
+        }
+        
         document
           .querySelectorAll(".box")
           .forEach(box => {
             const questionNumber = Number(box.dataset.index);
             const shuffledPosition = startIndex + questionNumber - 1;
             const i = shuffledIndex[shuffledPosition];
+            const j = shuffledIndex2[shuffledPosition];
       
             // 範囲外なら何もしない
             if (i === undefined || data[i] === undefined) {
@@ -690,34 +748,43 @@
             e.stopPropagation();
     
             const key = KEY_STR[cat];
+            const key2 = KEY_STR2[cat];
     
             // 状態管理対象外
             if (!key || key.startsWith("NULL")) {
               return;
             }
     
-            let data = localStorage
-              .getItem(key)
-              ?.split("");
+            let data = localStorage.getItem(key)?.split("");
+            let data2 = null;
+            if (key !== null) {
+              data2 = localStorage.getItem(key2)?.split("");
+            }
     
             if (!data) {
               return;
             }
 
             const questionNumber = Number(box.dataset.index);
-            const i = shuffledIndex[startIndex + questionNumber - 1];
-
-            if (i === undefined || data[i] === undefined) {
-              return;
+            let i;
+            if (key !== null && questionNumber >= (num / 2)) {
+              i = shuffledIndex2[startIndex + questionNumber - 1];
+              if (i === undefined || data2[i] === undefined) {
+                return;
+              }
+              // 0 → 1 → 2 → 3 → 0
+              data2[i] = (Number(data2[i]) + 1) % 4;
+              localStorage.setItem(key2, data.join(""));
             }
-
-            // 0 → 1 → 2 → 3 → 0
-            data[i] = (Number(data[i]) + 1) % 4;
-    
-            localStorage.setItem(
-              key,
-              data.join("")
-            );
+            else {
+              i = shuffledIndex[startIndex + questionNumber - 1];
+              if (i === undefined || data[i] === undefined) {
+                return;
+              }
+              // 0 → 1 → 2 → 3 → 0
+              data[i] = (Number(data[i]) + 1) % 4;
+              localStorage.setItem(key, data.join(""));
+            }
       
             draw();
           });
