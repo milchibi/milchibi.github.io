@@ -442,9 +442,9 @@
 
               // 解答
               document.getElementById(`txt${i + 1}`).innerHTML = 
-                "■" + row[3].slice(0, 2) + 
+                row[3].slice(0, 2) + 
                 "<br><hr>" + 
-                row[6] + 
+                "■" + row[6] + 
                 "<br>" + 
                 row[7];
             }
@@ -458,9 +458,9 @@
 
               // 解答
               document.getElementById(`txt${i + 1 + (num / 2)}`).innerHTML = 
-                "■" + row[3].slice(-2) + 
+                row[3].slice(-2) + 
                 "<br><hr>" + 
-                row[6] + 
+                "■" + row[6] + 
                 "<br>" + 
                 row[7];
             }
