@@ -341,14 +341,13 @@
 
       // シャッフル
       if (seed !== 0) {
-        const random = mulberry32(seed);
+        let random = mulberry32(seed);
         for (let i = shuffledIndex.length - 1; i > 0; i--) {
           const j = Math.floor(random() * (i + 1));
           [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
-          [shuffledIndex2[i], shuffledIndex2[j]] = [shuffledIndex2[j], shuffledIndex2[i]];
         }
-        const random = mulberry32(seed * 1000);
-        for (let i = shuffledIndex.length - 1; i > 0; i--) {
+        random = mulberry32(seed * 1000);
+        for (let i = shuffledIndex2.length - 1; i > 0; i--) {
           const j = Math.floor(random() * (i + 1));
           [shuffledIndex2[i], shuffledIndex2[j]] = [shuffledIndex2[j], shuffledIndex2[i]];
         }
