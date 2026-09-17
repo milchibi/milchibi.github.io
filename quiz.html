@@ -347,6 +347,7 @@
           [shuffledIndex[i], shuffledIndex[j]] = [shuffledIndex[j], shuffledIndex[i]];
           [shuffledIndex2[i], shuffledIndex2[j]] = [shuffledIndex2[j], shuffledIndex2[i]];
         }
+        const random = mulberry32(seed * 1000);
         for (let i = shuffledIndex.length - 1; i > 0; i--) {
           const j = Math.floor(random() * (i + 1));
           [shuffledIndex2[i], shuffledIndex2[j]] = [shuffledIndex2[j], shuffledIndex2[i]];
@@ -450,7 +451,7 @@
             }
             for (let i = 0; i < (num / 2); i++) {
               const index = shuffledIndex2[startIndex + i];
-              const row = data[index];
+              const row = data2[index];
               if (!row) continue;
         
               // 問題
