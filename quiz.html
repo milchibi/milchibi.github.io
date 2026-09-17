@@ -55,13 +55,14 @@
         // 漢検1級
         0: {
           heading: "漢検1級勉強",
-          cats: ["音読み", "訓読み", "書き取り", "書き取り-国字", "語選択", "四字熟語-書き", "四字熟語-意味", "熟字訓", "熟語-一字訓読み", "対義語", "類義語", "故事成語", "文章題"],
-          keys: ["result11", "result12", "result21", "NULL22", "result3", "NULL41", "NULL42", "result5", "result6", "result71", "result72", "result8", "NULL9"],
+          cats: ["音読み", "訓読み", "書き取り", "書き取り・国字", "語選択", "四字熟語・書き", "四字熟語・意味", "熟字訓", "熟語・一字訓読み", "対義語", "類義語", "故事成語", "文章題"],
+          keys: ["result11", "result12", "result21", "NULL22", "result3", "result41", "NULL42", "result5", "result6", "result71", "result72", "result8", "NULL9"],
           counts: {
             result11: 4521,
             result12: 1566,
             result21: 558,
             result3: 3786,
+            result41: 964,
             result5: 2190,
             result6: 1028,
             result71: 459,
@@ -92,6 +93,12 @@
               max: 3786,
               filename: "https://milchibi.github.io/data_3.csv",
               selectionNum: 8
+            },
+            5: {
+              num: 10,
+              max: 964,
+              filename: "https://milchibi.github.io/data_41.csv",
+              selectionNum: 10
             },
             7: {
               num: 10,
@@ -336,7 +343,7 @@
       document.getElementById("pageHeading").textContent = config.heading;
       document.getElementById("pageSubtitle").textContent = `${catName}【${selName}-${pageName}】`;
       
-      // 語選択用コンテナ
+      // 選択肢用コンテナ
       if (catConfig.selectionNum !== 0) {
         const container = document.getElementById("container");
         const items =
@@ -410,12 +417,24 @@
             if (!row) continue;
       
             // 問題
-            document.getElementById(`txt${i + 1}q`).innerHTML = row[3];
+            if (grade === 0 && cat === 6) {
+              document.getElementById(`txt${i + 1}q`).innerHTML = "（　　）" + row[3].slice(-2);
+            }
+            else {
+              document.getElementById(`txt${i + 1}q`).innerHTML = row[3];
+            }
       
             // 解答
             if (grade === 0 && cat === 4) {
               // 語選択
               document.getElementById(`txt${i + 1}`).innerHTML = row[5];
+            }
+            else if (grade === 0 && cat === 5) {
+              // 四字熟語・書き
+              document.getElementById(`txt${i + 1}`).innerHTML = 
+                row[6] + 
+                "<br>" + 
+                row[7];
             }
             else if (grade === 0 && (cat === 9 || cat === 10)) {
               // 対義語、類義語
@@ -430,7 +449,7 @@
                 "<br>" + 
                 row[9];
             }
-            else if (grade === 0 && cat !== 4) {
+            else if (grade === 0) {
               document.getElementById(`txt${i + 1}`).innerHTML =
                 row[4] +
                 "<br><hr>" +
@@ -441,22 +460,28 @@
             }
           }
 
-          // 1級・語選択or対義語・類義語 の選択肢
-          if (grade === 0 && (cat === 4 || cat === 9 || cat === 10)) {
+          // 1級・語選択 or 四字熟語・書き or 対義語・類義語 の選択肢
+          if (grade === 0 && (cat === 4 || cat === 5 || cat === 9 || cat === 10)) {
             let arr;
             if (cat === 4) {
               arr = new Array(8);
+            }
+            else if (cat === 5) {
+              arr = new Array(10);
             }
             else {
               arr = new Array(5);
             }
             
             // 1～5問目
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < num; i++) {
               const index = shuffledIndex[startIndex + i];
               const row = data[index];
               if (row) {
                 if (cat === 4) {
+                  arr[i] = row[4];
+                }
+                else if (cat === 5) {
                   arr[i] = row[4];
                 }
                 else {
@@ -475,7 +500,7 @@
                 const refIndex = parseInt(row[6]);
                 const refRow = data[refIndex];
                 if (refRow) {
-                  arr[5 + i] = refRow[4];
+                  arr[num + i] = refRow[4];
                 }
               }
             }
