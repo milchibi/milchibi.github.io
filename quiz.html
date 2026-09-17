@@ -432,8 +432,9 @@
             else if (grade === 0 && cat === 5) {
               // 四字熟語・書き
               document.getElementById(`txt${i + 1}`).innerHTML = 
-                row[6] + 
+                row[3].slice(2) + 
                 "<br><hr>" + 
+                row[6] + 
                 row[7];
             }
             else if (grade === 0 && (cat === 9 || cat === 10)) {
