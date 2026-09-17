@@ -267,8 +267,15 @@
           ((index + 1) * categoryConfig.unit);
     
         // このページに問題が存在しない場合は終了
-        if ((start > categoryConfig.count) || ((categoryConfig.key2 !== null) && (start > (categoryConfig.count * 2)))) {
-          break;
+        if (categoryConfig.key2 !== null) {
+           if (start > (categoryConfig.count * 2)) {
+             break;
+           }
+        }
+        else {
+          if (start > categoryConfig.count) {
+            break;
+          }
         }
     
         // リンク作成
