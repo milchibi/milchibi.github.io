@@ -520,7 +520,7 @@
             // 1～5問目
             for (let i = 0; i < num; i++) {
               const index = shuffledIndex[startIndex + i];
-              const index2 = shuffledIndex2[startIndex + i];
+              const index2 = shuffledIndex2[startIndex + i - (num / 2)];
               const row = data[index];
               const row2 = data[index2];
               if (row) {
