@@ -212,7 +212,7 @@
         7: {
           heading: "漢検6級勉強",
           cats: ["読み", "音訓読み分け", "選択", "筆順", "音訓識別", "対義語", "送り仮名", "部首", "同音書き", "熟語", "書き"],
-          keys: ["result6_1", "NULL6_2", "NULL6_3", "NULL6_4", "NULL6_5", "NULL6_6", "NULL6_6", "NULL6_8", "NULL6_9", "NULL6_10", "result6_11"],
+          keys: ["result6_1", "NULL6_2", "NULL6_3", "NULL6_4", "NULL6_5", "NULL6_6", "NULL6_7", "NULL6_8", "NULL6_9", "NULL6_10", "result6_11"],
           keys2: [null, null, null, null, null, null, null, null, null, null, null],
           counts: {
             result6_1: 40,
@@ -734,7 +734,7 @@
               "c2",
               "c3"
             );
-            if (key2 !== null) {
+            if (grade === 0 && cat === 5 && questionNumber >= (num / 5) && key2 !== null) {
               const j = shuffledIndex2[shuffledPosition];
               box.classList.add("c" + data2[j]);
             }
