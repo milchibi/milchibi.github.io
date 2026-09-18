@@ -721,7 +721,6 @@
             const questionNumber = Number(box.dataset.index);
             const shuffledPosition = startIndex + questionNumber - 1;
             const i = shuffledIndex[shuffledPosition];
-            const j = shuffledIndex2[shuffledPosition];
       
             // 範囲外なら何もしない
             if (i === undefined || data[i] === undefined) {
@@ -735,8 +734,15 @@
               "c2",
               "c3"
             );
-            box.classList.add("c" + data[i]);
-          });
+            if (key2 !== null) {
+              const j = shuffledIndex2[shuffledPosition];
+              box.clsssList.add("c" + data2[j]);
+            }
+            else {
+              box.classList.add("c" + data[i]);
+            }
+          }
+        });
       }
 
       // ■クリック処理
