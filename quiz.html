@@ -734,21 +734,23 @@
               "c2",
               "c3"
             );
-            console.log(grade);
-            console.log(cat);
-            console.log(questionNumber);
-            console.log(num);
-            console.log(key2);
-            if (grade === 0 && cat === 5 && questionNumber >= (num / 5) && key2 !== null) {
+
+            if (grade === 0 && cat === 5 && questionNumber >= (num / 2) && key2 !== null) {
               const j = shuffledIndex2[shuffledPosition];
               box.classList.add("c" + data2[j]);
-              console.log(shuffledPosition);
-              console.log(shuffledIndex2[shuffledPosition]);
-              console.log(j);
-              console.log(data2[j]);
+              console.log("---point1---");
+              console.log("questionNumber" + questionNumber);
+              console.log("key2" + key2);
+              console.log("shuffledIndex2[" + shuffledPosition + "]" + shuffledIndex2[shuffledPosition]);
+              console.log("data2[" + j + "]" + data2[j]);
             }
             else {
               box.classList.add("c" + data[i]);
+              console.log("---point2---");
+              console.log("questionNumber" + questionNumber);
+              console.log("key2" + key2);
+              console.log("shuffledIndex[" + shuffledPosition + "]" + shuffledIndex[shuffledPosition]);
+              console.log("data[" + i + "]" + data[i]);
             }
           });
       }
