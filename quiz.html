@@ -768,7 +768,7 @@
             const questionNumber = Number(box.dataset.index);
     
             if (key2 !== null && questionNumber > (num / 2)) {
-              const i = shuffledIndex2[startIndex + questionNumber - 1];
+              const i = shuffledIndex2[startIndex + questionNumber - (num / 2) - 1];
               if (i === undefined || data2[i] === undefined) {
                 return;
               }
