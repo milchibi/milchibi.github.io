@@ -735,20 +735,14 @@
               "c3"
             );
 
-            if (grade === 0 && cat === 5 && questionNumber >= (num / 2) && key2 !== null) {
+            if (grade === 0 && cat === 5 && questionNumber > (num / 2) && key2 !== null) {
               const j = shuffledIndex2[shuffledPosition];
               box.classList.add("c" + data2[j]);
-              console.log("----" + key2 + "----");
-              console.log("questionNumber = " + questionNumber);
-              console.log("shuffledIndex2[" + shuffledPosition + "] = " + shuffledIndex2[shuffledPosition]);
-              console.log("data2[" + j + "] = " + data2[j]);
+              console.log(key2 + ", questionNumber = " + questionNumber + ", shuffledIndex2[" + shuffledPosition + "] = " + shuffledIndex2[shuffledPosition] + ", data2[" + j + "] = " + data2[j]);
             }
             else {
               box.classList.add("c" + data[i]);
-              console.log("----" + key + "----");
-              console.log("questionNumber = " + questionNumber);
-              console.log("shuffledIndex[" + shuffledPosition + "] = " + shuffledIndex[shuffledPosition]);
-              console.log("data[" + i + "] = " + data[i]);
+              console.log(key + ", questionNumber = " + questionNumber + ", shuffledIndex[" + shuffledPosition + "] = " + shuffledIndex[shuffledPosition] + ", data[" + i + "] = " + data[i]);
             }
           });
       }
