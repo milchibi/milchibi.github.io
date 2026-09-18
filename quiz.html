@@ -757,7 +757,7 @@
     
             let data = localStorage.getItem(key)?.split("");
             let data2 = null;
-            if (key !== null) {
+            if (key2 !== null) {
               data2 = localStorage.getItem(key2)?.split("");
             }
     
@@ -766,9 +766,9 @@
             }
 
             const questionNumber = Number(box.dataset.index);
-            let i;
-            if (key !== null && questionNumber >= (num / 2)) {
-              i = shuffledIndex2[startIndex + questionNumber - 1];
+    
+            if (key2 !== null && questionNumber > (num / 2)) {
+              const i = shuffledIndex2[startIndex + questionNumber - 1];
               if (i === undefined || data2[i] === undefined) {
                 return;
               }
@@ -777,7 +777,7 @@
               localStorage.setItem(key2, data.join(""));
             }
             else {
-              i = shuffledIndex[startIndex + questionNumber - 1];
+              const i = shuffledIndex[startIndex + questionNumber - 1];
               if (i === undefined || data[i] === undefined) {
                 return;
               }
