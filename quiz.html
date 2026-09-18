@@ -740,12 +740,12 @@
             console.log(num);
             console.log(key2);
             if (grade === 0 && cat === 5 && questionNumber >= (num / 5) && key2 !== null) {
-            console.log(shuffledPosition);
-            console.log(shuffledIndex2[shuffledPosition]);
-            console.log(j);
-            console.log(data2[j]);
               const j = shuffledIndex2[shuffledPosition];
               box.classList.add("c" + data2[j]);
+              console.log(shuffledPosition);
+              console.log(shuffledIndex2[shuffledPosition]);
+              console.log(j);
+              console.log(data2[j]);
             }
             else {
               box.classList.add("c" + data[i]);
