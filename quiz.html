@@ -736,6 +736,7 @@
             );
 
             if (grade === 0 && cat === 5 && questionNumber > (num / 2) && key2 !== null) {
+              const shuffledPosition2 = startIndex + questionNumber - (num / 2) - 1;
               const j = shuffledIndex2[shuffledPosition];
               box.classList.add("c" + data2[j]);
               console.log(key2 + ", questionNumber = " + questionNumber + ", shuffledIndex2[" + shuffledPosition + "] = " + shuffledIndex2[shuffledPosition] + ", data2[" + j + "] = " + data2[j]);
