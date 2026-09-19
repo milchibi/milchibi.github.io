@@ -515,20 +515,18 @@
             // 1～5問目
             for (let i = 0; i < num; i++) {
               const index = shuffledIndex[startIndex + i];
+              const index2 = shuffledIndex2[startIndex + i];
               const row = data[index];
+              const row2 = data[index2];
 
-              // rowが存在するか
               if (row) {
                 // 語選択のとき
                 if (cat === 4) {
                   arr[i] = row[4];
                 }
-                // 四字熟語のとき
-                else if (cat === 5) {
-                  // 前抜き
-                  if (i < 5) {
-                    arr[i] = row[4];
-                  }
+                // 四字熟語のとき（前抜き）
+                else if (cat === 5 && i < 5) {
+                  arr[i] = row[4];
                 }
                 // それ以外（対義語・類義語）
                 else {
@@ -536,23 +534,12 @@
                 }
               }
               if (row2) {
+                // 四字熟語のとき（後ろ抜き）
                 if (cat === 5 && i >= 5) {
                     arr[i] = row2[5];
                 }
               }
-
-              const index2 = shuffledIndex2[startIndex + i];
-              const row2 = data[index2];
-
-              console.log("startIndex = " + startIndex);
-              console.log("startIndex + i = " + (startIndex + i));
-              console.log("startIndex + i - (num / 2) = " + (startIndex + i - (num / 2)));
-              console.log("index = " + index);
-              console.log("index2 = " + index2);
-
-              console.log("arr[i] = " + arr[i]);
             }
-
       
             // 語選択では追加3語
             if (cat === 4) {
