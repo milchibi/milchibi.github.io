@@ -520,12 +520,10 @@
               const row2 = data[index2];
 
               console.log("startIndex = " + startIndex);
-              console.log("startIndex + i = " + startIndex + i);
+              console.log("startIndex + i = " + (startIndex + i));
               console.log("startIndex + i - (num / 2) = " + (startIndex + i - (num / 2)));
               console.log("index = " + index);
               console.log("index2 = " + index2);
-              console.log("row = " + row);
-              console.log("row2 = " + row2);
 
               if (row) {
                 if (cat === 4) {
@@ -544,6 +542,8 @@
                 }
               }
             }
+
+            console.log("arr[i] = " + arr[i]);
       
             // 語選択では追加3語
             if (cat === 4) {
