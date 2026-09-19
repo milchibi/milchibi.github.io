@@ -515,8 +515,33 @@
             // 1～5問目
             for (let i = 0; i < num; i++) {
               const index = shuffledIndex[startIndex + i];
-              const index2 = shuffledIndex2[startIndex + i - (num / 2)];
               const row = data[index];
+
+              // rowが存在するか
+              if (row) {
+                // 語選択のとき
+                if (cat === 4) {
+                  arr[i] = row[4];
+                }
+                // 四字熟語のとき
+                else if (cat === 5) {
+                  // 前抜き
+                  if (i < 5) {
+                    arr[i] = row[4];
+                  }
+                }
+                // それ以外（対義語・類義語）
+                else {
+                  arr[i] = row[5];
+                }
+              }
+              if (row2) {
+                if (cat === 5 && i >= 5) {
+                    arr[i] = row2[5];
+                }
+              }
+
+              const index2 = shuffledIndex2[startIndex + i];
               const row2 = data[index2];
 
               console.log("startIndex = " + startIndex);
@@ -525,22 +550,6 @@
               console.log("index = " + index);
               console.log("index2 = " + index2);
 
-              if (row) {
-                if (cat === 4) {
-                  arr[i] = row[4];
-                }
-                else if (cat === 5) {
-                  if (i < 5) {
-                    arr[i] = row[4];
-                  }
-                  else {
-                    arr[i] = row2[5];
-                  }
-                }
-                else {
-                  arr[i] = row[5];
-                }
-              }
               console.log("arr[i] = " + arr[i]);
             }
 
