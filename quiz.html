@@ -518,6 +518,15 @@
               const index2 = shuffledIndex2[startIndex + i - (num / 2)];
               const row = data[index];
               const row2 = data[index2];
+
+              console.log("startIndex = " + startIndex);
+              console.log("startIndex + i = " + startIndex + i);
+              console.log("startIndex + i - (num / 2) = " + (startIndex + i - (num / 2)));
+              console.log("index = " + index);
+              console.log("index2 = " + index2);
+              console.log("row = " + row);
+              console.log("row2 = " + row2);
+
               if (row) {
                 if (cat === 4) {
                   arr[i] = row[4];
@@ -655,8 +664,6 @@
       }
       
       // 次ページに num 問分存在するか確認
-      console.log("nextStartIndex" + nextStartIndex);
-      console.log("max" + max);
       if (nextStartIndex >= max) {
         // 最終ページ
         nextLink.removeAttribute("href");
