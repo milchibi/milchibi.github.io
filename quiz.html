@@ -646,7 +646,13 @@
 
       // 次へリンク
       const nextLink = document.getElementById("nextLink");
-      const nextStartIndex = (sel * 24 * num) + ((page + 1) * num);
+      let nextStartIndex;
+      if (grade === 0 && cat === 5) {
+        nextStartIndex = (sel * 24 * num / 2) + ((page + 1) * num / 2);
+      }
+      else {
+        nextStartIndex = (sel * 24 * num) + ((page + 1) * num);
+      }
       
       // 次ページに num 問分存在するか確認
       console.log("nextStartIndex" + nextStartIndex);
