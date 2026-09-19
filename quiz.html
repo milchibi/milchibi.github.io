@@ -649,17 +649,11 @@
       const nextStartIndex = (sel * 24 * num) + ((page + 1) * num);
       
       // 次ページに num 問分存在するか確認
-      if (grade === 0 && cat === 5) {
-        if (nextStartIndex >= (max * 2)) {
-          // 最終ページ
-          nextLink.removeAttribute("href");
-        }
-      }
-      else {
-        if (nextStartIndex >= max) {
-          // 最終ページ
-          nextLink.removeAttribute("href");
-        }
+      console.log("nextStartIndex" + nextStartIndex);
+      console.log("max" + max);
+      if (nextStartIndex >= max) {
+        // 最終ページ
+        nextLink.removeAttribute("href");
       }
       else if (page === 23) {
         // 次の十干十二支の先頭
