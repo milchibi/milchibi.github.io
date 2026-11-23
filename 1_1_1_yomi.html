@@ -10,17 +10,24 @@
     <h1>漢検1級 分野別勉強</h1>
     <h2>一．読み（音読み）</h2>
 
-    <!-- ランダム用シード値 -->
     <h3>ランダム用シード値</h3>
     <input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     ※0:オリジナル順、1～9999:固定ランダム<br>
     
+    <h3>出題数選択</h3>
+    <select id="mySelect">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+    
     <h3>出題理解度選択</h3>
-    ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）<br>
     <label><input type="checkbox" name="groupA" value="1" checked><span class="c0">■　</span></label>
     <label><input type="checkbox" name="groupA" value="2"><span class="c1">■　</span></label>
     <label><input type="checkbox" name="groupA" value="4"><span class="c2">■　</span></label>
     <label><input type="checkbox" name="groupA" value="8"><span class="c3">■</span></label>
+    ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）<br>
 
     <h3>出題範囲選択</h3>
     <label><input type="checkbox" name="groupB" value="1" checked>逞筆◆１</label><br>
@@ -37,19 +44,19 @@
 
     <script>
       // 出題理解度
-      const LEVEL = {
+      const DEF_COMP = {
           C0: 1,
           C1: 2,
           C2: 4,
           C3: 8
       };
       // 出題範囲
-      const RANGE = {
-          D1: 1,
-          D2: 2,
-          D3: 4,
-          D4: 8,
-          D5: 16
+      const DEF_SEL = {
+          S1: 1,
+          S2: 2,
+          S3: 4,
+          S4: 8,
+          S5: 16
       };
 
       // ボタンクリック時のアクション
@@ -61,7 +68,10 @@
             alert("シード値は0～9999の整数を入力してください。");
             return;
         }
-        
+
+        // 出題数選択の選択値取得
+        const num = Number(document.getElementById("mySelect").value);
+          
         // 出題理解度選択のビットフラグ取得
         const selectedA = Array.from(
             document.querySelectorAll('input[name="groupA"]:checked')
@@ -85,6 +95,7 @@
         // パラメータとして取得
         const params = {
             seed: seed,
+            num: num,
             comp: selectedA,
             sel: selectedB
         };
