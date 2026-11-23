@@ -12,12 +12,14 @@
 
     <!-- ランダム用シード値 -->
     <h3>ランダム用シード値</h3>
-    ※0:オリジナル順、1～9999:固定ランダム
     <input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999">
+    ※0:オリジナル順、1～9999:固定ランダム<br>
     
     <h3>出題理解度選択</h3>
-    ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）
+    ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）<br>
     <label><input type="checkbox" name="groupA" value="1" checked><span class="c0">■　</span></label>
+    <label><input type="checkbox" name="groupA" value="2"><span class="c1">■　</span></label>
+    <label><input type="checkbox" name="groupA" value="4"><span class="c2">■　</span></label>
     <label><input type="checkbox" name="groupA" value="8"><span class="c3">■</span></label>
 
     <h3>出題範囲選択</h3>
@@ -49,11 +51,11 @@
           D4: 8,
           D5: 16
       };
-      
+
+      // ボタンクリック時のアクション
       function getSelections() {
         // ランダム用シード値
         const seed = Number(document.getElementById("seed").value);
-
         // シード値チェック
         if (!Number.isInteger(seed) || seed < 0 || seed > 9999) {
             alert("シード値は0～9999の整数を入力してください。");
@@ -64,17 +66,17 @@
         const selectedA = Array.from(
             document.querySelectorAll('input[name="groupA"]:checked')
         ).reduce((sum, el) => sum + Number(el.value),0);
-    
-        // 出題範囲選択のビットフラグ取得
-        const selectedB = Array.from(
-            document.querySelectorAll('input[name="groupB"]:checked')
-        ).reduce((sum, el) => sum + Number(el.value),0);
-        
         // 選択チェック
         if (selectedA.length === 0) {
             alert("出題理解度選択から最低1つ選択してください。");
             return;
         }
+    
+        // 出題範囲選択のビットフラグ取得
+        const selectedB = Array.from(
+            document.querySelectorAll('input[name="groupB"]:checked')
+        ).reduce((sum, el) => sum + Number(el.value),0);
+        // 選択チェック
         if (selectedB.length === 0) {
             alert("出題範囲選択から最低1つ選択してください。");
             return;
@@ -83,8 +85,8 @@
         // パラメータとして取得
         const params = {
             seed: seed,
-            A: selectedA,
-            B: selectedB
+            comp: selectedA,
+            sel: selectedB
         };
     
         console.log(params);
