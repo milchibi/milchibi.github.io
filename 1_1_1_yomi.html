@@ -10,11 +10,11 @@
     <h1>漢検1級 分野別勉強</h1>
     <h2>一．読み（音読み）</h2>
 
-    <h3>ランダム用シード値</h3>
+    <h3>■ランダム用シード値</h3>
     <input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999"><br>
     ※0:オリジナル順、1～9999:固定ランダム<br>
     
-    <h3>出題数選択</h3>
+    <h3>■出題数選択</h3>
     <select id="mySelect">
       <option value="5">5</option>
       <option value="10">10</option>
@@ -22,14 +22,14 @@
       <option value="30">30</option>
     </select>
     
-    <h3>出題理解度選択</h3>
+    <h3>■出題理解度選択</h3>
     <label><input type="checkbox" name="groupA" value="1" checked><span class="c0">■　</span></label>
     <label><input type="checkbox" name="groupA" value="2"><span class="c1">■　</span></label>
     <label><input type="checkbox" name="groupA" value="4"><span class="c2">■　</span></label>
     <label><input type="checkbox" name="groupA" value="8"><span class="c3">■</span></label><br>
     ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）<br>
 
-    <h3>出題範囲選択</h3>
+    <h3>■出題範囲選択</h3>
     <label><input type="checkbox" name="groupB" value="1" checked>逞筆◆１</label><br>
     <label><input type="checkbox" name="groupB" value="2">逞筆◆２</label><br>
     <label><input type="checkbox" name="groupB" value="4">逞筆◆３</label><br>
@@ -100,10 +100,18 @@
             sel: selectedB
         };
     
-        console.log(params);
-    
         // 確認用
         alert(JSON.stringify(params));
+
+        // CSV読み込み
+        const filename = "data_12.csv"
+        fetch(filename)
+          .then(csv => {
+            const data = csv.split("\n").map(line => line.split(","));
+            
+            // 確認用
+            alert(JSON.stringify(data));
+          })
       }
     </script>
   </body>
