@@ -10,22 +10,23 @@
     <h1>漢検1級 分野別勉強</h1>
     <h2>一．読み（音読み）</h2>
 
+    <!-- ランダム用シード値 -->
     <h3>ランダム用シード値</h3>
     <input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999">
     <br><br>
     
     <h3>出題理解度選択</h3>
-    <label><input type="checkbox" name="groupA" value="A0" checked><span class="c0">■　</span></label>
-    <label><input type="checkbox" name="groupA" value="A1"><span class="c1">■　</span></label>
-    <label><input type="checkbox" name="groupA" value="A2"><span class="c2">■　</span></label>
-    <label><input type="checkbox" name="groupA" value="A3"><span class="c3">■</span></label>
+    <label><input type="checkbox" name="groupA" value="1" checked><span class="c0">■　</span></label>
+    <label><input type="checkbox" name="groupA" value="2"><span class="c1">■　</span></label>
+    <label><input type="checkbox" name="groupA" value="4"><span class="c2">■　</span></label>
+    <label><input type="checkbox" name="groupA" value="8"><span class="c3">■</span></label>
 
     <h3>出題範囲選択</h3>
-    <label><input type="checkbox" name="groupB" value="逞筆◆１" checked>逞筆◆１</label><br>
-    <label><input type="checkbox" name="groupB" value="逞筆◆２">逞筆◆２</label><br>
-    <label><input type="checkbox" name="groupB" value="逞筆◆３">逞筆◆３</label><br>
-    <label><input type="checkbox" name="groupB" value="逞筆◆４">逞筆◆４</label><br>
-    <label><input type="checkbox" name="groupB" value="逞筆◆５">逞筆◆５</label>
+    <label><input type="checkbox" name="groupB" value="1" checked>逞筆◆１</label><br>
+    <label><input type="checkbox" name="groupB" value="2">逞筆◆２</label><br>
+    <label><input type="checkbox" name="groupB" value="4">逞筆◆３</label><br>
+    <label><input type="checkbox" name="groupB" value="8">逞筆◆４</label><br>
+    <label><input type="checkbox" name="groupB" value="16">逞筆◆５</label>
 
     <br><br>
     <button onclick="getSelections()">問題一覧生成</button>
@@ -34,34 +35,55 @@
     <a href="top_test.html">戻る</a>
 
     <script>
+      // 出題理解度
+      const LEVEL = {
+          C0: 1,
+          C1: 2,
+          C2: 4,
+          C3: 8
+      };
+      // 出題範囲
+      const RANGE = {
+          D1: 1,
+          D2: 2,
+          D3: 4,
+          D4: 8,
+          D5: 16
+      };
+      
       function getSelections() {
-        // グループAの選択値を取得
+        // ランダム用シード値
+        const seed = Number(document.getElementById("seed").value);
+
+        // シード値チェック
+        if (!Number.isInteger(seed) || seed < 0 || seed > 9999) {
+            alert("シード値は0～9999の整数を入力してください。");
+            return;
+        }
+        
+        // 出題理解度選択のビットフラグ取得
         const selectedA = Array.from(
-            document.querySelectorAll(
-                'input[name="groupA"]:checked'
-            )
-        ).map(el => el.value);
+            document.querySelectorAll('input[name="groupA"]:checked')
+        ).reduce((sum, el) => sum + Number(el.value),0);
     
-        // グループBの選択値を取得
+        // 出題範囲選択のビットフラグ取得
         const selectedB = Array.from(
-            document.querySelectorAll(
-                'input[name="groupB"]:checked'
-            )
-        ).map(el => el.value);
+            document.querySelectorAll('input[name="groupB"]:checked')
+        ).reduce((sum, el) => sum + Number(el.value),0);
         
         // 選択チェック
         if (selectedA.length === 0) {
-            alert("グループAから最低1つ選択してください。");
+            alert("出題理解度選択から最低1つ選択してください。");
             return;
         }
-    
         if (selectedB.length === 0) {
-            alert("グループBから最低1つ選択してください。");
+            alert("出題範囲選択から最低1つ選択してください。");
             return;
         }
         
         // パラメータとして取得
         const params = {
+            seed: seed,
             A: selectedA,
             B: selectedB
         };
