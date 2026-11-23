@@ -12,13 +12,12 @@
 
     <!-- ランダム用シード値 -->
     <h3>ランダム用シード値</h3>
+    ※0:オリジナル順、1～9999:固定ランダム
     <input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999">
-    <br><br>
     
     <h3>出題理解度選択</h3>
+    ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）
     <label><input type="checkbox" name="groupA" value="1" checked><span class="c0">■　</span></label>
-    <label><input type="checkbox" name="groupA" value="2"><span class="c1">■　</span></label>
-    <label><input type="checkbox" name="groupA" value="4"><span class="c2">■　</span></label>
     <label><input type="checkbox" name="groupA" value="8"><span class="c3">■</span></label>
 
     <h3>出題範囲選択</h3>
@@ -32,7 +31,7 @@
     <button onclick="getSelections()">問題一覧生成</button>
     
     <br><br>
-    <a href="top_test.html">戻る</a>
+    <a href="top_test.html">分野選択に戻る</a>
 
     <script>
       // 出題理解度
@@ -92,8 +91,7 @@
     
         // 確認用
         alert(JSON.stringify(params));
-    }
-
+      }
     </script>
   </body>
 </html>
