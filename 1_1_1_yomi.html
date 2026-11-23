@@ -18,7 +18,7 @@
     <select id="mySelect">
       <option value="5">5</option>
       <option value="10">10</option>
-      <option value="20" selcted>20</option>
+      <option value="20" selected>20</option>
       <option value="30">30</option>
     </select>
     
@@ -77,7 +77,7 @@
             document.querySelectorAll('input[name="groupA"]:checked')
         ).reduce((sum, el) => sum + Number(el.value),0);
         // 選択チェック
-        if (selectedA.length === 0) {
+        if (selectedA === 0) {
             alert("出題理解度選択から最低1つ選択してください。");
             return;
         }
@@ -87,7 +87,7 @@
             document.querySelectorAll('input[name="groupB"]:checked')
         ).reduce((sum, el) => sum + Number(el.value),0);
         // 選択チェック
-        if (selectedB.length === 0) {
+        if (selectedB === 0) {
             alert("出題範囲選択から最低1つ選択してください。");
             return;
         }
@@ -101,17 +101,26 @@
         };
     
         // 確認用
-        alert(JSON.stringify(params));
+        //alert(JSON.stringify(params));
 
         // CSV読み込み
-        const filename = "data_12.csv"
+        const filename = "data_11.csv"
         fetch(filename)
+          .then(res => {
+            if (!res.ok) {
+              throw new Error(`CSV読み込み失敗: ${res.status} ${filename}`);
+            }
+            return res.text();
+          })
           .then(csv => {
             const data = csv.split("\n").map(line => line.split(","));
             
             // 確認用
             alert(JSON.stringify(data));
           })
+          .catch(error => {
+            alert(error.message);
+          });
       }
     </script>
   </body>
