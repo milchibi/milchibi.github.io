@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漢検 分野別勉強</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <p class="title">漢検1級 分野別勉強</p>
+    <h1>一.読み</h1>
+
+    ランダム用シード値　<input type="number" id="seed" name="seed" min="0" max="9999" step="1" value="0" placeholder="0～9999">
+    <br><br>
+    
+    <h3>出題理解度選択</h3>
+    <label><input type="checkbox" name="groupA" value="A1"><span class="c0">■</span></label>
+    <label><input type="checkbox" name="groupA" value="A2"><span class="c1">■</span></label>
+    <label><input type="checkbox" name="groupA" value="A3"><span class="c2">■</span></label>
+    <label><input type="checkbox" name="groupA" value="A4"><span class="c3">■</span></label>
+
+    <h3>出題範囲選択</h3>
+    <h3>音読み</h3>
+    <label><input type="checkbox" name="groupB" value="B1">逞筆◆１</label>
+    <label><input type="checkbox" name="groupB" value="B2">逞筆◆２</label>
+    <label><input type="checkbox" name="groupB" value="B3">逞筆◆３</label>
+    <label><input type="checkbox" name="groupB" value="B4">逞筆◆４</label>
+    <label><input type="checkbox" name="groupB" value="B5">逞筆◆５</label>
+
+    <br><br>
+    <button onclick="getSelections()">問題一覧生成</button>
+    
+    <br><br>
+    <a href="top_test.html">戻る</a>
+
+    <script>
+      function getSelections() {
+        // グループAの選択値を取得
+        const selectedA = Array.from(
+            document.querySelectorAll(
+                'input[name="groupA"]:checked'
+            )
+        ).map(el => el.value);
+    
+        // グループBの選択値を取得
+        const selectedB = Array.from(
+            document.querySelectorAll(
+                'input[name="groupB"]:checked'
+            )
+        ).map(el => el.value);
+    
+        // パラメータとして取得
+        const params = {
+            A: selectedA,
+            B: selectedB
+        };
+    
+        console.log(params);
+    
+        // 確認用
+        alert(JSON.stringify(params));
+    }
+
+    </script>
+  </body>
+</html>
