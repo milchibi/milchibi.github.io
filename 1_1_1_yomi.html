@@ -188,22 +188,31 @@
 
             });
 
+
             // 結果を表示
             const resultArea = document.getElementById("result");
-
+            
             resultArea.innerHTML = "";
-
+            
             const title = document.createElement("h3");
             title.textContent = "■該当問題一覧";
             resultArea.appendChild(title);
-
+            
             const count = document.createElement("p");
             count.textContent = "該当問題数：" + matchedRows.length;
             resultArea.appendChild(count);
-
-            const list = document.createElement("p");
-            list.textContent = matchedRows.join(", ");
-            resultArea.appendChild(list);
+            
+            // 出題数ごとに改行して表示
+            for (let i = 0; i < matchedRows.length; i += num) {
+            
+                const list = document.createElement("p");
+            
+                list.textContent = matchedRows
+                    .slice(i, i + num)
+                    .join(", ");
+            
+                resultArea.appendChild(list);
+            }
 
           })
           .catch(error => {
