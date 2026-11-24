@@ -368,9 +368,9 @@
                         index: index
                     }));
 
-                    // シード値が0以外なら全件をシャッフル
+                    // シード値が0以外ならハッシュ値で並び替え
                     if (seed !== 0) {
-                        seededShuffle(allData, seed);
+                        hashShuffle(allData, seed);
                     }
 
                     // 該当する問題の行番号
@@ -468,52 +468,45 @@
         }
 
 
-        // 乱数生成
-        function mulberry32(seed) {
-
-            return function() {
-
-                let t = seed += 0x6D2B79F5;
-
-                t = Math.imul(
-                    t ^ (t >>> 15),
-                    t | 1
-                );
-
-                t ^= t + Math.imul(
-                    t ^ (t >>> 7),
-                    t | 61
-                );
-
-                return (
-                    (t ^ (t >>> 14)) >>> 0
-                ) / 4294967296;
-
-            };
+        // シード値と問題IDからハッシュ値を生成
+        function hashRandom(seed, id) {
+        
+            const str = seed + ":" + id;
+        
+            let hash = 2166136261;
+        
+            for (let i = 0; i < str.length; i++) {
+        
+                hash ^= str.charCodeAt(i);
+        
+                hash = Math.imul(hash, 16777619);
+        
+            }
+        
+            return hash >>> 0;
         }
 
 
-        // シード付きシャッフル
-        function seededShuffle(array, seed) {
-
-            const random = mulberry32(seed);
-
-            // Fisher-Yatesシャッフル
-            for (
-                let i = array.length - 1;
-                i > 0;
-                i--
-            ) {
-
-                const j = Math.floor(
-                    random() * (i + 1)
-                );
-
-                [array[i], array[j]] =
-                    [array[j], array[i]];
-
-            }
-
+        // ハッシュ値によるランダム並び替え
+        function hashShuffle(array, seed) {
+        
+            array.sort((a, b) => {
+        
+                const idA = String(a.row[2]).trim();
+                const idB = String(b.row[2]).trim();
+        
+                const hashA = hashRandom(seed, idA);
+                const hashB = hashRandom(seed, idB);
+        
+                // ハッシュ値が同じ場合は問題IDで順序を確定
+                if (hashA !== hashB) {
+                    return hashA - hashB;
+                }
+        
+                return idA.localeCompare(idB);
+        
+            });
+        
             return array;
         }
 
