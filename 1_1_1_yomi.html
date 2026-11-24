@@ -62,27 +62,34 @@
       };
 
       // localStorageの初期化
-      function getStatus(key, count) {
+      function getStatus(key, data) {
         let value = localStorage.getItem(key);
-        let status;
-        if (value === null) {
-          status = "0".repeat(count);
-        } else {
-          status = String(value);
-          // 短ければ0で補う
-          if (status.length < count) {
-            status += "0".repeat(count - status.length);
-          }
-          // 長ければ切る
-          if (status.length > count) {
-            status = status.substring(0, count);
-          }
+        let status = {};
+        if (value !== null) {
+            try {
+                status = JSON.parse(value);
+            } catch (e) {
+                status = {};
+            }
         }
-        localStorage.setItem(key, status);
+    
+        // CSVに存在する問題IDを初期化
+        data.forEach(row => {
+            const id = row[2].trim();
+            if (!(id in status)) {
+                status[id] = 0;
+            }
+            // 理解度の値をチェック
+            if (![0, 1, 2, 3].includes(status[id])) {
+                status[id] = 0;
+            }
+        });
+        localStorage.setItem(key, JSON.stringify(status));
         return status;
       }
       // localStorageを初期化
-      const status = getStatus("result11", 4521);
+      let status = {};
+      const status = getStatus("result11", data);
       
       // ボタンクリック時のアクション
       function getSelections() {
@@ -168,7 +175,8 @@
               const originalIndex = item.index;
               
               // 元のCSV行に対応する理解度を取得
-              const comp = Number(status[originalIndex]);
+              const id = row[1].trim();
+              const comp = status[id];
 
               // 出題理解度の判定
               // 0 → 1、1 → 2、2 → 4、3 → 8
@@ -251,6 +259,18 @@
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
+      }
+
+      // 理解度の更新
+      function updateStatus(id, value) {
+        if (![0, 1, 2, 3].includes(value)) {
+            return;
+        }
+        status[id] = value;  
+        localStorage.setItem(
+            "result11",
+            JSON.stringify(status)
+        );
       }
     </script>
   </body>
