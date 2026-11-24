@@ -26,7 +26,11 @@
         <option value="30">30</option>
     </select>
 
-    <h3>■出題理解度選択</h3>
+    <h3>
+        ■出題理解度選択
+        <span id="compCounts"></span>
+    </h3>
+
     <label>
         <input type="checkbox" name="groupA" value="1" checked>
         <span class="c0">■　</span>
@@ -48,28 +52,34 @@
     （ブラウザごとに理解度を保存）<br>
 
     <h3>■出題範囲選択</h3>
+
     <label>
         <input type="checkbox" name="groupB" value="1" checked>
         逞筆◆１
     </label><br>
+
     <label>
         <input type="checkbox" name="groupB" value="2">
         逞筆◆２
     </label><br>
+
     <label>
         <input type="checkbox" name="groupB" value="4">
         逞筆◆３
     </label><br>
+
     <label>
         <input type="checkbox" name="groupB" value="8">
         逞筆◆４
     </label><br>
+
     <label>
         <input type="checkbox" name="groupB" value="16">
         逞筆◆５
     </label>
 
     <br><br>
+
     <button onclick="getSelections()">問題一覧生成</button>
 
     <div id="result"></div>
@@ -78,6 +88,7 @@
     <a href="top_test.html">分野選択に戻る</a>
 
     <script>
+
         // 出題理解度
         const DEF_COMP = {
             C0: 1,
@@ -101,6 +112,19 @@
         // 理解度データ
         let status = {};
 
+        // 集計用CSVデータ
+        let csvDataForCounts = null;
+
+        // 出題範囲のビットフラグ
+        const categoryFlags = {
+            "逞筆◆１": 1,
+            "逞筆◆２": 2,
+            "逞筆◆３": 4,
+            "逞筆◆４": 8,
+            "逞筆◆５": 16
+        };
+
+
         // localStorageの初期化・取得
         function getStatus(key, data) {
 
@@ -108,7 +132,9 @@
             let result = {};
 
             if (value !== null) {
+
                 try {
+
                     result = JSON.parse(value);
 
                     if (
@@ -133,7 +159,9 @@
                     return;
                 }
 
-                if (!Object.prototype.hasOwnProperty.call(result, id)) {
+                if (
+                    !Object.prototype.hasOwnProperty.call(result, id)
+                ) {
                     result[id] = 0;
                 }
 
@@ -141,13 +169,18 @@
                 if (![0, 1, 2, 3].includes(result[id])) {
                     result[id] = 0;
                 }
+
             });
 
             // localStorageに保存
-            localStorage.setItem(key, JSON.stringify(result));
+            localStorage.setItem(
+                key,
+                JSON.stringify(result)
+            );
 
             return result;
         }
+
 
         // 理解度の更新
         function updateStatus(id, value) {
@@ -164,7 +197,93 @@
                 STORAGE_KEY,
                 JSON.stringify(status)
             );
+
+            // 理解度別問題数を更新
+            if (csvDataForCounts !== null) {
+                updateCounts(csvDataForCounts);
+            }
         }
+
+
+        // 理解度別の問題数を集計
+        function updateCounts(data) {
+
+            // 選択中の出題範囲を取得
+            const selectedB = Array.from(
+                document.querySelectorAll(
+                    'input[name="groupB"]:checked'
+                )
+            ).reduce(
+                (sum, el) => sum + Number(el.value),
+                0
+            );
+
+            // 理解度別の件数
+            const counts = [0, 0, 0, 0];
+
+            data.forEach(row => {
+
+                const category = row[0].trim();
+
+                const id = String(row[2] ?? "").trim();
+
+                if (id === "") {
+                    return;
+                }
+
+                const categoryFlag =
+                    categoryFlags[category];
+
+                // 出題範囲の判定
+                if (
+                    !categoryFlag ||
+                    (selectedB & categoryFlag) === 0
+                ) {
+                    return;
+                }
+
+                // 問題IDから理解度を取得
+                const comp = status[id];
+
+                if (
+                    Number.isInteger(comp) &&
+                    comp >= 0 &&
+                    comp <= 3
+                ) {
+                    counts[comp]++;
+                }
+
+            });
+
+            // 表示更新
+            const area =
+                document.getElementById("compCounts");
+
+            area.innerHTML = "";
+
+            counts.forEach((count, index) => {
+
+                const item =
+                    document.createElement("span");
+
+                const color =
+                    document.createElement("span");
+
+                color.className = "c" + index;
+                color.textContent = "■";
+
+                item.appendChild(color);
+
+                item.appendChild(
+                    document.createTextNode(" " + count + "　")
+                );
+
+                area.appendChild(item);
+
+            });
+
+        }
+
 
         // ボタンクリック時のアクション
         function getSelections() {
@@ -240,6 +359,7 @@
                     }
 
                     return res.text();
+
                 })
                 .then(csv => {
 
@@ -252,6 +372,9 @@
 
                     // 問題IDをキーとする理解度データ取得
                     status = getStatus(STORAGE_KEY, data);
+
+                    // 集計用データを更新
+                    csvDataForCounts = data;
 
                     // 全件に元の行番号を付与
                     const allData = data.map((row, index) => ({
@@ -267,19 +390,11 @@
                     // 該当する問題の行番号
                     const matchedRows = [];
 
-                    // 出題範囲のビットフラグ
-                    const categoryFlags = {
-                        "逞筆◆１": 1,
-                        "逞筆◆２": 2,
-                        "逞筆◆３": 4,
-                        "逞筆◆４": 8,
-                        "逞筆◆５": 16
-                    };
-
                     // シャッフル後の全件をチェック
                     allData.forEach(item => {
 
                         const row = item.row;
+
                         const originalIndex = item.index;
 
                         // CSVの3列目から問題IDを取得
@@ -330,6 +445,7 @@
                         document.createElement("h3");
 
                     title.textContent = "■該当問題一覧";
+
                     resultArea.appendChild(title);
 
                     const count =
@@ -355,13 +471,16 @@
                             .join(", ");
 
                         resultArea.appendChild(list);
+
                     }
 
                 })
                 .catch(error => {
                     alert(error.message);
                 });
+
         }
+
 
         // 乱数生成
         function mulberry32(seed) {
@@ -383,8 +502,10 @@
                 return (
                     (t ^ (t >>> 14)) >>> 0
                 ) / 4294967296;
+
             };
         }
+
 
         // シード付きシャッフル
         function seededShuffle(array, seed) {
@@ -404,11 +525,64 @@
 
                 [array[i], array[j]] =
                     [array[j], array[i]];
+
             }
 
             return array;
         }
 
+
+        // 初期表示・集計用CSV読み込み
+        fetch("data_11.csv")
+            .then(res => {
+
+                if (!res.ok) {
+                    throw new Error("CSV読み込み失敗");
+                }
+
+                return res.text();
+
+            })
+            .then(csv => {
+
+                // CSVを配列化
+                const data = csv
+                    .replace(/^\uFEFF/, "")
+                    .trimEnd()
+                    .split(/\r?\n/)
+                    .map(line => line.split(","));
+
+                // 理解度データ取得
+                status = getStatus(STORAGE_KEY, data);
+
+                // 集計用データを保持
+                csvDataForCounts = data;
+
+                // 初期集計
+                updateCounts(data);
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+
+        // 出題範囲のチェック変更時に集計
+        document.querySelectorAll(
+            'input[name="groupB"]'
+        ).forEach(el => {
+
+            el.addEventListener("change", () => {
+
+                if (csvDataForCounts !== null) {
+                    updateCounts(csvDataForCounts);
+                }
+
+            });
+
+        });
+
     </script>
+
 </body>
 </html>
