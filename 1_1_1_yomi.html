@@ -61,35 +61,45 @@
           S5: 16
       };
 
-      // localStorageの初期化
+      // localStorageのキー
+      const STORAGE_KEY = "result_test11";
+      // 理解度データ
+      let status = {};
+      
+      // localStorageの初期化・取得
       function getStatus(key, data) {
         let value = localStorage.getItem(key);
-        let status = {};
+        let result = {};
+
         if (value !== null) {
-            try {
-                status = JSON.parse(value);
-            } catch (e) {
-                status = {};
+          try {
+            result = JSON.parse(value);
+            if (typeof result !== "object" || result === null || Array.isArray(result)) {
+              result = {};
             }
+          } catch (e) {
+            result = {};
+          }
         }
     
         // CSVに存在する問題IDを初期化
         data.forEach(row => {
-            const id = row[2].trim();
-            if (!(id in status)) {
-                status[id] = 0;
-            }
-            // 理解度の値をチェック
-            if (![0, 1, 2, 3].includes(status[id])) {
-                status[id] = 0;
-            }
+          const id = String(row[2] ?? "").trim();
+          if (id === "") {
+              return;
+          }
+          if (!Object.prototype.hasOwnProperty.call(result, id)) {
+              result[id] = 0;
+          }
+          // 理解度の値をチェック
+          if (![0, 1, 2, 3].includes(result[id])) {
+              result[id] = 0;
+          }
         });
-        localStorage.setItem(key, JSON.stringify(status));
-        return status;
+        // localStorageに保存
+        localStorage.setItem(key, JSON.stringify(result));
+        return result;
       }
-      // localStorageを初期化
-      let status = {};
-      const status = getStatus("result11", data);
       
       // ボタンクリック時のアクション
       function getSelections() {
@@ -131,10 +141,6 @@
             comp: selectedA,
             sel: selectedB
         };
-    
-        // 確認用
-        //alert(JSON.stringify(params));
-
 
         // CSV読み込み
         const filename = "data_11.csv";
@@ -168,16 +174,28 @@
             // 該当する問題の行番号
             const matchedRows = [];
 
+            // 出題範囲のビットフラグ
+            const categoryFlags = {
+              "逞筆◆１": 1,
+              "逞筆◆２": 2,
+              "逞筆◆３": 4,
+              "逞筆◆４": 8,
+              "逞筆◆５": 16
+            };
+
             // シャッフル後の全件をチェック
             allData.forEach(item  => {
 
               const row = item.row;
               const originalIndex = item.index;
               
-              // 元のCSV行に対応する理解度を取得
-              const id = row[1].trim();
+              // CSVの3列目から問題IDを取得
+              const id = String(row[2] ?? "").trim();
+              if (id === "") {
+                  return;
+              }
+              // 問題IDに対応する理解度を取得
               const comp = status[id];
-
               // 出題理解度の判定
               // 0 → 1、1 → 2、2 → 4、3 → 8
               const compFlag = 1 << comp;
@@ -188,15 +206,6 @@
 
               // CSVの1列目から出題範囲を取得
               const category = row[0].trim();
-
-              // 出題範囲のビットフラグ
-              const categoryFlags = {
-                "逞筆◆１": 1,
-                "逞筆◆２": 2,
-                "逞筆◆３": 4,
-                "逞筆◆４": 8,
-                "逞筆◆５": 16
-              };
 
               const categoryFlag = categoryFlags[category];
 
@@ -268,7 +277,7 @@
         }
         status[id] = value;  
         localStorage.setItem(
-            "result11",
+            STORAGE_KEY,
             JSON.stringify(status)
         );
       }
