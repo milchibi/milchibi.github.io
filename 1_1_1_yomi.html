@@ -160,6 +160,8 @@
                             .split(/\r?\n/)
                             .map(line => line.split(","));
 
+            // 問題IDをキーとする理解度データ取得
+            status = getStatus(STORAGE_KEY, data);
             // 全件に元の行番号を付与
             const allData = data.map((row, index) => ({
                 row: row,
