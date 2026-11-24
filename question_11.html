@@ -1,0 +1,654 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle"></title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .toggleBtn {
+            cursor: pointer;
+        }
+
+        .box {
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+        }
+
+        .ques {
+            padding: 8px;
+        }
+
+        .ans {
+            padding: 5px;
+        }
+
+        #quizTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #quizTable td {
+            border: 1px solid #888;
+        }
+
+        #prevLink,
+        #nextLink {
+            text-decoration: none;
+        }
+
+        .disabledLink {
+            color: #999;
+            pointer-events: none;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1 id="pageHeading"></h1>
+<h2 id="pageSubtitle"></h2>
+
+<table border="1">
+    <tbody id="quizTable"></tbody>
+</table>
+
+<br>
+
+<div id="container"></div>
+
+<br>
+
+<a id="prevLink" href="">前へ</a>
+　<a id="backLink" href="test_11.html">戻る</a>
+　<a id="nextLink" href="">次へ</a>
+
+
+<script>
+
+// ========================================
+// 基本設定
+// ========================================
+
+const filename = "data_11.csv";
+
+// test_11.htmlと同じ保存キーを指定
+const STATUS_KEY = "result11_by_id";
+
+// セッション保存用キー
+const SESSION_KEY = "quiz11_session";
+
+// 十干十二支
+const sels = [
+    "甲子","乙丑","丙寅","丁卯","戊辰","己巳",
+    "庚午","辛未","壬申","癸酉","甲戌","乙亥",
+    "丙子","丁丑","戊寅","己卯","庚辰","辛巳",
+    "壬午","癸未","甲申","乙酉","丙戌","丁亥",
+    "戊子","己丑","庚寅","辛卯","壬辰","癸巳",
+    "甲午","乙未","丙申","丁酉","戊戌","己亥",
+    "庚子","辛丑","壬寅","辛卯","壬辰","癸卯",
+    "甲辰","乙巳","丙午","丁未","戊申","己酉",
+    "庚戌","辛亥","壬子","癸丑","甲寅","乙卯",
+    "丙辰","丁巳","戊午","己未","庚申","辛酉",
+    "壬戌","癸亥"
+];
+
+// 二十四節気
+const titles = [
+    "立春","雨水","啓蟄","春分","清明","穀雨",
+    "立夏","小満","芒種","夏至","小暑","大暑",
+    "立秋","処暑","白露","秋分","寒露","霜降",
+    "立冬","小雪","大雪","冬至","小寒","大寒"
+];
+
+
+// ========================================
+// URLパラメータ
+// ========================================
+
+const params = new URLSearchParams(location.search);
+
+const setIndex = Number(params.get("set"));
+
+
+// ========================================
+// CSV解析
+// ========================================
+
+function parseCSV(csv) {
+
+    csv = csv.replace(/^\uFEFF/, "");
+
+    const rows = [];
+    let row = [];
+    let field = "";
+    let inQuotes = false;
+
+    for (let i = 0; i < csv.length; i++) {
+
+        const char = csv[i];
+
+        if (char === '"') {
+
+            if (inQuotes && csv[i + 1] === '"') {
+                field += '"';
+                i++;
+            }
+            else {
+                inQuotes = !inQuotes;
+            }
+
+        }
+        else if (char === "," && !inQuotes) {
+
+            row.push(field);
+            field = "";
+
+        }
+        else if (
+            (char === "\n" || char === "\r") &&
+            !inQuotes
+        ) {
+
+            if (char === "\r" && csv[i + 1] === "\n") {
+                i++;
+            }
+
+            row.push(field);
+
+            if (row.some(value => value !== "")) {
+                rows.push(row);
+            }
+
+            row = [];
+            field = "";
+
+        }
+        else {
+
+            field += char;
+
+        }
+    }
+
+    if (field !== "" || row.length > 0) {
+
+        row.push(field);
+
+        if (row.some(value => value !== "")) {
+            rows.push(row);
+        }
+
+    }
+
+    return rows;
+}
+
+
+// ========================================
+// セッション取得
+// ========================================
+
+function getSession() {
+
+    try {
+
+        return JSON.parse(
+            sessionStorage.getItem(SESSION_KEY)
+        ) || {};
+
+    }
+    catch (error) {
+
+        return {};
+
+    }
+
+}
+
+
+// ========================================
+// 理解度管理
+// ========================================
+
+function loadStatus(data) {
+
+    let status = {};
+
+    try {
+
+        const saved = localStorage.getItem(STATUS_KEY);
+
+        if (saved !== null) {
+
+            const parsed = JSON.parse(saved);
+
+            if (
+                parsed &&
+                typeof parsed === "object" &&
+                !Array.isArray(parsed)
+            ) {
+                status = parsed;
+            }
+
+        }
+
+    }
+    catch (error) {
+
+        console.error("理解度データ読み込みエラー", error);
+
+    }
+
+    data.forEach(row => {
+
+        const id = String(row[2] ?? "").trim();
+
+        if (!id) return;
+
+        const value = Number(status[id]);
+
+        if (
+            !Object.prototype.hasOwnProperty.call(status, id) ||
+            !Number.isInteger(value) ||
+            value < 0 ||
+            value > 3
+        ) {
+            status[id] = 0;
+        }
+
+    });
+
+    saveStatus(status);
+
+    return status;
+
+}
+
+
+function saveStatus(status) {
+
+    localStorage.setItem(
+        STATUS_KEY,
+        JSON.stringify(status)
+    );
+
+}
+
+
+// ========================================
+// ページ設定
+// ========================================
+
+const session = getSession();
+
+if (
+    !Number.isInteger(setIndex) ||
+    setIndex < 0 ||
+    !Array.isArray(session.sets) ||
+    !session.sets[setIndex]
+) {
+
+    document.body.innerHTML = `
+        <h1>エラー</h1>
+        <p>出題セットが見つかりません。</p>
+        <a href="test_11.html">戻る</a>
+    `;
+
+    throw new Error("Invalid question set");
+
+}
+
+
+const questionIds = session.sets[setIndex];
+
+const sexagenaryIndex = Math.floor(setIndex / 24);
+const seasonIndex = setIndex % 24;
+
+const sexagenaryName =
+    sels[sexagenaryIndex] ?? "追加セット";
+
+const seasonName =
+    titles[seasonIndex] ?? "";
+
+const titleText =
+    "漢検1級勉強　読み（音読み）【" +
+    sexagenaryName + "-" +
+    seasonName + "】";
+
+document.title = titleText;
+
+document.getElementById("pageHeading").textContent =
+    "漢検1級勉強";
+
+document.getElementById("pageSubtitle").textContent =
+    "読み（音読み）【" +
+    sexagenaryName + "-" +
+    seasonName + "】";
+
+
+// ========================================
+// 問題テーブル生成
+// ========================================
+
+const tbody = document.getElementById("quizTable");
+
+function createQuestionTable() {
+
+    questionIds.forEach((id, index) => {
+
+        const number = index + 1;
+
+        // 問題文の行
+        const questionTr = document.createElement("tr");
+
+        const numberTd = document.createElement("td");
+        numberTd.style.width = "52px";
+        numberTd.textContent = "問" + number;
+
+        const questionTd = document.createElement("td");
+        questionTd.className = "ques";
+        questionTd.colSpan = 2;
+        questionTd.id = "txt" + number + "q";
+
+        questionTr.appendChild(numberTd);
+        questionTr.appendChild(questionTd);
+
+        tbody.appendChild(questionTr);
+
+
+        // 解答の行
+        const answerTr = document.createElement("tr");
+
+        const buttonTd = document.createElement("td");
+        buttonTd.className = "ans";
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "toggleBtn";
+        button.dataset.index = number;
+        button.textContent = "解答";
+
+        buttonTd.appendChild(button);
+
+
+        const answerTd = document.createElement("td");
+        answerTd.className = "ans";
+
+        const answerDiv = document.createElement("div");
+        answerDiv.id = "txt" + number;
+        answerDiv.className = "hidden";
+
+        answerTd.appendChild(answerDiv);
+
+
+        const statusTd = document.createElement("td");
+        statusTd.className = "ans boxCell";
+
+        const box = document.createElement("div");
+        box.id = "box" + number;
+        box.className = "box hidden";
+        box.dataset.id = id;
+        box.textContent = "■";
+
+        statusTd.appendChild(box);
+
+
+        answerTr.appendChild(buttonTd);
+        answerTr.appendChild(answerTd);
+        answerTr.appendChild(statusTd);
+
+        tbody.appendChild(answerTr);
+
+    });
+
+}
+
+
+// ========================================
+// CSV読み込み・問題表示
+// ========================================
+
+async function initialize() {
+
+    try {
+
+        const response = await fetch(filename);
+
+        if (!response.ok) {
+
+            throw new Error(
+                "CSV読み込み失敗: " + response.status
+            );
+
+        }
+
+        const csv = await response.text();
+
+        const data = parseCSV(csv)
+            .filter(row => row.length >= 6);
+
+        // 理解度読み込み
+        let status = loadStatus(data);
+
+        // 問題IDからCSVデータを取得
+        const dataMap = new Map();
+
+        data.forEach(row => {
+
+            const id = String(row[2] ?? "").trim();
+
+            if (id) {
+                dataMap.set(id, row);
+            }
+
+        });
+
+
+        // テーブル生成
+        createQuestionTable();
+
+
+        // 各問題を表示
+        questionIds.forEach((id, index) => {
+
+            const number = index + 1;
+
+            const row = dataMap.get(String(id));
+
+            const question = document.getElementById(
+                "txt" + number + "q"
+            );
+
+            const answer = document.getElementById(
+                "txt" + number
+            );
+
+            if (!row) {
+
+                question.textContent =
+                    "問題データが見つかりません。";
+
+                return;
+
+            }
+
+            // 問題文（CSV4列目）
+            question.innerHTML = row[3];
+
+            // 解答＋説明文（CSV5列目・6列目）
+            answer.innerHTML =
+                row[4] +
+                "<br><hr>" +
+                row[5];
+
+        });
+
+
+        // ========================================
+        // 理解度マークの表示
+        // ========================================
+
+        function draw() {
+
+            document.querySelectorAll(".box").forEach(box => {
+
+                const id = box.dataset.id;
+
+                const comp = Number(status[id] ?? 0);
+
+                box.classList.remove(
+                    "c0",
+                    "c1",
+                    "c2",
+                    "c3"
+                );
+
+                box.classList.add("c" + comp);
+
+            });
+
+        }
+
+
+        // ========================================
+        // 解答表示・非表示
+        // ========================================
+
+        document.addEventListener("click", event => {
+
+            const button = event.target.closest(".toggleBtn");
+
+            if (!button) return;
+
+            const number = button.dataset.index;
+
+            const answer = document.getElementById(
+                "txt" + number
+            );
+
+            const box = document.getElementById(
+                "box" + number
+            );
+
+            if (!answer || !box) return;
+
+            answer.classList.toggle("hidden");
+            box.classList.toggle("hidden");
+
+        });
+
+
+        // ========================================
+        // 理解度変更
+        // 0 → 1 → 2 → 3 → 0
+        // ========================================
+
+        document.querySelectorAll(".box").forEach(box => {
+
+            box.addEventListener("click", event => {
+
+                event.stopPropagation();
+
+                const id = box.dataset.id;
+
+                if (
+                    !Object.prototype.hasOwnProperty.call(
+                        status,
+                        id
+                    )
+                ) {
+                    status[id] = 0;
+                }
+
+                status[id] =
+                    (Number(status[id]) + 1) % 4;
+
+                saveStatus(status);
+
+                draw();
+
+            });
+
+        });
+
+
+        // ========================================
+        // 前へ・次へ
+        // ========================================
+
+        const prevLink =
+            document.getElementById("prevLink");
+
+        const nextLink =
+            document.getElementById("nextLink");
+
+
+        // 前へ
+        if (setIndex <= 0) {
+
+            prevLink.removeAttribute("href");
+            prevLink.classList.add("disabledLink");
+
+        }
+        else {
+
+            prevLink.href =
+                "question_11.html?set=" +
+                (setIndex - 1);
+
+        }
+
+
+        // 次へ
+        if (setIndex >= session.sets.length - 1) {
+
+            nextLink.removeAttribute("href");
+            nextLink.classList.add("disabledLink");
+
+        }
+        else {
+
+            nextLink.href =
+                "question_11.html?set=" +
+                (setIndex + 1);
+
+        }
+
+
+        // 初期表示
+        draw();
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    問題データを読み込めませんでした。
+                    ${error.message}
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+initialize();
+
+</script>
+
+</body>
+</html>
