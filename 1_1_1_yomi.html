@@ -26,27 +26,33 @@
         <option value="30">30</option>
     </select>
 
-    <h3>
-        ■出題理解度選択
-        <span id="compCounts"></span>
-    </h3>
-
+    <h3>■出題理解度選択</h3>
+    
     <label>
         <input type="checkbox" name="groupA" value="1" checked>
-        <span class="c0">■　</span>
+        <span class="c0">■</span>
+        <span id="count0">0</span>
     </label>
+    
     <label>
         <input type="checkbox" name="groupA" value="2">
-        <span class="c1">■　</span>
+        <span class="c1">■</span>
+        <span id="count1">0</span>
     </label>
+    
     <label>
         <input type="checkbox" name="groupA" value="4">
-        <span class="c2">■　</span>
+        <span class="c2">■</span>
+        <span id="count2">0</span>
     </label>
+    
     <label>
         <input type="checkbox" name="groupA" value="8">
         <span class="c3">■</span>
-    </label><br>
+        <span id="count3">0</span>
+    </label>
+    
+    <br>
 
     ※黒:未回答、緑:自身あり、黄:自信なし、赤:不正解
     （ブラウザごとに理解度を保存）<br>
@@ -207,7 +213,7 @@
 
         // 理解度別の問題数を集計
         function updateCounts(data) {
-
+        
             // 選択中の出題範囲を取得
             const selectedB = Array.from(
                 document.querySelectorAll(
@@ -217,23 +223,21 @@
                 (sum, el) => sum + Number(el.value),
                 0
             );
-
+        
             // 理解度別の件数
             const counts = [0, 0, 0, 0];
-
+        
             data.forEach(row => {
-
+        
                 const category = row[0].trim();
-
                 const id = String(row[2] ?? "").trim();
-
+        
                 if (id === "") {
                     return;
                 }
-
-                const categoryFlag =
-                    categoryFlags[category];
-
+        
+                const categoryFlag = categoryFlags[category];
+        
                 // 出題範囲の判定
                 if (
                     !categoryFlag ||
@@ -241,10 +245,10 @@
                 ) {
                     return;
                 }
-
+        
                 // 問題IDから理解度を取得
                 const comp = status[id];
-
+        
                 if (
                     Number.isInteger(comp) &&
                     comp >= 0 &&
@@ -252,36 +256,18 @@
                 ) {
                     counts[comp]++;
                 }
-
+        
             });
-
-            // 表示更新
-            const area =
-                document.getElementById("compCounts");
-
-            area.innerHTML = "";
-
+        
+            // 各チェックボックス横の件数を更新
             counts.forEach((count, index) => {
-
-                const item =
-                    document.createElement("span");
-
-                const color =
-                    document.createElement("span");
-
-                color.className = "c" + index;
-                color.textContent = "■";
-
-                item.appendChild(color);
-
-                item.appendChild(
-                    document.createTextNode(" " + count + "　")
-                );
-
-                area.appendChild(item);
-
+        
+                document.getElementById(
+                    "count" + index
+                ).textContent = count;
+        
             });
-
+        
         }
 
 
