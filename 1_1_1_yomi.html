@@ -130,7 +130,116 @@
             "逞筆◆５": 16
         };
 
+        // 出題ページとのデータ共有キー
+        const SESSION_KEY = "quiz11_session";
+        
+        // 十干十二支
+        const sels = [
+            "甲子","乙丑","丙寅","丁卯","戊辰","己巳",
+            "庚午","辛未","壬申","癸酉","甲戌","乙亥",
+            "丙子","丁丑","戊寅","己卯","庚辰","辛巳",
+            "壬午","癸未","甲申","乙酉","丙戌","丁亥",
+            "戊子","己丑","庚寅","辛卯","壬辰","癸巳",
+            "甲午","乙未","丙申","丁酉","戊戌","己亥",
+            "庚子","辛丑","壬寅","癸卯","甲辰","乙巳",
+            "丙午","丁未","戊申","己酉","庚戌","辛亥",
+            "壬子","癸丑","甲寅","乙卯","丙辰","丁巳",
+            "戊午","己未","庚申","辛酉","壬戌","癸亥"
+        ];
+        
+        // 二十四節気
+        const titles = [
+            "立春","雨水","啓蟄","春分","清明","穀雨",
+            "立夏","小満","芒種","夏至","小暑","大暑",
+            "立秋","処暑","白露","秋分","寒露","霜降",
+            "立冬","小雪","大雪","冬至","小寒","大寒"
+        ];
 
+        // 選択条件を保存
+        function saveSelections() {
+        
+            const saved = {
+                seed: document.getElementById("seed").value,
+                num: document.getElementById("mySelect").value,
+        
+                comp: Array.from(
+                    document.querySelectorAll(
+                        'input[name="groupA"]:checked'
+                    )
+                ).map(el => el.value),
+        
+                sel: Array.from(
+                    document.querySelectorAll(
+                        'input[name="groupB"]:checked'
+                    )
+                ).map(el => el.value)
+            };
+        
+            const session = JSON.parse(
+                sessionStorage.getItem(SESSION_KEY) || "{}"
+            );
+        
+            Object.assign(session, saved);
+        
+            sessionStorage.setItem(
+                SESSION_KEY,
+                JSON.stringify(session)
+            );
+        }
+        
+        
+        // 選択条件を復元
+        function restoreSelections() {
+        
+            const saved = JSON.parse(
+                sessionStorage.getItem(SESSION_KEY) || "null"
+            );
+        
+            if (!saved) return;
+        
+            if (saved.seed !== undefined) {
+                document.getElementById("seed").value = saved.seed;
+            }
+        
+            if (saved.num !== undefined) {
+                document.getElementById("mySelect").value = saved.num;
+            }
+        
+            if (Array.isArray(saved.comp)) {
+        
+                document.querySelectorAll(
+                    'input[name="groupA"]'
+                ).forEach(el => {
+                    el.checked = saved.comp.includes(el.value);
+                });
+        
+            }
+        
+            if (Array.isArray(saved.sel)) {
+        
+                document.querySelectorAll(
+                    'input[name="groupB"]'
+                ).forEach(el => {
+                    el.checked = saved.sel.includes(el.value);
+                });
+        
+            }
+        }
+        
+        
+        // 初期表示時に復元
+        restoreSelections();
+        
+        
+        // 選択変更時に保存
+        document.querySelectorAll(
+            "#seed, #mySelect, input[name='groupA'], input[name='groupB']"
+        ).forEach(el => {
+        
+            el.addEventListener("change", saveSelections);
+        
+        });
+        
         // localStorageの初期化・取得
         function getStatus(key, data) {
 
@@ -373,7 +482,7 @@
                         hashShuffle(allData, seed);
                     }
 
-                    // 該当する問題の行番号
+                    // 該当する問題のID
                     const matchedRows = [];
 
                     // シャッフル後の全件をチェック
@@ -416,50 +525,132 @@
                             return;
                         }
 
-                        // 元のCSV行番号を格納
-                        matchedRows.push(originalIndex + 1);
+                        // 問題IDを格納
+                        matchedRows.push(id);
 
                     });
 
-                    // 結果表示
-                    const resultArea =
-                        document.getElementById("result");
-
-                    resultArea.innerHTML = "";
-
-                    const title =
-                        document.createElement("h3");
-
-                    title.textContent = "■該当問題一覧";
-
-                    resultArea.appendChild(title);
-
-                    const count =
-                        document.createElement("p");
-
-                    count.textContent =
-                        "該当問題数：" + matchedRows.length;
-
-                    resultArea.appendChild(count);
-
-                    // 出題数ごとに改行
-                    for (
-                        let i = 0;
-                        i < matchedRows.length;
-                        i += num
-                    ) {
-
-                        const list =
-                            document.createElement("p");
-
-                        list.textContent = matchedRows
-                            .slice(i, i + num)
-                            .join(", ");
-
-                        resultArea.appendChild(list);
-
+                    // ========================================
+                    // 出題セット生成
+                    // ========================================
+                    
+                    // 出題数ごとに問題IDを分割
+                    const sets = [];
+                    
+                    for (let i = 0; i < matchedRows.length; i += num) {
+                    
+                        sets.push(
+                            matchedRows.slice(i, i + num)
+                        );
+                    
                     }
-
+                    
+                    
+                    // ========================================
+                    // 出題条件と問題セットを保存
+                    // ========================================
+                    
+                    const session = {
+                        seed: seed,
+                        num: num,
+                        comp: Array.from(
+                            document.querySelectorAll(
+                                'input[name="groupA"]:checked'
+                            )
+                        ).map(el => el.value),
+                    
+                        sel: Array.from(
+                            document.querySelectorAll(
+                                'input[name="groupB"]:checked'
+                            )
+                        ).map(el => el.value),
+                    
+                        sets: sets
+                    };
+                    
+                    sessionStorage.setItem(
+                        SESSION_KEY,
+                        JSON.stringify(session)
+                    );
+                    
+                    
+                    // ========================================
+                    // 結果表示
+                    // ========================================
+                    
+                    const resultArea = document.getElementById("result");
+                    
+                    resultArea.innerHTML = "";
+                    
+                    
+                    // 該当問題数
+                    const title = document.createElement("h3");
+                    title.textContent = "■該当問題一覧";
+                    resultArea.appendChild(title);
+                    
+                    const count = document.createElement("p");
+                    count.textContent = "該当問題数：" + matchedRows.length;
+                    resultArea.appendChild(count);
+                    
+                    
+                    // ========================================
+                    // 十干十二支・二十四節気のリンク生成
+                    // ========================================
+                    
+                    let currentGroup = -1;
+                    
+                    sets.forEach((set, index) => {
+                    
+                        // 十干十二支の番号
+                        const groupIndex = Math.floor(index / 24);
+                    
+                        // 二十四節気の番号
+                        const seasonIndex = index % 24;
+                    
+                    
+                        // 新しい十干十二支になった場合
+                        if (groupIndex !== currentGroup) {
+                    
+                            currentGroup = groupIndex;
+                    
+                            const heading = document.createElement("h4");
+                    
+                            heading.textContent =
+                                "【" + sels[groupIndex] + "】";
+                    
+                            resultArea.appendChild(heading);
+                    
+                        }
+                    
+                    
+                        // リンク
+                        const link = document.createElement("a");
+                    
+                        link.href =
+                            "question_11.html?set=" + index;
+                    
+                        link.textContent =
+                            "[" + titles[seasonIndex] + "]";
+                    
+                        link.style.marginRight = "8px";
+                    
+                        resultArea.appendChild(link);
+                    
+                    
+                        // 6個ごとに改行
+                        if ((index + 1) % 6 === 0) {
+                            resultArea.appendChild(
+                                document.createElement("br")
+                            );
+                        }
+                    
+                    });
+                    
+                    
+                    // 最後に改行
+                    resultArea.appendChild(
+                        document.createElement("br")
+                    );
                 })
                 .catch(error => {
                     alert(error.message);
