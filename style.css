@@ -104,30 +104,33 @@ ul {
 
 
 .ques {
-    padding: 8px;
+  padding: 8px;
 }
 
 .ans {
-    padding: 5px;
+  padding: 5px;
 }
 
 #quizTable {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 #quizTable td {
-    border: 1px solid #888;
+  border: 1px solid #888;
 }
 
 #prevLink,
 #nextLink {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .disabledLink {
-    color: #999;
-    pointer-events: none;
-    text-decoration: none;
+  color: #999;
+  pointer-events: none;
+  text-decoration: none;
 }
 
+.note {
+  font-size: 0.8em;
+}
