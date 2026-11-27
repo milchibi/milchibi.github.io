@@ -266,6 +266,9 @@ if (
 
 const questionIds = session.sets[setIndex];
 
+// 選択肢の数
+const selectionNum = questionIds.length;
+
 const sexagenaryIndex = Math.floor(setIndex / 24);
 const seasonIndex = setIndex % 24;
 
@@ -289,6 +292,22 @@ document.getElementById("pageSubtitle").textContent =
     "対義語【" +
     sexagenaryName + "-" +
     seasonName + "】";
+
+
+// ========================================
+// 選択肢用コンテナ生成
+// ========================================
+
+const container = document.getElementById("container");
+
+const items = Array.from(
+    { length: selectionNum },
+    (_, i) =>
+        `<span id="sel${i}" class="item"></span>`
+);
+
+container.innerHTML =
+    "[" + items.join("・") + "]";
 
 
 // ========================================
@@ -370,6 +389,64 @@ function createQuestionTable() {
 
 
 // ========================================
+// 選択肢表示
+// ========================================
+
+function createSelection(dataMap) {
+
+    let arr = [];
+
+    // 各問題の選択肢を取得
+    questionIds.forEach(id => {
+
+        const row = dataMap.get(String(id));
+
+        if (!row) return;
+
+        arr.push(row[5]);
+
+    });
+
+
+    // 五十音順に昇順ソート
+    arr.sort((a, b) =>
+        String(a).localeCompare(
+            String(b),
+            "ja",
+            {
+                sensitivity: "base"
+            }
+        )
+    );
+
+
+    // 選択肢を表示
+    arr.forEach((value, i) => {
+
+        const el = document.getElementById("sel" + i);
+
+        if (el) {
+            el.textContent = value || "";
+        }
+
+    });
+
+
+    // 選択肢クリックで取り消し線をトグル
+    document.querySelectorAll(".item").forEach(el => {
+
+        el.addEventListener("click", () => {
+
+            el.classList.toggle("strike");
+
+        });
+
+    });
+
+}
+
+
+// ========================================
 // CSV読み込み・問題表示
 // ========================================
 
@@ -442,17 +519,24 @@ async function initialize() {
 
             // 解答＋説明文（CSV5列目、7～10列目）
             answer.innerHTML =
-              row[4] +
-              "<br><hr>" +
-              "■" + row[6] + 
-              "<br>" + 
-              row[7] + 
-              "<br>" + 
-              "■" + row[8] + 
-              "<br>" + 
-              row[9];
+                row[4] +
+                "<br><hr>" +
+                "■" + row[6] +
+                "<br>" +
+                row[7] +
+                "<br>" +
+                "■" + row[8] +
+                "<br>" +
+                row[9];
 
         });
+
+
+        // ========================================
+        // 選択肢生成
+        // ========================================
+
+        createSelection(dataMap);
 
 
         // ========================================
