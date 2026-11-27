@@ -440,11 +440,17 @@ async function initialize() {
             // 問題文（CSV4列目）
             question.innerHTML = row[3];
 
-            // 解答＋説明文（CSV5列目・6列目）
+            // 解答＋説明文（CSV5列目、7～10列目）
             answer.innerHTML =
-                row[4] +
-                "<br><hr>" +
-                row[5];
+              row[4] +
+              "<br><hr>" +
+              "■" + row[6] + 
+              "<br>" + 
+              row[7] + 
+              "<br>" + 
+              "■" + row[8] + 
+              "<br>" + 
+              row[9];
 
         });
 
