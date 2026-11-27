@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漢検 分野別勉強</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>漢検1級 分野別勉強</h1>
+    <h2>七．対義語</h2>
+
+    <h3>■ランダム用シード値</h3>
+    <input type="number" id="seed" name="seed"
+        min="0" max="9999" step="1" value="0"
+        placeholder="0～9999"><br>
+    <span class="note">※0:オリジナル順、1～9999:固定ランダム</span>
+
+    <h3>■出題数選択</h3>
+    <select id="mySelect">
+        <option value="5" selected>5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+
+    <h3>■出題理解度選択</h3>
+    
+    <label>
+        <input type="checkbox" name="groupA" value="1" checked>
+        <span class="c0">■</span>
+        <span id="count0">0</span>
+    </label>
+    
+    <label>
+        <input type="checkbox" name="groupA" value="2">
+        <span class="c1">■</span>
+        <span id="count1">0</span>
+    </label>
+    
+    <label>
+        <input type="checkbox" name="groupA" value="4">
+        <span class="c2">■</span>
+        <span id="count2">0</span>
+    </label>
+    
+    <label>
+        <input type="checkbox" name="groupA" value="8">
+        <span class="c3">■</span>
+        <span id="count3">0</span>
+    </label>
+    
+    <br>
+
+    <span class="note">※黒:未回答、緑:自信あり、黄:自信なし、赤:不正解（ブラウザごとに理解度を保存）</span>
+
+    <h3>■出題範囲選択</h3>
+
+    <label>
+        <input type="checkbox" name="groupB" value="1" checked>
+        逞筆◆１
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="groupB" value="2">
+        逞筆◆２
+    </label><br>
+
+    <label>
+        <input type="checkbox" name="groupB" value="4">
+        逞筆◆３
+    </label><br>
+
+    <br><br>
+
+    <button onclick="getSelections()">問題一覧生成</button>
+
+    <div id="result"></div>
+
+    <br><br>
+    <a href="top_test.html">分野選択に戻る</a>
+
+    <script>
+
+        // 出題理解度
+        const DEF_COMP = {
+            C0: 1,
+            C1: 2,
+            C2: 4,
+            C3: 8
+        };
+
+        // 出題範囲
+        const DEF_SEL = {
+            S1: 1,
+            S2: 2,
+            S3: 4,
+        };
+
+        // localStorageのキー
+        const STORAGE_KEY = "result71";
+
+        // 理解度データ
+        let status = {};
+
+        // 集計用CSVデータ
+        let csvDataForCounts = null;
+
+        // 出題範囲のビットフラグ
+        const categoryFlags = {
+            "逞筆◆１": 1,
+            "逞筆◆２": 2,
+            "逞筆◆３": 4,
+        };
+
+        // 出題ページとのデータ共有キー
+        const SESSION_KEY = "quiz71_session";
+        
+        // 十干十二支
+        const sels = [
+            "甲子","乙丑","丙寅","丁卯","戊辰","己巳",
+            "庚午","辛未","壬申","癸酉","甲戌","乙亥",
+            "丙子","丁丑","戊寅","己卯","庚辰","辛巳",
+            "壬午","癸未","甲申","乙酉","丙戌","丁亥",
+            "戊子","己丑","庚寅","辛卯","壬辰","癸巳",
+            "甲午","乙未","丙申","丁酉","戊戌","己亥",
+            "庚子","辛丑","壬寅","癸卯","甲辰","乙巳",
+            "丙午","丁未","戊申","己酉","庚戌","辛亥",
+            "壬子","癸丑","甲寅","乙卯","丙辰","丁巳",
+            "戊午","己未","庚申","辛酉","壬戌","癸亥"
+        ];
+        
+        // 二十四節気
+        const titles = [
+            "立春","雨水","啓蟄","春分","清明","穀雨",
+            "立夏","小満","芒種","夏至","小暑","大暑",
+            "立秋","処暑","白露","秋分","寒露","霜降",
+            "立冬","小雪","大雪","冬至","小寒","大寒"
+        ];
+
+        // 選択条件を保存
+        function saveSelections() {
+        
+            const saved = {
+                seed: document.getElementById("seed").value,
+                num: document.getElementById("mySelect").value,
+        
+                comp: Array.from(
+                    document.querySelectorAll(
+                        'input[name="groupA"]:checked'
+                    )
+                ).map(el => el.value),
+        
+                sel: Array.from(
+                    document.querySelectorAll(
+                        'input[name="groupB"]:checked'
+                    )
+                ).map(el => el.value)
+            };
+        
+            const session = JSON.parse(
+                sessionStorage.getItem(SESSION_KEY) || "{}"
+            );
+        
+            Object.assign(session, saved);
+        
+            sessionStorage.setItem(
+                SESSION_KEY,
+                JSON.stringify(session)
+            );
+        }
+        
+        
+        // 選択条件を復元
+        function restoreSelections() {
+        
+            const saved = JSON.parse(
+                sessionStorage.getItem(SESSION_KEY) || "null"
+            );
+        
+            if (!saved) return;
+        
+            if (saved.seed !== undefined) {
+                document.getElementById("seed").value = saved.seed;
+            }
+        
+            if (saved.num !== undefined) {
+                document.getElementById("mySelect").value = saved.num;
+            }
+        
+            if (Array.isArray(saved.comp)) {
+        
+                document.querySelectorAll(
+                    'input[name="groupA"]'
+                ).forEach(el => {
+                    el.checked = saved.comp.includes(el.value);
+                });
+        
+            }
+        
+            if (Array.isArray(saved.sel)) {
+        
+                document.querySelectorAll(
+                    'input[name="groupB"]'
+                ).forEach(el => {
+                    el.checked = saved.sel.includes(el.value);
+                });
+        
+            }
+        }
+        
+        
+        // 初期表示時に復元
+        restoreSelections();
+        
+        
+        // 選択変更時に保存
+        document.querySelectorAll(
+            "#seed, #mySelect, input[name='groupA'], input[name='groupB']"
+        ).forEach(el => {
+        
+            el.addEventListener("change", saveSelections);
+        
+        });
+        
+        // localStorageの初期化・取得
+        function getStatus(key, data) {
+
+            let value = localStorage.getItem(key);
+            let result = {};
+
+            if (value !== null) {
+
+                try {
+
+                    result = JSON.parse(value);
+
+                    if (
+                        typeof result !== "object" ||
+                        result === null ||
+                        Array.isArray(result)
+                    ) {
+                        result = {};
+                    }
+
+                } catch (e) {
+                    result = {};
+                }
+            }
+
+            // CSVに存在する問題IDを初期化
+            data.forEach(row => {
+
+                const id = String(row[2] ?? "").trim();
+
+                if (id === "") {
+                    return;
+                }
+
+                if (
+                    !Object.prototype.hasOwnProperty.call(result, id)
+                ) {
+                    result[id] = 0;
+                }
+
+                // 理解度の値をチェック
+                if (![0, 1, 2, 3].includes(result[id])) {
+                    result[id] = 0;
+                }
+
+            });
+
+            // localStorageに保存
+            localStorage.setItem(
+                key,
+                JSON.stringify(result)
+            );
+
+            return result;
+        }
+
+
+        // 理解度の更新
+        function updateStatus(id, value) {
+
+            id = String(id);
+
+            if (![0, 1, 2, 3].includes(value)) {
+                return;
+            }
+
+            status[id] = value;
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(status)
+            );
+
+            // 理解度別問題数を更新
+            if (csvDataForCounts !== null) {
+                updateCounts(csvDataForCounts);
+            }
+        }
+
+
+        // 理解度別の問題数を集計
+        function updateCounts(data) {
+        
+            // 選択中の出題範囲を取得
+            const selectedB = Array.from(
+                document.querySelectorAll(
+                    'input[name="groupB"]:checked'
+                )
+            ).reduce(
+                (sum, el) => sum + Number(el.value),
+                0
+            );
+        
+            // 理解度別の件数
+            const counts = [0, 0, 0, 0];
+        
+            data.forEach(row => {
+        
+                const category = row[0].trim();
+                const id = String(row[2] ?? "").trim();
+        
+                if (id === "") {
+                    return;
+                }
+        
+                const categoryFlag = categoryFlags[category];
+        
+                // 出題範囲の判定
+                if (
+                    !categoryFlag ||
+                    (selectedB & categoryFlag) === 0
+                ) {
+                    return;
+                }
+        
+                // 問題IDから理解度を取得
+                const comp = status[id];
+        
+                if (
+                    Number.isInteger(comp) &&
+                    comp >= 0 &&
+                    comp <= 3
+                ) {
+                    counts[comp]++;
+                }
+        
+            });
+        
+            // 各チェックボックス横の件数を更新
+            counts.forEach((count, index) => {
+        
+                document.getElementById(
+                    "count" + index
+                ).textContent = count;
+        
+            });
+        
+        }
+
+
+        // ボタンクリック時のアクション
+        function getSelections() {
+
+            // ランダム用シード値
+            const seed = Number(
+                document.getElementById("seed").value
+            );
+
+            // シード値チェック
+            if (
+                !Number.isInteger(seed) ||
+                seed < 0 ||
+                seed > 9999
+            ) {
+                alert("シード値は0～9999の整数を入力してください。");
+                return;
+            }
+
+            // 出題数選択
+            const num = Number(
+                document.getElementById("mySelect").value
+            );
+
+            // 出題理解度選択のビットフラグ取得
+            const selectedA = Array.from(
+                document.querySelectorAll(
+                    'input[name="groupA"]:checked'
+                )
+            ).reduce(
+                (sum, el) => sum + Number(el.value),
+                0
+            );
+
+            if (selectedA === 0) {
+                alert("出題理解度選択から最低1つ選択してください。");
+                return;
+            }
+
+            // 出題範囲選択のビットフラグ取得
+            const selectedB = Array.from(
+                document.querySelectorAll(
+                    'input[name="groupB"]:checked'
+                )
+            ).reduce(
+                (sum, el) => sum + Number(el.value),
+                0
+            );
+
+            if (selectedB === 0) {
+                alert("出題範囲選択から最低1つ選択してください。");
+                return;
+            }
+
+            // パラメータ
+            const params = {
+                seed: seed,
+                num: num,
+                comp: selectedA,
+                sel: selectedB
+            };
+
+            // CSV読み込み
+            const filename = "data_71.csv";
+
+            fetch(filename)
+                .then(res => {
+
+                    if (!res.ok) {
+                        throw new Error(
+                            `CSV読み込み失敗: ${res.status} ${filename}`
+                        );
+                    }
+
+                    return res.text();
+
+                })
+                .then(csv => {
+
+                    // CSVを配列化
+                    const data = csv
+                        .replace(/^\uFEFF/, "")
+                        .trimEnd()
+                        .split(/\r?\n/)
+                        .map(line => line.split(","));
+
+                    // 問題IDをキーとする理解度データ取得
+                    status = getStatus(STORAGE_KEY, data);
+
+                    // 集計用データを更新
+                    csvDataForCounts = data;
+
+                    // 全件に元の行番号を付与
+                    const allData = data.map((row, index) => ({
+                        row: row,
+                        index: index
+                    }));
+
+                    // シード値が0以外ならハッシュ値で並び替え
+                    if (seed !== 0) {
+                        hashShuffle(allData, seed);
+                    }
+
+                    // 該当する問題のID
+                    const matchedRows = [];
+
+                    // シャッフル後の全件をチェック
+                    allData.forEach(item => {
+
+                        const row = item.row;
+
+                        const originalIndex = item.index;
+
+                        // CSVの3列目から問題IDを取得
+                        const id = String(row[2] ?? "").trim();
+
+                        if (id === "") {
+                            return;
+                        }
+
+                        // 問題IDに対応する理解度を取得
+                        const comp = status[id];
+
+                        // 理解度のビットフラグ
+                        // 0 → 1、1 → 2、2 → 4、3 → 8
+                        const compFlag = 1 << comp;
+
+                        // 出題理解度の判定
+                        if ((selectedA & compFlag) === 0) {
+                            return;
+                        }
+
+                        // CSVの1列目から出題範囲を取得
+                        const category = row[0].trim();
+
+                        const categoryFlag =
+                            categoryFlags[category];
+
+                        // 出題範囲の判定
+                        if (
+                            !categoryFlag ||
+                            (selectedB & categoryFlag) === 0
+                        ) {
+                            return;
+                        }
+
+                        // 問題IDを格納
+                        matchedRows.push(id);
+
+                    });
+
+                    // ========================================
+                    // 出題セット生成
+                    // ========================================
+                    
+                    // 出題数ごとに問題IDを分割
+                    const sets = [];
+                    
+                    for (let i = 0; i < matchedRows.length; i += num) {
+                    
+                        sets.push(
+                            matchedRows.slice(i, i + num)
+                        );
+                    
+                    }
+                    
+                    
+                    // ========================================
+                    // 出題条件と問題セットを保存
+                    // ========================================
+                    
+                    const session = {
+                        seed: seed,
+                        num: num,
+                        comp: Array.from(
+                            document.querySelectorAll(
+                                'input[name="groupA"]:checked'
+                            )
+                        ).map(el => el.value),
+                    
+                        sel: Array.from(
+                            document.querySelectorAll(
+                                'input[name="groupB"]:checked'
+                            )
+                        ).map(el => el.value),
+                    
+                        sets: sets
+                    };
+                    
+                    sessionStorage.setItem(
+                        SESSION_KEY,
+                        JSON.stringify(session)
+                    );
+                    
+                    
+                    // ========================================
+                    // 結果表示
+                    // ========================================
+                    
+                    const resultArea = document.getElementById("result");
+                    
+                    resultArea.innerHTML = "";
+                    
+                    
+                    // 該当問題数
+                    const title = document.createElement("h3");
+                    title.textContent = "■該当問題一覧";
+                    resultArea.appendChild(title);
+                    
+                    const count = document.createElement("p");
+                    count.textContent = "該当問題数：" + matchedRows.length;
+                    resultArea.appendChild(count);
+                    
+                    
+                    // ========================================
+                    // 十干十二支・二十四節気のリンク生成
+                    // ========================================
+                    
+                    let currentGroup = -1;
+                    
+                    sets.forEach((set, index) => {
+                    
+                        // 十干十二支の番号
+                        const groupIndex = Math.floor(index / 24);
+                    
+                        // 二十四節気の番号
+                        const seasonIndex = index % 24;
+                    
+                    
+                        // 新しい十干十二支になった場合
+                        if (groupIndex !== currentGroup) {
+                    
+                            currentGroup = groupIndex;
+                    
+                            const heading = document.createElement("h4");
+                    
+                            heading.textContent =
+                                "【" + sels[groupIndex] + "】";
+                    
+                            resultArea.appendChild(heading);
+                    
+                        }
+                    
+                    
+                        // リンク
+                        const link = document.createElement("a");
+                    
+                        link.href =
+                            "question_71.html?set=" + index;
+                    
+                        link.textContent =
+                            "[" + titles[seasonIndex] + "]";
+                    
+                        link.style.marginRight = "8px";
+                    
+                        resultArea.appendChild(link);
+                    
+                    
+                        // 6個ごとに改行
+                        if ((index + 1) % 6 === 0) {
+                            resultArea.appendChild(
+                                document.createElement("br")
+                            );
+                        }
+                    
+                    });
+                    
+                    
+                    // 最後に改行
+                    resultArea.appendChild(
+                        document.createElement("br")
+                    );
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+
+        }
+
+
+        // シード値と問題IDからハッシュ値を生成
+        function hashRandom(seed, id) {
+        
+            const str = seed + ":" + id;
+        
+            let hash = 2166136261;
+        
+            for (let i = 0; i < str.length; i++) {
+        
+                hash ^= str.charCodeAt(i);
+        
+                hash = Math.imul(hash, 16777619);
+        
+            }
+        
+            return hash >>> 0;
+        }
+
+
+        // ハッシュ値によるランダム並び替え
+        function hashShuffle(array, seed) {
+        
+            array.sort((a, b) => {
+        
+                const idA = String(a.row[2]).trim();
+                const idB = String(b.row[2]).trim();
+        
+                const hashA = hashRandom(seed, idA);
+                const hashB = hashRandom(seed, idB);
+        
+                // ハッシュ値が同じ場合は問題IDで順序を確定
+                if (hashA !== hashB) {
+                    return hashA - hashB;
+                }
+        
+                return idA.localeCompare(idB);
+        
+            });
+        
+            return array;
+        }
+
+
+        // 初期表示・集計用CSV読み込み
+        fetch("data_71.csv")
+            .then(res => {
+
+                if (!res.ok) {
+                    throw new Error("CSV読み込み失敗");
+                }
+
+                return res.text();
+
+            })
+            .then(csv => {
+
+                // CSVを配列化
+                const data = csv
+                    .replace(/^\uFEFF/, "")
+                    .trimEnd()
+                    .split(/\r?\n/)
+                    .map(line => line.split(","));
+
+                // 理解度データ取得
+                status = getStatus(STORAGE_KEY, data);
+
+                // 集計用データを保持
+                csvDataForCounts = data;
+
+                // 初期集計
+                updateCounts(data);
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+
+        // 出題範囲のチェック変更時に集計
+        document.querySelectorAll(
+            'input[name="groupB"]'
+        ).forEach(el => {
+
+            el.addEventListener("change", () => {
+
+                if (csvDataForCounts !== null) {
+                    updateCounts(csvDataForCounts);
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
