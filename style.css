@@ -78,6 +78,9 @@ ul {
   background: transparent;
   border-radius: 50%;
 }
+.item {
+    cursor: pointer;
+}
 .strike {
   text-decoration: line-through;
 }
