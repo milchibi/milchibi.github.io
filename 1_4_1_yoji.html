@@ -331,7 +331,7 @@
             ];
             sources.forEach(source => {
                 if (source.data === null) return;
-                sources.data.forEach(row => {
+                source.data.forEach(row => {
             
                     const category = String(row[0] ?? "").trim();
                     const id = String(row[2] ?? "").trim();
@@ -613,9 +613,7 @@
             
                 count.textContent =
                     "該当問題数：" +
-                    (rows41.length + rows42.length) +
-                    "（41：" + rows41.length +
-                    "、42：" + rows42.length + "）";
+                    (rows41.length + rows42.length)";
             
                 resultArea.appendChild(count);
             
