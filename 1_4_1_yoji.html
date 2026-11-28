@@ -725,7 +725,7 @@
             console.error(error);
         });
 
-/*
+
         // 出題範囲のチェック変更時に集計
         document.querySelectorAll(
             'input[name="groupB"]'
@@ -733,14 +733,13 @@
 
             el.addEventListener("change", () => {
 
-                if (csvDataForCounts !== null) {
-                        updateCounts(csvDataForCounts);
-                }
+                // 理解度別問題数を更新
+                updateCounts();
 
             });
 
         });
-*/
+
     </script>
 
 </body>
